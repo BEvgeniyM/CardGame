@@ -1,0 +1,10 @@
+body {
+    overflow: hidden;
+    margin: 0 auto;
+    background-color: black;
+}
+
+/* canvas {
+    width: 960px;
+    height: auto;
+} */

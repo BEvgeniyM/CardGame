@@ -38,6 +38,10 @@ init(){
             this.onComplete();
         });
 
+        loader.onProgress.once((e:any) => {
+        //    console.log(e.progress);           
+        });
+
         loader.onError.once(() => {
             rej();
         });

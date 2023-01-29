@@ -65,8 +65,8 @@ init(cartCount:number = 1): BaseViwe{
 
 
 moveTo(cart:Cart , i:number){
-    let width =window.outerHeight>window.outerWidth?window.outerHeight: window.outerWidth;
-    cart.position.set(width+cart.width, this.getRandomArbitrary());
+    let width = window.outerHeight>window.outerWidth?window.outerHeight: window.outerWidth;
+    cart.position.set(width+cart.height, this.getRandomArbitrary());
     cart._gsap = 
     gsap.to(cart,{
         x:-cart.height,
@@ -74,8 +74,8 @@ moveTo(cart:Cart , i:number){
         y:this.getRandomArbitrary(),
         onCompleteParams:[cart,i],
         callbackScope: this,
-        delay:1*i,
-        duration:1,
+        delay:3*i,
+        duration:3,
         onComplete: this.onCompleteStock
     })
 }

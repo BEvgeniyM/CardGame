@@ -2,6 +2,7 @@ import {Container, Application,Loader, Sprite,  settings, ENV } from  'pixi.js'
 import * as PIXI from 'pixi.js'
 import { BaseViwe } from './app/BaseViwe';
 import { Cart } from './app/Cart';
+import {isFullScreen, requestFullScreen, } from './Fullscreen';
 
 export class StageController {
 
@@ -23,7 +24,8 @@ export class StageController {
        document.body.appendChild(StageController.app.view);
 
        window.addEventListener("resize", this.resizeCanvas);
-       // window.addEventListener("orientationchange", resize);
+       document.addEventListener("touchend", ()=>{ !isFullScreen() && requestFullScreen(document.documentElement)});
+
        this.registerPixiInspector();
        this.resizeCanvas();
        this.init();
@@ -41,7 +43,7 @@ export class StageController {
         return StageController.app; 
     }
 
-    static onDragEnd() {        
+    static onDragEnd() {      
         if (StageController.dragTarget) {
             StageController.app.stage.off('pointermove', StageController.onDragMove);
             StageController.dragTarget.alpha = 1;
@@ -49,7 +51,8 @@ export class StageController {
         }
     }
     
-    static onDragMove(event: any) {
+    static onDragMove(event: any) {       
+
         if (StageController.dragTarget) {            
             // @ts-ignore
             StageController.dragTarget.parent.toLocal(event.data.global, null, StageController.dragTarget.position);

@@ -10,7 +10,7 @@ export class MessageMeneger{
    
     getCarts ():XMLHttpRequest | void{
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://www.deckofcardsapi.com/api/deck/"+this._deckID+"/draw/?count=10");       
+        xhr.open("GET", "https://www.deckofcardsapi.com/api/deck/"+this._deckID+"/draw/?count=30");       
         xhr.send();
         xhr.responseType = "json";
         xhr.onload = () => {

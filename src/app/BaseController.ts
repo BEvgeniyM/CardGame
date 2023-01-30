@@ -1,27 +1,29 @@
-import {Container} from  'pixi.js'
+import { Container } from 'pixi.js'
 import { Event } from './Event';
-import {BaseViwe}from './BaseViwe';
+import { BaseViwe } from './BaseViwe';
 import * as PIXI from 'pixi.js'
 
 
-export class BaseController extends Container{
-constructor(){
-    super();
-    this.name = this.constructor.name;
+export class BaseController extends Container {
+    constructor() {
+        super();
+        this.name = this.constructor.name;
+    }
+
+
+
+    init(): BaseController {
+        this.on(Event.END, this.endMessage);
+        return this;
+
+    }
+
+    startGame(): void {
+    }
+
+    endMessage(view: BaseViwe): void {
+        debugger
+        view.endMasege();
+    }
+
 }
-
-
-
-init(): BaseController{
-    this.on(Event.END, this.endMessage);
-    return this;
-    
-}
-
-endMessage(view:BaseViwe):void{
-    debugger
-    view.endMasege();
-}
-
-}
-  

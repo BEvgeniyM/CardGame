@@ -29,7 +29,7 @@ export function requestFullScreen(element: DocumentElementWithFullscreen) {
         element.msRequestFullscreen();
     } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen){
+    } else if (element.mozRequestFullScreen) {
         element.mozRequestFullScreen();
     }
 }
@@ -41,15 +41,15 @@ export function exitFullScreen(doc: DocumentWithFullscreen) {
         doc.msExitFullscreen();
     } else if (doc.webkitExitFullscreen) {
         doc.webkitExitFullscreen();
-    } else if(doc.mozCancelFullScreen) {
+    } else if (doc.mozCancelFullScreen) {
         doc.mozCancelFullScreen();
     }
-  }
+}
 
 export function toogleFullScreen(): void {
     if (isFullScreen()) {
         requestFullScreen(document.documentElement);
-    }else {
+    } else {
         exitFullScreen(document);
     }
 }

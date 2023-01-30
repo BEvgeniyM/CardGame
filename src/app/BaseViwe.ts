@@ -15,10 +15,16 @@ export class BaseViwe extends Container {
     private _pullOfsetX: number = 0;
     private _cartHeight: number = 0;
 
+    private _timeStart: number = 3;
+    private _timeEnd: number = 0.05;
+    private _timeDel: number = 0;
+
     private _angle: number = 10;
     private _anchorY: number = 1.2;
     private _pointXCartPull: number = 400;
     private _cardsTexture: Array<string> = [];
+
+
     constructor(private _parent: Container<PIXI.DisplayObject>) {
         super();
         this.name = this.constructor.name;
@@ -40,6 +46,7 @@ export class BaseViwe extends Container {
 
 
     start(cartCount: number = 1, _cardsTexture: Array<string>): BaseViwe {
+        this._timeDel = (this._timeStart - this._timeEnd) / _cardsTexture.length-1
         this._cardsTexture = _cardsTexture;
         for (let i = 0; i < this._cardsTexture.length; i++) {
             let texture = Texture.from(this._cardsTexture[i]);
@@ -72,6 +79,7 @@ export class BaseViwe extends Container {
 
     moveTo(cart: Cart, i: number):void {
         let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
+        let time = (this._timeStart-(this._timeDel * this._cartPull.children.length-1-1))
         cart.position.set(width + cart.height, CustomUtils.getRandomArbitrary());
         cart._gsap =
             gsap.to(cart, {
@@ -80,8 +88,8 @@ export class BaseViwe extends Container {
                 y: CustomUtils.getRandomArbitrary(),
                 onCompleteParams: [cart, i],
                 callbackScope: this,
-                delay: 3 * i,
-                duration: 3,
+                delay:this._timeStart * i,
+                duration: this._timeStart,
                 onComplete: this.onCompleteStock
             })
     }
@@ -122,6 +130,7 @@ export class BaseViwe extends Container {
         if (!this._cartStock.children.length) {
             this._parent.emit(Event.END, this)
         }
+        
         this.resizeCanvas();
 
     }
@@ -175,11 +184,11 @@ export class BaseViwe extends Container {
     resizeCanvas():void {        
         let offsetY = (window.screen.availWidth - this._cartPull.width) / 2 + this._cartPull.width / 2;
         if (this._cartPull.children.length > 2) {
-            this._cartPull.position.set(offsetY, window.screen.availHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01);
+            this._cartPull.position.set(offsetY, window.outerHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01);
         } else
             gsap.to(this._cartPull, {
                 x: offsetY,
-                y: window.screen.availHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01,
+                y: window.outerHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01,
                 duration: 1,
             })
     }

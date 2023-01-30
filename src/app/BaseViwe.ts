@@ -1,11 +1,11 @@
-import { Container, Texture, Text } from 'pixi.js'
+import { Container, Texture, Text, Graphics } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 
 import { Cart } from './Cart';
 import { Event } from './Event';
 import { StageController } from '../StageController';
-
+import {CustomUtils} from '../Utils/CustomUtils'
 
 export class BaseViwe extends Container {
     private _cartArras: Array<PIXI.DisplayObject> = [];
@@ -25,6 +25,13 @@ export class BaseViwe extends Container {
         this.sortableChildren = true;
         this._parent.addChild(this);
         this.addChild(this._cartPull).name = '_cartPull';
+        let debug = new PIXI.Graphics();
+        debug.beginFill(0xFFFFFF)
+        debug.drawRect(0, 0, 10, 10)
+        debug.endFill();
+        debug.position.set(0, 0);
+        debug.alpha = 0;
+        this._cartPull.addChild(debug)
         this._cartPull.position.set(window.outerWidth * 0.5, window.outerHeight);
         this.addChild(this._cartStock).name = '_cartStock';
 
@@ -42,7 +49,7 @@ export class BaseViwe extends Container {
             let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
             let sc = window.outerHeight > window.outerWidth ? sprite.height / window.outerHeight : sprite.height / window.outerWidth;
 
-            sprite.position.set(width + sprite.width, this.getRandomArbitrary());
+            sprite.position.set(width + sprite.width, CustomUtils.getRandomArbitrary());
             sprite.scale.set(0.5);
             sprite.cursor = 'pointer';
             sprite.anchor.set(0.5);
@@ -63,14 +70,14 @@ export class BaseViwe extends Container {
     }
 
 
-    moveTo(cart: Cart, i: number) {
+    moveTo(cart: Cart, i: number):void {
         let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
-        cart.position.set(width + cart.height, this.getRandomArbitrary());
+        cart.position.set(width + cart.height, CustomUtils.getRandomArbitrary());
         cart._gsap =
             gsap.to(cart, {
                 x: -cart.height,
-                angle: 360 * this.getRandomArbitrary(1, 3),
-                y: this.getRandomArbitrary(),
+                angle: 360 * CustomUtils.getRandomArbitrary(1, 3),
+                y: CustomUtils.getRandomArbitrary(),
                 onCompleteParams: [cart, i],
                 callbackScope: this,
                 delay: 3 * i,
@@ -79,7 +86,7 @@ export class BaseViwe extends Container {
             })
     }
 
-    moveToStock(cart: Cart, angle: number) {
+    moveToStock(cart: Cart, angle: number):void {
         if (cart) {
             cart.off('pointerdown', this.onDragStart);
             cart.off('pointerup', this.onDragEnd);
@@ -98,14 +105,14 @@ export class BaseViwe extends Container {
         })
     }
 
-    onCompleteStock(cart: Cart, i: number) {
+    onCompleteStock(cart: Cart, i: number):void {
         if (this._cardsTexture.length == i + 1) {
             debugger
             this._parent.emit(Event.END, this)
         }
     }
 
-    onComplete(cart: any) {
+    onComplete(cart: any):void {
         if (cart) {
             cart.position.set(0 + this._pullOfsetX, 0);
             this._cartPull.addChild(cart);
@@ -115,13 +122,13 @@ export class BaseViwe extends Container {
         if (!this._cartStock.children.length) {
             this._parent.emit(Event.END, this)
         }
+        this.resizeCanvas();
+
     }
 
-    getRandomArbitrary(min: number = 100, max: number = window.outerHeight - 100): number {
-        return Math.random() * (max - min) + min;
-    }
+   
 
-    onDragStart(event: any) {
+    onDragStart(event: any):void {
         this.alpha = 0.9;
         StageController.dragTarget = this;
         StageController.app.stage.on('pointermove', StageController.onDragMove, StageController.app.stage);
@@ -133,7 +140,7 @@ export class BaseViwe extends Container {
         }
     }
 
-    onDragEnd(event: any) {
+    onDragEnd(event: any):void {
         if (StageController.dragTarget) {
 
             let angle: number = this._pullCount * this._angle - 75;
@@ -165,14 +172,19 @@ export class BaseViwe extends Container {
         }
     }
 
-    resizeCanvas() {
-        // setTimeout(() => {        
+    resizeCanvas():void {        
         let offsetY = (window.screen.availWidth - this._cartPull.width) / 2 + this._cartPull.width / 2;
-        this._cartPull.position.set(offsetY, window.screen.availHeight - this._cartHeight);
-        // }, 100);   
+        if (this._cartPull.children.length > 2) {
+            this._cartPull.position.set(offsetY, window.screen.availHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01);
+        } else
+            gsap.to(this._cartPull, {
+                x: offsetY,
+                y: window.screen.availHeight - this._cartPull._localBounds.maxY-this._cartPull.height*0.01,
+                duration: 1,
+            })
     }
 
-    endMasege() {
+    endMasege():void {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(0xDE3249);
         graphics.drawRect(0, 0, window.outerWidth * 4, window.outerHeight * 4);

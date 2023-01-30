@@ -2,7 +2,7 @@ import { Container, Application, Loader, Sprite, settings, ENV } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { BaseViwe } from './app/BaseViwe';
 import { Cart } from './app/Cart';
-import { isFullScreen, requestFullScreen, } from './CustomUtils/Fullscreen';
+import { isFullScreen, requestFullScreen, } from './Utils/Fullscreen';
 
 export class StageController {
 

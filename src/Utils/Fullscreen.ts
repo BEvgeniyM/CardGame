@@ -22,7 +22,6 @@ interface DocumentElementWithFullscreen extends HTMLElement {
 }
 
 export function requestFullScreen(element: DocumentElementWithFullscreen) {
-    debugger
     if (element.requestFullscreen) {
         element.requestFullscreen();
     } else if (element.msRequestFullscreen) {

@@ -13,7 +13,8 @@ export class BaseController extends Container {
 
 
     init(): BaseController {
-        this.on(Event.END, this.endMessage);
+        this.on(Event.GAMEOVER, this.gameOveerMessage);
+        this.on(Event.YOUWIN, this.winMessage);
         return this;
 
     }
@@ -21,9 +22,12 @@ export class BaseController extends Container {
     startGame(): void {
     }
 
-    endMessage(view: BaseViwe): void {
-        debugger
-        view.endMasege();
+    gameOveerMessage(view: BaseViwe): void {        
+        view.endMasege('game over');
+    }
+
+    winMessage(view: BaseViwe): void {        
+        view.endMasege('You Win');
     }
 
 }

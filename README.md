@@ -13,13 +13,6 @@
 -   📝 - Consistent code style using Prettier and Eslint
 -   📝 - Unit test support with [Jest](https://jestjs.io/), generating code coverage.
 
-## Usage
-
-### Click on the green button "Use this template" on top of the repo or <br> <br> Simply copy paste this and start coding
-
-`git clone --depth=1 --branch=master https://github.com/yordan-kanchelov/pixi-typescript-boilerplate`
-
-`rm -r -force ./pixi-typescript-boilerplate/.git`
 
 ## Commands:
 

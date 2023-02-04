@@ -22,7 +22,7 @@
         "code-style-check": "npm run lint-check && npm run prettier:check",
         "prepare": "husky install"
     },
-    "author": "jkanchelov",
+    "author": "MEvgeniyB",
     "license": "MIT",
     "dependencies": {
         "core-js": "^3.26.0",

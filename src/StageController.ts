@@ -24,7 +24,7 @@ export class StageController {
         document.body.appendChild(StageController.app.view);
 
         window.addEventListener("resize", this.resizeCanvas);
-        document.addEventListener("touchend", () => { !isFullScreen() && requestFullScreen(document.documentElement) });
+        // document.addEventListener("touchend", () => { !isFullScreen() && requestFullScreen(document.documentElement) });
 
         this.registerPixiInspector();
         this.resizeCanvas();
@@ -34,7 +34,8 @@ export class StageController {
     init(): Application {
         settings.RESOLUTION = window.devicePixelRatio;
         settings.PREFER_ENV = ENV.WEBGL_LEGACY;
-
+        
+        StageController.app.stage.sortableChildren = true;
         StageController.app.stage.interactive = true;
         // StageController.app.stage.hitArea = StageController.app.screen;
 

@@ -3,10 +3,12 @@ import * as PIXI from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
 import { BaseController } from './app/BaseController';
 import { BaseViwe } from './app/BaseViwe';
-
+import { Preloader } from './app/Preloader';
+import { Event } from './app/Event';
 
 export class RootController extends Container {
 
+    private _preloader: Preloader = {} as Preloader
     private _controller: BaseController = {} as BaseController;
     private _viwe: BaseViwe = {} as BaseViwe;
     private _cardsTexture: Array<string> = [];
@@ -15,10 +17,14 @@ export class RootController extends Container {
     constructor(private _app: Application) {
         super();
         this.name = this.constructor.name;
+        this.on(Event.PRELOADERCOMPLETE,this.gameStart)
+        
     }
 
 
     init(): void {
+
+        this._preloader = new Preloader(this).init();
         this._data = new MessageMeneger(this).init();
 
         this._controller = new BaseController().init();
@@ -54,6 +60,10 @@ export class RootController extends Container {
     }
 
     onCompleteloadGameAssets(): void {
+        this._preloader.highPreLoader();
+    }
+
+    gameStart(){
         this._viwe.start(10, this._cardsTexture);
     }
 

@@ -6,8 +6,16 @@ import { BaseViwe } from './BaseViwe';
 import { Event } from './Event';
 import {StageController} from '../StageController'
 import { gsap } from "gsap";
+import { CustomUtils } from '../Utils/CustomUtils'
+
 
 export class Preloader extends Container {
+
+   /** SETING */
+   private _skale: number = 1 //s
+   private _cartCount: number = 100;
+   /** SETING */
+
 
 constructor(private _perent: PIXI.DisplayObject){
     super();
@@ -16,60 +24,44 @@ constructor(private _perent: PIXI.DisplayObject){
 init():Preloader{
     StageController.app.stage.addChild(this);
     this._zIndex = 10000;
-    this.loadGameAssets()
+    this.loadGameAssets();
+    window.addEventListener("resize", this.resizeCanvas.bind(this));
     return this
 }
-// window.onload = async (): Promise<void> => {
-//     await loadGameAssets();
 
-//     new MessageMeneger(app).init();
-    
-
-//     const birdFromSprite = getBird();
-//     birdFromSprite.anchor.set(0.5, 0.5);
-//     birdFromSprite.position.set(gameWidth / 2, gameHeight);
-
-//     const spineExample = getSpine();
-//     spineExample.position.y = 580;
-
-//     app.stage.addChild(birdFromSprite);
-//     app.stage.addChild(spineExample);
-//     app.stage.interactive = true;
-// };
 
  loadGameAssets(): Promise<void> {
     return new Promise((res, rej) => {
         const loader = Loader.shared;
         loader.add("preLoder", "./assets/jocer.jpeg");
+        loader.add("cartBack", "./assets/cartBackground_.png");
+        loader.add("back", "./assets/back.png");
+        loader.add("back_", "./assets/back_.png");
+
 
         loader.onComplete.once(() => {
-           
-            for (let i = 0; i < 90; i++) {
-                this.creatPreloader(i);
-            }
-
-            
+                this.creatPreloader();
+                this._perent.emit(Event.LOADGAMESTART)
+                return this
         });
 
         loader.onError.once(() => {
             rej();
         });
 
-        this.position.set(window.innerWidth*0.5,window.innerHeight*0.5)
-        this.pivot.set(window.innerWidth*0.5,window.innerHeight*0.5)
-       
-       
+        this.position.set(window.innerWidth*0.5,window.innerHeight*0.5);
+        this.pivot.set(window.innerWidth*0.5,window.innerHeight*0.5);
         
         loader.load();
     });
 }
 
-creatPreloader(i:number):void{
-   
-    const texture = PIXI.Texture.from('preLoder');
+creatPreloader():void{
+    for (let i = 0; i < this._cartCount; i++) {
+    const texture = PIXI.Texture.from('cartBack');
     let sprite = new Sprite(texture);
             sprite.position.set(window.innerWidth*Math.random(), window.innerHeight*Math.random());
-            sprite.scale.set(0.5);
+            sprite.scale.set(this._skale);
             sprite.cursor = 'pointer';
             sprite.anchor.set(0.5);
             sprite.interactive = true;
@@ -77,22 +69,24 @@ creatPreloader(i:number):void{
             sprite.zIndex = 1000-i;
             gsap.timeline()
             .to(sprite.scale,{
-                x:1,
-                y:1,
-                delay:5*Math.random(),
-                duration:1
+                x:0.6,
+                y:0.6,
+                delay:0.011*i,
+                duration:10,
             })
 
             
     this.addChild(sprite);
+    }
 }
 
 highPreLoader():void{
-
-    for (let i = 0; i < this.children.length; i++) {
-        const element = this.children[i];
+    this._perent.emit(Event.PRELOADERCOMPLETE);
+    
+    for (let i = 0; i < this.children.length/2; i++) {
+        const element = this.children[this.children.length -1 - i];
         gsap.to(element,{
-            angle:90+i,
+            angle:-0+i*5,
             x:window.innerWidth*0.5,
             y:window.innerHeight*0.5,
             delay:1*Math.random(),
@@ -100,20 +94,20 @@ highPreLoader():void{
         });
         
     }
-    gsap.to(this,{
-        angle:180,
+    // gsap.to(this,{
+    //     angle:180,
+    //     delay:2,
+    //     duration:1
+    // })
+    gsap.to(this.scale,{
+        x:0.9,
+        y:0.9,
         delay:2,
         duration:1
     })
     gsap.to(this.scale,{
-        x:0.5,
-        y:0.5,
-        delay:2,
-        duration:1
-    })
-    gsap.to(this.scale,{
-        x:2,
-        y:2,
+        x:1,
+        y:1,
         delay:3,
         duration:1
     })
@@ -134,6 +128,11 @@ onCompleteLoader(){
     this.zIndex= -1000;
     this.removeAllListeners()
     this.removeChildren()
-    this._perent.emit(Event.PRELOADERCOMPLETE)
+  
+}
+
+
+resizeCanvas(): void {
+    CustomUtils.ResizeContainer(this);
 }
 }

@@ -3,5 +3,7 @@ export class Event {
     public static readonly PUTINPULL = 'eventPutInPull';
     public static readonly GAMEOVER = 'eventGameOver';
     public static readonly YOUWIN = 'eventYouWin';
+
+    public static readonly LOADGAMESTART ='eventLoadCartStart';
     public static readonly PRELOADERCOMPLETE ='eventPreLoaderComplete';
 }

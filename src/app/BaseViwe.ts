@@ -23,6 +23,7 @@ export class BaseViwe extends Container {
     private _anchorY: number = 0.05;
     private _pointXCartPull: number = 400;
     private _cardsTexture: Array<string> = [];
+    private _back: Sprite = {} as Sprite;
 
 
     constructor(private _parent: Container<PIXI.DisplayObject>) {
@@ -30,22 +31,49 @@ export class BaseViwe extends Container {
         this.name = this.constructor.name;
         this.sortableChildren = true;
         this._parent.addChild(this);
-        this.addChild(this._cartPull).name = '_cartPull';
-        let debug = new PIXI.Graphics();
+       
+        const debug = new PIXI.Graphics();
         debug.beginFill(0xFFFFFF)
         debug.drawRect(0, 0, 10, 10)
         debug.endFill();
         debug.position.set(0, 0);
         debug.alpha = 0;
-        this._cartPull.addChild(debug)
+        this._cartPull.addChild(debug);
+
+
         this._cartPull.position.set(window.outerWidth * 0.5, window.outerHeight);
+        this._cartPull.zIndex = 2
+        this.addChild(this._cartPull).name = '_cartPull';
+
+        this._cartStock.zIndex = 3
         this.addChild(this._cartStock).name = '_cartStock';
 
         window.addEventListener("resize", this.resizeCanvas.bind(this));
     }
 
+    addbackground(){
+        const texture = Texture.from('back_');
+        this._back = new Sprite(texture);
+        this._back.anchor.set(0);
+        this._back.zIndex = 1;
+        this._back.alpha = 0;
+        gsap.to(this._back,{
+            alpha:1,
+            duration:1
+        })
+        this.addChild(this._back);
+        CustomUtils.ResizeBack(this._back);
+
+        const back_0 = new Sprite(Texture.from('back_'));
+        back_0.scale.set(10);
+        back_0.anchor.set(0.5);
+        back_0.zIndex = 0
+        this.addChild(back_0);
+    }
 
     start(cartCount: number = 1, _cardsTexture: Array<string>): BaseViwe {
+        this.addbackground();
+
         this._timeDel = (this._timeStart - this._timeEnd) / (_cardsTexture.length - 1)
         this._cardsTexture = _cardsTexture;
         for (let i = 0; i < this._cardsTexture.length; i++) {
@@ -56,7 +84,7 @@ export class BaseViwe extends Container {
             let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
             let sc = window.outerHeight > window.outerWidth ? sprite.height / window.outerHeight : sprite.height / window.outerWidth;
 
-            sprite.position.set(width + sprite.width, CustomUtils.getRandomArbitrary());
+            sprite.position.set(width + sprite.width, CustomUtils.GetRandomArbitrary());
             sprite.scale.set(0.5);
             sprite.cursor = 'pointer';
             sprite.anchor.set(0.5);
@@ -66,7 +94,7 @@ export class BaseViwe extends Container {
             sprite.on('pointerup', this.onDragEnd, this);
             sprite.on('pointerupoutside', this.onDragEnd, this);
 
-            this._cartHeight = sprite.height;
+            CustomUtils.CartHeight = sprite.height
             this._cartArras.push(sprite);
             this._cartStock.addChild(sprite);
 
@@ -86,13 +114,13 @@ export class BaseViwe extends Container {
     moveTo(cart: Cart, i: number): void {
         let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
         let time = (this._timeStart - (this._timeDel * (this._cartPull.children.length - 1)))
-        cart.position.set(width + cart.height, CustomUtils.getRandomArbitrary());
-        cart.scale.set(CustomUtils.getScaleCart(this._cartHeight));
+        cart.position.set(width + cart.height, CustomUtils.GetRandomArbitrary());
+        cart.scale.set(CustomUtils.GetScaleCart());
         cart._gsap =
             gsap.to(cart, {
-                x: -this._cartHeight,
-                angle: 360 * CustomUtils.getRandomArbitrary(1, 3),
-                y: CustomUtils.getRandomArbitrary(),
+                x: - CustomUtils.CartHeight,
+                angle: 360 * CustomUtils.GetRandomArbitrary(1, 3),
+                y: CustomUtils.GetRandomArbitrary(),
                 onCompleteParams: [cart, i],
                 callbackScope: this,
                 // delay:time * i,
@@ -109,6 +137,8 @@ export class BaseViwe extends Container {
             cart.anchor.set(0.5, this._anchorY);
         }
 
+        // cart.openCart()
+        // cart.cloasCart()
         gsap.to(cart, {
             x: this._cartPull.x,
             angle: angle,
@@ -193,14 +223,12 @@ export class BaseViwe extends Container {
 
     resizeCanvas(): void {
 
+        CustomUtils.ResizeBack(this._back);
+        // CustomUtils.ResizeContainer(this._cartStock);
+
         for (let i = 0; i < this._cartPull.children.length; i++) {
-            this._cartPull.children[i].scale.set(CustomUtils.getScaleCart(this._cartHeight));
+            this._cartPull.children[i].scale.set(CustomUtils.GetScaleCart());
         }
-
-        for (let i = 0; i < this._cartStock.children.length; i++) {
-            this._cartStock.children[i].scale.set(CustomUtils.getScaleCart(this._cartHeight));
-        }
-
 
         let offsetY = (window.screen.availWidth - this._cartPull.width) / 2 + this._cartPull.width / 2;
         if (this._cartPull.children.length > 2) {

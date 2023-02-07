@@ -83,7 +83,7 @@ creatPreloader():void{
 highPreLoader():void{
     this._perent.emit(Event.PRELOADERCOMPLETE);
     
-    for (let i = 0; i < this.children.length/2; i++) {
+    for (let i = 0; i < this.children.length; i++) {
         const element = this.children[this.children.length -1 - i];
         gsap.to(element,{
             angle:-0+i*5,

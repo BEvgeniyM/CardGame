@@ -2,7 +2,7 @@ import { Container, Application, Loader, Sprite, settings, ENV } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { BaseViwe } from './app/BaseViwe';
 import { Cart } from './app/Cart';
-import { isFullScreen, requestFullScreen, } from './Utils/Fullscreen';
+import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';
 
 export class StageController {
 
@@ -24,7 +24,7 @@ export class StageController {
         document.body.appendChild(StageController.app.view);
 
         window.addEventListener("resize", this.resizeCanvas);
-        // document.addEventListener("touchend", () => { !isFullScreen() && requestFullScreen(document.documentElement) });
+        document.addEventListener("touchend", () => { !isFullScreen() && deviceDetect() && requestFullScreen(document.documentElement) });
 
         this.registerPixiInspector();
         this.resizeCanvas();

@@ -6,6 +6,7 @@ import { BaseViwe } from './app/BaseViwe';
 import { Preloader } from './app/Preloader';
 import { Event } from './app/Event';
 import { gsap } from "gsap";
+import { type } from 'os';
 
 export class RootController extends Container {
 
@@ -30,6 +31,7 @@ export class RootController extends Container {
         this.name = this.constructor.name;
         this.on(Event.PRELOADERCOMPLETE,this.gameStart);
         this.on(Event.LOADGAMESTART,this.loadGameStart);
+
     }
 
 
@@ -101,4 +103,9 @@ export class RootController extends Container {
             }
         })
     }
+}
+
+type CartType = {
+    texture:string,
+    id:string
 }

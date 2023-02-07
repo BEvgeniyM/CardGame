@@ -15,6 +15,8 @@ export class BaseController extends Container {
     init(): BaseController {
         this.on(Event.GAMEOVER, this.gameOveerMessage);
         this.on(Event.YOUWIN, this.winMessage);
+        this.on(Event.FITCARD,this.fitCard);
+
         return this;
 
     }
@@ -28,6 +30,15 @@ export class BaseController extends Container {
 
     winMessage(view: BaseViwe): void {        
         view.endMasege('You Win');
+    }
+
+    fitCard(){
+        debugger
+        // this._viwe.cartToedge();
+    }
+
+    moveFromTable():void{
+
     }
 
 }

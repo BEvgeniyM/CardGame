@@ -33,6 +33,14 @@ export function requestFullScreen(element: DocumentElementWithFullscreen) {
     }
 }
 
+export function deviceDetect():boolean{
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+     return false
+    } else {
+        return true
+    }
+}
+
 export function exitFullScreen(doc: DocumentWithFullscreen) {
     if (doc.exitFullscreen) {
         doc.exitFullscreen();

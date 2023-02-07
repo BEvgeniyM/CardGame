@@ -6,7 +6,7 @@ import { CustomUtils } from '../Utils/CustomUtils'
 export class Cart extends Sprite {
 
    /** SETING */
-   private _openDur: number = 1 //s
+   private _openDur: number = 0.5 //s
    /** SETING */
 
     protected _back =  Texture.from('cartBack');
@@ -18,7 +18,7 @@ export class Cart extends Sprite {
 
 
 
-    constructor(texture: Texture) {
+    constructor(texture: Texture, public id: string) {
         super();
         this.texture = this._back;
         this._cart = texture;
@@ -27,8 +27,7 @@ export class Cart extends Sprite {
     }
 
     openCart(){
-        this.anchor.set(0.5);
-        debugger
+        // this.anchor.set(0.5);
         this._timeLine = gsap.timeline()
         .to(this.scale, {
             x:0,

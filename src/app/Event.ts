@@ -6,4 +6,8 @@ export class Event {
 
     public static readonly LOADGAMESTART ='eventLoadCartStart';
     public static readonly PRELOADERCOMPLETE ='eventPreLoaderComplete';
+    public static readonly MOVEFROMTABLE ='eventMoveFromTable';
+    public static readonly FITCARD ='eventFITCARD';
+
+
 }

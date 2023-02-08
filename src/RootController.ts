@@ -22,7 +22,7 @@ export class RootController extends Container {
     private _preloader: Preloader = {} as Preloader
     private _controller: BaseController = {} as BaseController;
     private _viwe: BaseViwe = {} as BaseViwe;
-    private _cardsTexture: Array<string> = [];
+    private _cardsTexture: Array<[string,string]> = [];
     private _data: any;
 
 
@@ -38,8 +38,9 @@ export class RootController extends Container {
     init(): void {
         this._preloader = new Preloader(this).init();
 
-        this._controller = new BaseController().init();
-        this._viwe = new BaseViwe(this._controller);
+
+        this._viwe = new BaseViwe();
+        this._controller = new BaseController(this._viwe).init();
         this._app.stage.addChild(this._controller);
     }
 
@@ -59,7 +60,7 @@ export class RootController extends Container {
 
             for (let i = 0; i < cards.length; i++) {
                 loader.add(cards[i].code, cards[i].image);
-                this._cardsTexture.push(cards[i].code);
+                this._cardsTexture.push([cards[i].code,cards[i].value]);
                 // this._cardsTexture.push('eeer');
             }
 

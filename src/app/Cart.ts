@@ -107,4 +107,14 @@ export class Cart extends Sprite {
          this._cart = e;
     }
 
+    static SpriteCreat(s:PIXI.Container, t:string, z:number = 0, alpha:number = 1,anchor:number = 0.5): PIXI.Sprite{
+        const spr = new Sprite(PIXI.Texture.from(t));
+        spr.zIndex = z;
+        spr.alpha = alpha;
+        spr.anchor.set(anchor);
+
+        s.addChild(spr);
+        return spr
+    }
+
 }

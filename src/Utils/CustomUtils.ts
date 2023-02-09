@@ -1,39 +1,86 @@
 
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
+import { DataSetting } from "./DataSetting";
+
 
 export class CustomUtils {
     static CartHeight: number = 0;
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**                       SET VALUE                                                                        */
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    static SetCartSize(s:PIXI.Sprite){
+        CustomUtils.CartHeight = s.height;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**                       GET VALUE                                                                        */
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     static GetRandomArbitrary(min: number = 100, max: number = window.outerHeight - 100): number {
         return Math.random() * (max - min) + min;
     }
 
     static GetScaleCart():number{
-        // if(window.screen.orientation.angle ==0) return 0.5
-        // return (window.screen.availHeight / 4)* 0.5/CustomUtils.CartHeight
-        console.log(CustomUtils.CartHeight/(window.screen.availHeight - CustomUtils.CartHeight));
-        
         return   CustomUtils.CartHeight/(window.screen.availHeight - CustomUtils.CartHeight)
     }
 
-    
-    static SetCartSize(s:PIXI.Sprite){
-        CustomUtils.CartHeight = s.height 
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**                       ReSize VALUE                                                                        */
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     static ResizeBack(s:PIXI.Sprite): void{
         s.scale.set(1);
-        if(window.screen.availWidth < window.screen.availHeight){
-            s.angle = 90;
-            // s.scale.set(s.width/(window.screen.availWidth-s.width))
-        } else{
-            s.angle = 0;
-            // s.scale.set(s.height/(window.screen.availHeight-s.height))
-        }
         s.anchor.set(0.5);
+        s.angle = window.screen.availWidth < window.screen.availHeight?90:0;
         s.position.set(window.screen.availWidth/2, window.screen.availHeight/2)
+    }
+
+    static ResizePreloader(s: PIXI.Container): PIXI.Container {
+        s.position.set(window.screen.availWidth*0.5, window.outerHeight * 0.5);
+        return CustomUtils.ResizeContainerChildren(s);
+    }
+
+    static ResizeStock(s:PIXI.Container){
+        s.position.set(window.screen.availWidth * 0.9, window.outerHeight * 0.5);
+        return CustomUtils.ResizeContainerChildren(s);
+    }
+
+    static ResizeMyPull(s:PIXI.Container){
+        const c = {
+            x:(window.screen.availWidth - s.width) / 2 + s.width / 2,
+            y:window.outerHeight  - s.height * 0.2
+        }
+        CustomUtils.GoTo(s,c);
+        return CustomUtils.ResizeContainerChildren(s);
+    }
+
+    static ResizePullMob(s:PIXI.Container){
+        const c = {
+            x:window.screen.availWidth * 0.5,
+            y:window.screen.availHeight * 0.01+ s.height * 0.2
+        }
+        CustomUtils.GoTo(s,c);
+        return CustomUtils.ResizeContainerChildren(s);
+    }
+
+    static ResizeTable(s:PIXI.Container){
+        const c = {
+            x:window.screen.availWidth * 0.5,
+            y:window.screen.availHeight * 0.5
+        }
+        CustomUtils.GoTo(s,c);
+        return CustomUtils.ResizeContainerChildren(s);
+    }
+
+    static ResizeContainerChildren(s: PIXI.Container): PIXI.Container {
+        for (let i = 0; i < s.children.length; i++) {
+            CustomUtils.ResizeSprit(s.children[i] as PIXI.Sprite);
+        }
+        return s
     }
 
     static ResizeSprit(s:PIXI.Sprite): number{
@@ -46,64 +93,21 @@ export class CustomUtils {
         return s.scale.x;
     }
 
-    static ResizeContainer(_cartPull: PIXI.Container): PIXI.Container {
-        
-            for (let i = 0; i < _cartPull.children.length; i++) {
-                CustomUtils.ResizeSprit(_cartPull.children[i] as PIXI.Sprite);
-            }
-
-            let offsetY = (window.screen.availWidth - _cartPull.width) / 2 + _cartPull.width / 2;
-            _cartPull.position.set(offsetY, window.outerHeight - _cartPull._localBounds.maxY - _cartPull.height * 0.01);
-            
-            return _cartPull
+    static GoTo(s:any,cnf: GoTo){
+        const c = Object.assign({duration:DataSetting.DefaultDeley, delay: DataSetting.DefaultDeley},cnf)
+        gsap.to(s,c)
+        return s
     }
+}
 
-    static ResizeStock(s:PIXI.Container){
-        s.position.set(0,0);
-        let offsetY = (window.screen.availWidth*0.90);
-        s._localBounds && 
-        gsap.to(s, {
-            x: offsetY,
-            y: 0 + s._localBounds.maxY + s.height * 0.01,
-            duration: 1,
-        })
-        for (let i = 0; i < s.children.length; i++) {
-            CustomUtils.ResizeSprit(s.children[i] as PIXI.Sprite);
-            s.children[i].position.set(window.screen.availWidth*0.90,window.screen.availHeight*0.5)
-            if(window.screen.availWidth < window.screen.availHeight){
-                // s.children[i].angle = 90;
-            } else{
-                // s.children[i].angle = 0;
-            }
-        }
-    }
 
-    static ResizePull(s:PIXI.Container){
-        s.position.set(0,0);
-        let offsetY = (window.screen.availWidth - s.width) / 2 + s.width / 2;
-        gsap.to(s, {
-            x: offsetY,
-            y: window.outerHeight - s._localBounds.maxY - s.height * 0.01,
-            duration: 1,
-        })
-        for (let i = 0; i < s.children.length; i++) {
-            CustomUtils.ResizeSprit(s.children[i] as PIXI.Sprite);
-            s.children[i].position.set(offsetY,window.screen.availHeight*0.92)
-            if(window.screen.availWidth < window.screen.availHeight){
-                // s.children[i].angle = 90;
-            } else{
-                // s.children[i].angle = 0;
-            }
-        }
-    }
-
-    static ResizePullMob(s:PIXI.Container){
-        // s.position.set(0,0);
-        let offsetY = (window.screen.availWidth - s.width) / 2 + s.width / 2;
-        gsap.to(s, {
-            x: offsetY,
-            y:  s.height * 0.20,
-            duration: 1,
-        })
-    }
+type GoTo = {
+    x?:number,
+    y?:number,
+    angle?:number,
+    alpha?:number,
+    delay?:number,
+    duration?:number,
+    callbackScope?:PIXI.Container | PIXI.Sprite,
+    onComplete?: gsap.Callback
 }

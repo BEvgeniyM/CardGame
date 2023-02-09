@@ -8,6 +8,7 @@ import { StageController } from '../StageController';
 import { CustomUtils } from '../Utils/CustomUtils'
 import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
+import { DataSetting } from '../Utils/DataSetting';
 
 export class BaseViwe extends Container {
     private _cartArras: Array<PIXI.DisplayObject> = [];
@@ -88,23 +89,14 @@ export class BaseViwe extends Container {
     }
 
     addbackground(){
-        const texture = Texture.from('back_');
-        this._back = new Sprite(texture);
-        this._back.anchor.set(0);
-        this._back.zIndex = 1;
-        this._back.alpha = 0;
-        gsap.to(this._back,{
-            alpha:1,
-            duration:1
-        })
-        this.addChild(this._back);
+        this._back = Cart.SpriteCreat(this,'back_',1);
+        const c = {
+            x:window.screen.availWidth/2,
+            y:window.screen.availHeight/2
+        }
+        CustomUtils.GoTo(this._back,c);
         CustomUtils.ResizeBack(this._back);
-
-        const back_0 = new Sprite(Texture.from('back_'));
-        back_0.scale.set(10);
-        back_0.anchor.set(0.5);
-        back_0.zIndex = 0
-        this.addChild(back_0);
+        Cart.SpriteCreat(this,'back_',0,1).scale.set(10);
     }
 
 
@@ -115,49 +107,42 @@ export class BaseViwe extends Container {
         this._timeDel = (this._timeStart - this._timeEnd) / (_cardsTexture.length - 1)
         this._cardsTexture = _cardsTexture;
         for (let i = 0; i < this._cardsTexture.length; i++) {
-            let texture = Texture.from(this._cardsTexture[i][0]);
+            const texture = Texture.from(this._cardsTexture[i][0]);
             texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-            let sprite = new Cart(texture,this._cardsTexture[i],this._cardsTexture[0]);
-            let width = window.outerHeight > window.outerWidth ? window.outerHeight : window.outerWidth;
-            let sc = window.outerHeight > window.outerWidth ? sprite.height / window.outerHeight : sprite.height / window.outerWidth;
+            const cart = new Cart(texture,this._cardsTexture[i],this._cardsTexture[0]);
+            cart.position.set(0,0)
+            cart.cursor = 'pointer';
+            cart.anchor.set(0.5);
+            cart.position.set(0.1*i,0.1*i)
+            cart.zIndex = 1;
+            cart.interactive = true;
 
-            // sprite.position.set(width + sprite.width, CustomUtils.GetRandomArbitrary());
-
-            // sprite.position.set(window.screen.availWidth*0.98,window.screen.availHeight*0.02);
-             sprite.position.set(0,0)
-            // sprite.scale.set(0.5);
-            sprite.cursor = 'pointer';
-            sprite.anchor.set(0.5);
-            sprite.position.set(0.1*i,0.1*i)
-            sprite.zIndex = 1;
-            sprite.interactive = true;
             // sprite.on('pointerdown', this.onDragStart, sprite);
             // sprite.on('pointerup', this.onDragEnd, this);
             // sprite.on('pointerupoutside', this.onDragEnd, this);
 
-            CustomUtils.CartHeight = sprite.height
-            this._cartArras.push(sprite);
-            this._cartStock.addChild(sprite);
+            CustomUtils.CartHeight = cart.height;
+            this._cartArras.push(cart);
+            this._cartStock.addChild(cart);
 
 
             this.resizeCanvas();
         }
 
-         const cart = this._cartStock.children[0] as Cart;
-         cart.anchor.set(0.5,1)
-         gsap.to(cart,{
-            angle:-90,
-            duration:1,
-            onComplete:()=>{
-                cart.openCart();
-            }
-         })
-
-        // this.getFromStock();
+        this.majorMastOpen(this._cartStock.children[0] as Cart);
         this.firstStep();
 
         return this;
+    }
+
+    majorMastOpen(cart:Cart){
+        cart.anchor.set(0.5,1);
+        const c = {
+            angle:-90,
+            f:cart.openCart.bind(cart)
+        }
+        CustomUtils.GoTo(cart,c)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,37 +193,31 @@ export class BaseViwe extends Container {
     cartToPull(s:Container ,cart: Cart,angle:number,i:number,){
         
         const a = this.setAngle(i);
+        cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y);
+        this._cartStock.removeChild(cart);
+        this._table.removeChild(cart)
+        this.addChild(cart);
+        
 
         gsap.to(cart, {
-            x: s.x,
+            x:s.x,
             angle: angle + a,
-            y: s.y,
+            y:s.y,
             callbackScope: this,
             delay:i*this._delayNewCart,
             onCompleteParams: [cart],
-            duration: 1,
+            duration: DataSetting.DefaultDuration,
             onComplete: ()=>{
-                if (cart) {
-                    cart.position.set(0, 0);
-                    s.addChild(cart);
-                    this.removeChild(cart);
-                    this._table.removeChild(cart);
-                    this.rotetStock(s);
-                    
-                }
-        
+                cart.position.set(0,0);
+                this.removeChild(cart)
+                s.addChild(cart);
+                this.rotetStock(s);
 
-                gsap.to(s,{
-                    angle: s.angle - this._angle,
-                    duration:2
-                })
+                CustomUtils.GoTo(s,{angle:s.angle - this._angle,duration:2});
+                CustomUtils.GoTo(cart.pivot,{x:cart.width/2,y:cart.height*1.2,duration:2});
+
         
-                gsap.to(cart.pivot,{
-                    x:cart.width/2,
-                    y:cart.height*1.2,
-                    duration:2
-                })
-                cart.openCart();//!!!!
+                // cart.openCart();//!!!!
 
                 if(this.myorMod(i)){
                     cart.openCart();
@@ -388,6 +367,7 @@ export class BaseViwe extends Container {
 
     cartToedge(){
        this.parent.emit(Event.MOVETOEDGE); 
+
        while (this._table.children.length != 0) {
              if(!this._table.children[0]){
                return
@@ -429,19 +409,25 @@ export class BaseViwe extends Container {
 
 
     pickUpCards(myOrMmob:number){
-        for (let i = 0; i < this._table.children.length; i++) {
-            const cart = this._table.children[i] as Cart;
+        while (this._table.children.length != 0) {
+            if(!this._table.children[0]){
+              return
+            }
+            
+            const cart = this._table.children[0] as Cart;
+            cart.anchor.set(0.5);
 
-             if(this.myorMod(myOrMmob)){
+
+            if(this.myorMod(myOrMmob)){
                 cart.on('pointerdown',this.moveToTable,this);
-                this.cartToPull(this._cartPull,cart,this.angleCal(this._cartPull.children.length),i)
+                this.cartToPull(this._cartPull,cart,this.angleCal(this._cartPull.children.length),0)
              }else { 
                 cart.cloasCart();
                 cart.off('pointerdown',this.moveToTable,this);
-                this.cartToPull(this._mobPull,cart,this.angleCal(this._mobPull.children.length),i)
+                this.cartToPull(this._mobPull,cart,this.angleCal(this._mobPull.children.length),0)
              }
-        }
 
+      }
         gsap.to(this,{
             delay:this._table.children.length*this._delayNewCart,
             onComplete:()=>{
@@ -452,25 +438,17 @@ export class BaseViwe extends Container {
 
 
     endRound(){
-        if(this._mobPull.children.length < 6){
-            const c = 6 -this._mobPull.children.length 
+        this.checkCountCart(this._mobPull,0);
+        this.checkCountCart(this._cartPull,1);
+    }
+    checkCountCart(s:Container,id:number){
+        if(s.children.length < 6){
+            const c = 6 - s.children.length 
             for (let i = 0; i < c; i++) {
                 gsap.to(this,{
                     delay: 0.5*i,
                     onComplete:()=>{
-                        this.firstStep(0,true);
-                    }
-                })
-            }
-        }
-
-        if(this._cartPull.children.length < 6){
-            const c = 6 -this._cartPull.children.length 
-            for (let i = 0; i < c; i++) {
-                gsap.to(this,{
-                    delay: 0.5*i,
-                    onComplete:()=>{
-                        this.firstStep(1,true);
+                        this.firstStep(id,true);
                     }
                 })
             }
@@ -479,7 +457,6 @@ export class BaseViwe extends Container {
     
 
     checkWin(): void {
-
         if (this._cartStock.children.length == 0 && this._cartPull.children.length == 0) {
             this._parent.emit(Event.YOUWIN, this)
         } else if (this._cartStock.children.length == 0 && this._mobPull.children.length == 0) {
@@ -490,25 +467,11 @@ export class BaseViwe extends Container {
     }
 
     resizeCanvas(): void {
-
         CustomUtils.ResizeStock(this._cartStock);
         CustomUtils.ResizeBack(this._back);
-        CustomUtils.ResizePullMob(this._mobPull)
-        // CustomUtils.ResizeContainer(this._cartStock);
-
-        // for (let i = 0; i < this._cartPull.children.length; i++) {
-        //     this._cartPull.children[i].scale.set(CustomUtils.GetScaleCart());
-        // }
-
-        let offsetY = (window.screen.availWidth - this._cartPull.width) / 2 + this._cartPull.width / 2;
- 
-            gsap.to(this._cartPull, {
-                x: offsetY,
-                // y: window.outerHeight - this._cartPull._localBounds.maxY - this._cartPull.height * 0.01,
-                y: window.outerHeight  - this._cartPull.height * 0.2,
-
-                duration: 1,
-            })
+        CustomUtils.ResizePullMob(this._mobPull);
+        CustomUtils.ResizeMyPull(this._cartPull);
+        // CustomUtils.ResizeTable(this._table);
     }
 
 

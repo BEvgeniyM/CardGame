@@ -133,6 +133,6 @@ onCompleteLoader(){
 
 
 resizeCanvas(): void {
-    CustomUtils.ResizeContainer(this);
+    CustomUtils.ResizePreloader(this);
 }
 }

@@ -12,7 +12,7 @@ export class BaseController extends Container {
         this.addChild(_viwe);
     }
 
-    public roundLoase:number = 0;
+    public roundLoasePlayrId:number = 0;
 
 
     init(): BaseController {
@@ -37,7 +37,7 @@ export class BaseController extends Container {
     }
 
     setRoundLoase(i:number){
-        this.roundLoase = i;
+        this.roundLoasePlayrId = i;
     }
 
 
@@ -52,7 +52,7 @@ export class BaseController extends Container {
 
     pickUpCards(){
         this.setInteractive(this._viwe.get_cartPull(),true);
-        this._viwe.pickUpCards(this.roundLoase);
+        this._viwe.pickUpCards(this.roundLoasePlayrId);
     }
 
     pickUpCardsEnd(){

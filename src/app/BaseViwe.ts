@@ -131,14 +131,14 @@ export class BaseViwe extends Container {
         }
 
         this.majorMastOpen(this._cartStock.children[0] as Cart);
-        this.firstStep();
+        this.endRound();
 
         return this;
     }
 
     majorMastOpen(cart:Cart){
-        cart.anchor.set(0.5,1);
         const c = {
+            x:-cart.height*0.5,
             angle:-90,
             f:cart.openCart.bind(cart)
         }
@@ -148,6 +148,9 @@ export class BaseViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       CALC                                                                              */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getCart():Cart{
+       return this._cartArras.pop() as Cart;
+    }
 
     angleCal(count:number = this._pullCount){
         let angle: number = count * this._angle - 75;
@@ -190,21 +193,126 @@ export class BaseViwe extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    cartToPull(s:Container ,cart: Cart,angle:number,i:number,){
-        
-        const a = this.setAngle(i);
+  
+    checkCart(s: PIXI.Container):boolean{
+
+        for (let i = 0; i <this._mobPull.children.length; i++) {
+            const cart = this._mobPull.children[i] as Cart;
+            
+            if(this._mylastCart.id[0][1]== cart.id[0][1]  && this._mylastCart.value < cart.value){
+               this.mobMoveCartToTable(cart);
+               return true
+            } 
+        }
+
+        for (let i = 0; i <this._mobPull.children.length; i++) {
+            const cart = this._mobPull.children[i] as Cart;
+
+            if(cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value){
+                this.mobMoveCartToTable(cart);
+                return true
+            } 
+        }
+
+        gsap.to(this,{
+                delay:DataSetting.DefaultDeley,
+                callbackScope:this,
+                onComplete:()=>{
+                    this.checkWin();
+                    this._parent.setRoundLoase(2);
+                    this._parent.emit(Event.PICKUPCARDS);
+                }
+        })
+        return false
+    }
+
+    // const response = await fetch('https://api.github.com/users/sitepen'); 
+
+
+
+
+
+    moveToTableMob(){
+        this.checkCart(this._mobPull);
+    }
+
+    rotetStock(s: PIXI.Container){
+        const a = s.name=='_mobPull'?-90:90;
+        for (let i = 0; i < s.children.length; i++) {
+            s.children[i].angle = 0;
+            gsap.to(s.children[i],{
+                angle: i * this._angle*2 - 75+a,
+                duration:1
+            })
+            
+        }
+    }
+
+
+    pickUpCards(id:number){
+        while (this._table.children.length != 0) {
+            if(!this._table.children[0]){
+              return
+            }
+            
+            const cart = this._table.children[0] as Cart;
+            cart.anchor.set(0.5);
+
+
+            if(this.myorMod(id)){
+                cart.on('pointerdown',this.moveToTable,this);
+                this.moveCartTo(this._cartPull,cart,this.angleCal(this._cartPull.children.length),true)
+             }else { 
+                cart.cloasCart();
+                cart.off('pointerdown',this.moveToTable,this);
+                this.moveCartTo(this._mobPull,cart,this.angleCal(this._mobPull.children.length),false)
+             }
+
+        }
+
+        gsap.to(this,{
+            delay:this._table.children.length*this._delayNewCart,
+            onComplete:()=>{
+                    this.parent.emit(Event.PICKUPCARDSEND);
+            }
+         })
+    }
+
+
+    endRound(){
+        this.checkCountCart(this._mobPull,false);
+        this.checkCountCart(this._cartPull,true);
+    }
+    checkCountCart(s:Container,open:boolean){
+        debugger
+        if(s.children.length < 6){
+            const c = 6 - s.children.length 
+            for (let i = 0; i < c; i++) {
+                gsap.to(this,{
+                    delay: 0.5*i,
+                    onComplete:()=>{
+                         this.moveCartTo(s, this.getCart(),this.angleCal(s.children.length),open);
+                    }
+                })
+            }
+        }
+    }
+    moveCartTo(s:Container ,cart: Cart,angle:number,open:boolean,){
+
         cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y);
         this._cartStock.removeChild(cart);
-        this._table.removeChild(cart)
+        this._table.removeChild(cart);
+        this._mobPull.removeChild(cart);
+        this._cartPull.removeChild(cart);
         this.addChild(cart);
         
 
         gsap.to(cart, {
             x:s.x,
-            angle: angle + a,
+            angle: angle,
             y:s.y,
             callbackScope: this,
-            delay:i*this._delayNewCart,
+            delay:this._delayNewCart,
             onCompleteParams: [cart],
             duration: DataSetting.DefaultDuration,
             onComplete: ()=>{
@@ -216,10 +324,7 @@ export class BaseViwe extends Container {
                 CustomUtils.GoTo(s,{angle:s.angle - this._angle,duration:2});
                 CustomUtils.GoTo(cart.pivot,{x:cart.width/2,y:cart.height*1.2,duration:2});
 
-        
-                // cart.openCart();//!!!!
-
-                if(this.myorMod(i)){
+                if(open){
                     cart.openCart();
                     cart.on('pointerdown',this.moveToTable,this)
                 }
@@ -227,31 +332,30 @@ export class BaseViwe extends Container {
             }
         })
     }
-
-    firstStep(count:number = 12, f:boolean  = false){
-        if(f){
-                let child = this._cartArras.pop() as Cart;
-                child && this.moveToMy(child, count);
-        }else {
-            for (let i = 0; i < count; i++) {
-                let child = this._cartArras.pop() as Cart;
-                child && this.moveToMy(child, i);
-            }
-        }
-       
+    mobMoveCartToTable(cart:Cart){
+                    cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y)
+                    cart.openCart();
+        
+                    this.setZindeCart(cart);
+                    this._mobPull.removeChild(cart);
+                    this._table.addChild(cart);
+                
+                    gsap.to(cart,{
+                        angle: CustomUtils.GetRandomArbitrary(-7,7),
+                        x:window.screen.availWidth*0.5+CustomUtils.GetRandomArbitrary(-20,20),
+                        y:window.screen.availHeight*0.5+CustomUtils.GetRandomArbitrary(-5,5),
+                        direction:DataSetting.DefaultDuration,
+                        onComplete: ()=>{
+                            gsap.to(this,{
+                                delay:DataSetting.DefaultDeley,
+                                callbackScope:this,
+                                onComplete:()=>{
+                                    this._parent.emit(Event.FITCARD);
+                                }
+                            })
+                        }
+                    })
     }
-
-    moveToMy(cart: Cart, i: number): void {
-        const angle = this.angleCal();
-
-        if(this.myorMod(i)&& this._cartPull.children.length < 6){
-           this.cartToPull(this._cartPull,cart,this.angleCal(this._cartPull.children.length),i)
-        } else if(this._mobPull.children.length < 6){ 
-            this.cartToPull(this._mobPull,cart,this.angleCal(this._mobPull.children.length),i)
-        }
-    }
-
-  
     moveToTable(e:any){
         this.parent.emit(Event.MYCARTONTABLE);
 
@@ -272,188 +376,35 @@ export class BaseViwe extends Container {
             }
        })
     }
-
-    addCart(i:number){
-        let child = this._cartArras.shift() as Cart;
-        child && this.moveToMy(child, i);
-    }
-  
-    checkCart(s: PIXI.Container):boolean{
-
-        for (let i = 0; i <this._mobPull.children.length; i++) {
-            const cart = this._mobPull.children[i] as Cart;
-
-            
-            // if(this._mylastCart.id[1] == cart.id[1] && this._mylastCart.id[0] < cart.id[0]){
-                if(this._mylastCart.id[0][1]== cart.id[0][1]  && this._mylastCart.value < cart.value){
-                    console.log(this._mylastCart.id, cart.id);
-
-                    cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y)
-                    cart.openCart();
-        
-                    this.setZindeCart(cart);
-                    this._mobPull.removeChild(cart);
-                    this._table.addChild(cart);
-                
-                    gsap.to(cart,{
-                        angle: CustomUtils.GetRandomArbitrary(-7,7),
-                        x:window.screen.availWidth*0.5+CustomUtils.GetRandomArbitrary(-20,20),
-                        y:window.screen.availHeight*0.5+CustomUtils.GetRandomArbitrary(-5,5),
-                        direction:1,
-                        onComplete: ()=>{
-                            gsap.to(this,{
-                                delay:1,
-                                callbackScope:this,
-                                onComplete:()=>{
-                                    this._parent.emit(Event.FITCARD);
-                                }
-                            })
-                        }
-                })
-                
-               return true
-            } 
-        }
-
-        for (let i = 0; i <this._mobPull.children.length; i++) {
-            const cart = this._mobPull.children[i] as Cart;
-
-                if(cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value){
-                    console.log(this._mylastCart.id, cart.id);
-
-                    cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y)
-                    cart.openCart();
-        
-                    this.setZindeCart(cart);
-                    this._mobPull.removeChild(cart);
-                    this._table.addChild(cart);
-                
-                    gsap.to(cart,{
-                        angle: CustomUtils.GetRandomArbitrary(-7,7),
-                        x:window.screen.availWidth*0.5+CustomUtils.GetRandomArbitrary(-20,20),
-                        y:window.screen.availHeight*0.5+CustomUtils.GetRandomArbitrary(-5,5),
-                        direction:1,
-                        onComplete: ()=>{
-                            gsap.to(this,{
-                                delay:1,
-                                callbackScope:this,
-                                onComplete:()=>{
-                                    this._parent.emit(Event.FITCARD);
-                                }
-                            })
-                        }
-                })
-                
-               return true
-            } 
-        }
-
-        gsap.to(this,{
-                delay:1,
-                callbackScope:this,
-                onComplete:()=>{
-                    this.checkWin();
-                    this._parent.setRoundLoase(2);
-                    this._parent.emit(Event.PICKUPCARDS);
-                }
-        })
-        return false
-    }
-
-    moveToTableMob(){
-        this.checkCart(this._mobPull);
-    }
-
-
     cartToedge(){
-       this.parent.emit(Event.MOVETOEDGE); 
-
-       while (this._table.children.length != 0) {
-             if(!this._table.children[0]){
-               return
-             }
-             
-             const cart = this._table.children[0] as Cart;
-             cart.anchor.set(0.5);
-
-             this._table.removeChild(cart);
-             this.addChild(cart);
-
-             gsap.to (cart,{
-                angle:0+CustomUtils.GetRandomArbitrary(-120,120),
-                x:CustomUtils.GetRandomArbitrary(0,window.screen.availWidth*0.2),
-                y:CustomUtils.GetRandomArbitrary(window.screen.availHeight*0.2,window.screen.availHeight*0.8),
-                delay:CustomUtils.GetRandomArbitrary(0,0.25),
-                duration:0.5,
-                callbackScope: this,
-                
-                onComplete:()=>{
-                    this.rotetStock(this._cartPull);
-                    this.rotetStock(this._mobPull);
-                }
-            })
-       }
-    }
-
-    rotetStock(s: PIXI.Container){
-        const a = s.name=='_mobPull'?-90:90;
-
-        for (let i = 0; i < s.children.length; i++) {
-            gsap.to(s.children[i],{
-                angle: i * this._angle*2 - 75+a,
-                duration:1
-            })
-            
-        }
-    }
-
-
-    pickUpCards(myOrMmob:number){
+        this.parent.emit(Event.MOVETOEDGE); 
+ 
         while (this._table.children.length != 0) {
-            if(!this._table.children[0]){
-              return
-            }
-            
-            const cart = this._table.children[0] as Cart;
-            cart.anchor.set(0.5);
-
-
-            if(this.myorMod(myOrMmob)){
-                cart.on('pointerdown',this.moveToTable,this);
-                this.cartToPull(this._cartPull,cart,this.angleCal(this._cartPull.children.length),0)
-             }else { 
-                cart.cloasCart();
-                cart.off('pointerdown',this.moveToTable,this);
-                this.cartToPull(this._mobPull,cart,this.angleCal(this._mobPull.children.length),0)
-             }
-
-      }
-        gsap.to(this,{
-            delay:this._table.children.length*this._delayNewCart,
-            onComplete:()=>{
-                    this.parent.emit(Event.PICKUPCARDSEND);
-            }
-         })
-    }
-
-
-    endRound(){
-        this.checkCountCart(this._mobPull,0);
-        this.checkCountCart(this._cartPull,1);
-    }
-    checkCountCart(s:Container,id:number){
-        if(s.children.length < 6){
-            const c = 6 - s.children.length 
-            for (let i = 0; i < c; i++) {
-                gsap.to(this,{
-                    delay: 0.5*i,
-                    onComplete:()=>{
-                        this.firstStep(id,true);
-                    }
-                })
-            }
+              if(!this._table.children[0]){
+                return
+              }
+              
+              const cart = this._table.children[0] as Cart;
+              cart.anchor.set(0.5);
+ 
+              this._table.removeChild(cart);
+              this.addChild(cart);
+ 
+              gsap.to (cart,{
+                 angle:0+CustomUtils.GetRandomArbitrary(-120,120),
+                 x:CustomUtils.GetRandomArbitrary(0,window.screen.availWidth*0.2),
+                 y:CustomUtils.GetRandomArbitrary(window.screen.availHeight*0.2,window.screen.availHeight*0.8),
+                 delay:CustomUtils.GetRandomArbitrary(0,0.25),
+                 duration:0.5,
+                 callbackScope: this,
+                 
+                 onComplete:()=>{
+                     this.rotetStock(this._cartPull);
+                     this.rotetStock(this._mobPull);
+                 }
+             })
         }
-    }
+     }
     
 
     checkWin(): void {

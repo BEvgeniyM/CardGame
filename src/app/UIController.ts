@@ -27,7 +27,7 @@ export class UIController extends Container {
         
     }
     menuOpen(){
-        
+        debugger
     }
     menuClose(){
         

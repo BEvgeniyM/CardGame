@@ -108,6 +108,32 @@ export class CustomUtils {
         gsap.to(s,c)
         return s
     }
+
+    static SetScaleOfProz(s:PIXI.Container | PIXI.Sprite, proz:number):number{
+        s.scale.set(1);
+        if(CustomUtils.IsPortret()) {
+            s.scale.set(window.screen.availHeight * proz /s.height);
+        }else s.scale.set(window.screen.availWidth * proz /s.height);
+        return s.scale.x
+    }
+
+    static SetScalePositionProz(s:PIXI.Container, cnf:any){
+        s.position.set(window.screen.availWidth * cnf.x, window.screen.availHeight * cnf.y);
+    }
+
+    static GoToProz(s:any,cnf: any){
+        const c = {
+            x:cnf.x*window.screen.availWidth,
+            y:cnf.y*window.screen.availHeight,
+            duration:cnf.duration
+        }
+        gsap.to(s,c)
+        return s
+    }
+
+    static IsPortret():boolean{
+       return  window.screen.availHeight > window.screen.availWidth
+    }
 }
 
 

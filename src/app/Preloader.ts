@@ -14,6 +14,7 @@ export class Preloader extends Container {
    /** SETING */
    private _skale: number = 1 //s
    private _cartCount: number = 100;
+   private _sleshScren: Sprite = {} as Sprite;
    /** SETING */
 
 
@@ -46,6 +47,30 @@ init():Preloader{
         loader.add("table_2", "./assets/table_2.png");
         loader.add("table_3", "./assets/table_3.png");
         loader.add("table_4", "./assets/table_4.png");
+        loader.add("winPanel", "./assets/winPanel.png");
+
+        loader.add("splash_screen_1", "./assets/splash_screen_1.png");
+        loader.add("splash_screen_2", "./assets/splash_screen_2.png");
+        loader.add("splash_screen_3", "./assets/splash_screen_3.png");
+
+        loader.add("hero_1", "./assets/hero_1.png");
+        loader.add("hero_2", "./assets/hero_2.png");
+        loader.add("hero_3", "./assets/hero_3.png");
+        loader.add("hero_4", "./assets/hero_4.png");
+        loader.add("shift_1", "./assets/shift_1.png");
+        loader.add("shift_2", "./assets/shift_2.png");
+
+
+        loader.add("close", "./assets/close.png");
+        loader.add("round_close", "./assets/round_close.png");
+        loader.add("menu", "./assets/menu.png");
+
+
+        
+
+        
+
+
 
 
         loader.onComplete.once(() => {
@@ -87,25 +112,27 @@ creatPreloader():void{
             
     this.addChild(sprite);
     }
-    // const texture = PIXI.Texture.from('zs');
-    // let sprite = new Sprite(texture);
-    //         sprite.position.set(window.innerWidth*0.5, window.innerHeight*0.5);
-    //         sprite.scale.set(this._skale);
-    //         sprite.cursor = 'pointer';
-    //         sprite.anchor.set(0.5);
-    //         sprite.interactive = true;
-    //         sprite.angle = 0
-    //         sprite.zIndex = 1001;
-    //         gsap.timeline()
-    //         .to(sprite.scale,{
-    //             x:1.1,
-    //             y:1.1,
-    //             delay:0.011,
-    //             duration:10,
-    //         })
 
-            
-    // this.addChild(sprite);
+    const texture = PIXI.Texture.from('splash_screen_1');
+    this._sleshScren = new Sprite(texture);
+    this._sleshScren.position.set(window.innerWidth*0.5, window.innerHeight*0.5);
+    this._sleshScren.scale.set(this._skale);
+    this._sleshScren.cursor = 'pointer';
+    this._sleshScren.anchor.set(0.5);
+    this._sleshScren.interactive = true;
+    this._sleshScren.angle = 0
+    this._sleshScren.zIndex = 1001;
+            // gsap.timeline()
+            // .to(sprite.scale,{
+            //     x:1.1,
+            //     y:1.1,
+            //     delay:0.011,
+            //     duration:10,
+            // })
+
+    // CustomUtils.SetScaleOfProz(this._sleshScren,1)
+    this.addChild(this._sleshScren);
+    CustomUtils.ResizeBack(this._sleshScren)
 }
 
 highPreLoader():void{
@@ -128,14 +155,14 @@ highPreLoader():void{
     //     duration:1
     // })
     gsap.to(this.scale,{
-        x:0.9,
-        y:0.9,
+        x:1,
+        y:1,
         delay:2,
         duration:1
     })
     gsap.to(this.scale,{
-        x:1,
-        y:1,
+        x:1.05,
+        y:1.05,
         delay:3,
         duration:1
     })

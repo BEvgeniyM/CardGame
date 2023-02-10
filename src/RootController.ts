@@ -108,6 +108,7 @@ export class RootController extends Container {
             delay:this._startDelay,
             callbackScope:this,
             onComplete:()=>{
+                this._UIviwe.start();
                 this._viwe.start(10, this._cardsTexture);
             }
         })

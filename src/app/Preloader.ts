@@ -37,6 +37,15 @@ init():Preloader{
         loader.add("cartBack", "./assets/cartBackground_.png");
         loader.add("back", "./assets/back.png");
         loader.add("back_", "./assets/back_.png");
+        loader.add("za", "./assets/za.png");
+        loader.add("zs", "./assets/zs.png");
+        loader.add("skin_2", "./assets/skin_2.png");
+        loader.add("skin_1", "./assets/skin_1.png");
+        loader.add("skin_3", "./assets/skin_3.png");
+        loader.add("table_1", "./assets/table_1.png");
+        loader.add("table_2", "./assets/table_2.png");
+        loader.add("table_3", "./assets/table_3.png");
+        loader.add("table_4", "./assets/table_4.png");
 
 
         loader.onComplete.once(() => {
@@ -58,7 +67,7 @@ init():Preloader{
 
 creatPreloader():void{
     for (let i = 0; i < this._cartCount; i++) {
-    const texture = PIXI.Texture.from('cartBack');
+    const texture = PIXI.Texture.from('za');
     let sprite = new Sprite(texture);
             sprite.position.set(window.innerWidth*Math.random(), window.innerHeight*Math.random());
             sprite.scale.set(this._skale);
@@ -78,6 +87,25 @@ creatPreloader():void{
             
     this.addChild(sprite);
     }
+    // const texture = PIXI.Texture.from('zs');
+    // let sprite = new Sprite(texture);
+    //         sprite.position.set(window.innerWidth*0.5, window.innerHeight*0.5);
+    //         sprite.scale.set(this._skale);
+    //         sprite.cursor = 'pointer';
+    //         sprite.anchor.set(0.5);
+    //         sprite.interactive = true;
+    //         sprite.angle = 0
+    //         sprite.zIndex = 1001;
+    //         gsap.timeline()
+    //         .to(sprite.scale,{
+    //             x:1.1,
+    //             y:1.1,
+    //             delay:0.011,
+    //             duration:10,
+    //         })
+
+            
+    // this.addChild(sprite);
 }
 
 highPreLoader():void{

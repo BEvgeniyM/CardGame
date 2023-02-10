@@ -36,6 +36,16 @@ export class CustomUtils {
         s.scale.set(1);
         s.anchor.set(0.5);
         s.angle = window.screen.availWidth < window.screen.availHeight?90:0;
+
+        if(s.width == s.height){
+            if(window.screen.availHeight > window.screen.availWidth){
+                s.scale.set (window.screen.availHeight/ s.height);
+            } else  s.scale.set (window.screen.availWidth / s.width);
+        } else {
+            if(window.screen.availHeight > window.screen.availWidth){
+                s.scale.set (window.screen.availWidth / s.height); 
+            }else s.scale.set (window.screen.availHeight/ s.height);
+        }
         s.position.set(window.screen.availWidth/2, window.screen.availHeight/2)
     }
 

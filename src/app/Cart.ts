@@ -9,7 +9,7 @@ export class Cart extends Sprite {
    private _openDur: number = 0.5 //s
    /** SETING */
 
-    protected _back =  Texture.from('cartBack');
+    protected _back =  Texture.from('skin_2');
     protected _cart =  Texture.from('cartBack');
     public _timeLine!: gsap.core.Timeline;
 

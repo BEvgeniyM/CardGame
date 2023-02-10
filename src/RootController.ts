@@ -3,6 +3,8 @@ import * as PIXI from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
 import { BaseController } from './app/BaseController';
 import { BaseViwe } from './app/BaseViwe';
+import { UIViwe } from './app/UIViwe';
+import { UIController } from './app/UIController';
 import { Preloader } from './app/Preloader';
 import { Event } from './app/Event';
 import { gsap } from "gsap";
@@ -22,6 +24,8 @@ export class RootController extends Container {
     private _preloader: Preloader = {} as Preloader
     private _controller: BaseController = {} as BaseController;
     private _viwe: BaseViwe = {} as BaseViwe;
+    private _UIviwe: UIViwe = {} as UIViwe;
+    private _UIcontroller: UIController = {} as UIController;
     private _cardsTexture: Array<[string,string]> = [];
     private _data: any;
 
@@ -42,6 +46,10 @@ export class RootController extends Container {
         this._viwe = new BaseViwe();
         this._controller = new BaseController(this._viwe).init();
         this._app.stage.addChild(this._controller);
+
+        this._UIviwe = new UIViwe();
+        this._UIcontroller = new UIController(this._UIviwe).init();
+        this._app.stage.addChild(this._UIcontroller);
     }
 
     //** Loaded asset *****************************************/

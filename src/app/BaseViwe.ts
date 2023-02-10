@@ -14,10 +14,12 @@ export class BaseViwe extends Container {
     private _cartArras: Array<PIXI.DisplayObject> = [];
     private _cartStock: Container = new Container();
     private _cartPull: Container = new Container();
+    private _topCont: Container = new Container();
+
     private _mobPull:Container = new Container();
     private _table:Container = new Container();
     private _mylastCart: Cart = {} as Cart;
-
+    
 
     private _pullCount: number = 0;
     private _pullOfsetX: number = 0;
@@ -48,6 +50,11 @@ export class BaseViwe extends Container {
         debug.position.set(0, 0);
         debug.alpha = 1;
         // this._cartPull.addChild(debug);
+
+        this._topCont.position.set(0);
+        this._topCont.zIndex = 500;
+        this._topCont.interactiveChildren = false;
+        this.addChild(this._topCont).name = '_topCont';
 
         this._table.position.set(0);
         this._table.zIndex = 400;
@@ -89,14 +96,14 @@ export class BaseViwe extends Container {
     }
 
     addbackground(){
-        this._back = Cart.SpriteCreat(this,'back_',1);
+        this._back = Cart.SpriteCreat(this,'table_4',1);
         const c = {
             x:window.screen.availWidth/2,
             y:window.screen.availHeight/2
         }
         CustomUtils.GoTo(this._back,c);
         CustomUtils.ResizeBack(this._back);
-        Cart.SpriteCreat(this,'back_',0,1).scale.set(10);
+        Cart.SpriteCreat(this,'za',0,1).scale.set(10);
     }
 
 
@@ -148,8 +155,9 @@ export class BaseViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       CALC                                                                              */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    getCart():Cart{
-       return this._cartArras.pop() as Cart;
+    getCart(s?:any):Cart{
+        // this._cartArras
+       return s.children?.pop() as Cart;
     }
 
     angleCal(count:number = this._pullCount){
@@ -200,7 +208,7 @@ export class BaseViwe extends Container {
             const cart = this._mobPull.children[i] as Cart;
             
             if(this._mylastCart.id[0][1]== cart.id[0][1]  && this._mylastCart.value < cart.value){
-               this.mobMoveCartToTable(cart);
+               this.mobMoveCartToTable(s,cart);
                return true
             } 
         }
@@ -209,7 +217,7 @@ export class BaseViwe extends Container {
             const cart = this._mobPull.children[i] as Cart;
 
             if(cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value){
-                this.mobMoveCartToTable(cart);
+                this.mobMoveCartToTable(s,cart);
                 return true
             } 
         }
@@ -238,11 +246,15 @@ export class BaseViwe extends Container {
 
     rotetStock(s: PIXI.Container){
         const a = s.name=='_mobPull'?-90:90;
+        gsap.to(s,{
+            angle: -s.children.length/2 * this._angle,
+            duration:2*DataSetting.DefaultDuration
+        })
         for (let i = 0; i < s.children.length; i++) {
             s.children[i].angle = 0;
             gsap.to(s.children[i],{
-                angle: i * this._angle*2 - 75+a,
-                duration:1
+                angle: i * this._angle - 75+a,
+                duration:DataSetting.DefaultDuration
             })
             
         }
@@ -254,10 +266,9 @@ export class BaseViwe extends Container {
             if(!this._table.children[0]){
               return
             }
-            
-            const cart = this._table.children[0] as Cart;
+            debugger
+            const cart = this.getCart(this._table)
             cart.anchor.set(0.5);
-
 
             if(this.myorMod(id)){
                 cart.on('pointerdown',this.moveToTable,this);
@@ -267,11 +278,10 @@ export class BaseViwe extends Container {
                 cart.off('pointerdown',this.moveToTable,this);
                 this.moveCartTo(this._mobPull,cart,this.angleCal(this._mobPull.children.length),false)
              }
-
         }
 
         gsap.to(this,{
-            delay:this._table.children.length*this._delayNewCart,
+            delay:this._table.children.length*this._delayNewCart+DataSetting.DefaultDuration,
             onComplete:()=>{
                     this.parent.emit(Event.PICKUPCARDSEND);
             }
@@ -291,21 +301,22 @@ export class BaseViwe extends Container {
                 gsap.to(this,{
                     delay: 0.5*i,
                     onComplete:()=>{
-                         this.moveCartTo(s, this.getCart(),this.angleCal(s.children.length),open);
+                         this.moveCartTo(s, this.getCart(this._cartStock),this.angleCal(s.children.length),open);
                     }
                 })
             }
         }
     }
-    moveCartTo(s:Container ,cart: Cart,angle:number,open:boolean,){
-
+    cartToContener(s:Container ,cart: Cart){
         cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y);
         this._cartStock.removeChild(cart);
         this._table.removeChild(cart);
         this._mobPull.removeChild(cart);
         this._cartPull.removeChild(cart);
         this.addChild(cart);
-        
+    }
+    moveCartTo(s:Container ,cart: Cart,angle:number,open:boolean){
+        this.cartToContener(s,cart);
 
         gsap.to(cart, {
             x:s.x,
@@ -322,7 +333,7 @@ export class BaseViwe extends Container {
                 this.rotetStock(s);
 
                 CustomUtils.GoTo(s,{angle:s.angle - this._angle,duration:2});
-                CustomUtils.GoTo(cart.pivot,{x:cart.width/2,y:cart.height*1.2,duration:2});
+                // CustomUtils.GoTo(cart.pivot,{x:cart.width/2,y:cart.height*1.2,duration:2});
 
                 if(open){
                     cart.openCart();
@@ -332,51 +343,51 @@ export class BaseViwe extends Container {
             }
         })
     }
-    mobMoveCartToTable(cart:Cart){
-                    cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y)
+    mobMoveCartToTable(s:Container, cart:Cart){
                     cart.openCart();
-        
                     this.setZindeCart(cart);
-                    this._mobPull.removeChild(cart);
-                    this._table.addChild(cart);
-                
+                    this.cartToContener(s,cart);
+
                     gsap.to(cart,{
                         angle: CustomUtils.GetRandomArbitrary(-7,7),
-                        x:window.screen.availWidth*0.5+CustomUtils.GetRandomArbitrary(-20,20),
-                        y:window.screen.availHeight*0.5+CustomUtils.GetRandomArbitrary(-5,5),
+                        x:this._table.x,
+                        y:this._table.y+CustomUtils.GetRandomArbitrary(-5,5),
                         direction:DataSetting.DefaultDuration,
-                        onComplete: ()=>{
-                            gsap.to(this,{
-                                delay:DataSetting.DefaultDeley,
-                                callbackScope:this,
-                                onComplete:()=>{
-                                    this._parent.emit(Event.FITCARD);
-                                }
-                            })
+                        onComplete:()=>{
+                            cart.position.set(0,0)
+                            this._topCont.removeChild(cart);
+                            this._table.addChild(cart);
+                            this._parent.emit(Event.FITCARD);
                         }
                     })
     }
     moveToTable(e:any){
         this.parent.emit(Event.MYCARTONTABLE);
 
-        e.currentTarget.position.set(e.currentTarget.getGlobalPosition().x,e.currentTarget.getGlobalPosition().y);
+        const cart = e.currentTarget;
 
-        this.setZindeCart(e.currentTarget);
-        this._cartStock.removeChild(e.currentTarget);
-        this._table.addChild(e.currentTarget);
-        this._mylastCart = e.currentTarget;
+        cart.position.set(e.currentTarget.getGlobalPosition().x,e.currentTarget.getGlobalPosition().y);
+        this._cartPull.removeChild(cart);
+        this._topCont.addChild(cart);
 
-        gsap.to(e.currentTarget,{
-            angle: 0+CustomUtils.GetRandomArbitrary(-7,7),
-            x:window.screen.availWidth*0.5+CustomUtils.GetRandomArbitrary(-20,20),
-            y:window.screen.availHeight*0.5+CustomUtils.GetRandomArbitrary(-5,5),
-            direction:1,
+        this.setZindeCart(cart);
+        this._mylastCart = cart;
+
+        gsap.to(cart,{
+            angle: CustomUtils.GetRandomArbitrary(-7,7),
+            x:this._table.x,
+            y:this._table.y+CustomUtils.GetRandomArbitrary(-5,5),
+            direction:DataSetting.DefaultDuration,
+            callbackScope:this,
             onComplete: ()=>{
+                cart.position.set(0,0);
+                this._topCont.removeChild(cart);
+                this._table.addChild(cart);
                 this.moveToTableMob();
             }
        })
     }
-    cartToedge(){
+    cartToEdge(){
         this.parent.emit(Event.MOVETOEDGE); 
  
         while (this._table.children.length != 0) {
@@ -387,16 +398,17 @@ export class BaseViwe extends Container {
               const cart = this._table.children[0] as Cart;
               cart.anchor.set(0.5);
  
+              cart.position.set(cart.getGlobalPosition().x,cart.getGlobalPosition().y);
               this._table.removeChild(cart);
               this.addChild(cart);
  
-              gsap.to (cart,{
+              gsap.to(cart,{
                  angle:0+CustomUtils.GetRandomArbitrary(-120,120),
                  x:CustomUtils.GetRandomArbitrary(0,window.screen.availWidth*0.2),
-                 y:CustomUtils.GetRandomArbitrary(window.screen.availHeight*0.2,window.screen.availHeight*0.8),
+                 y:CustomUtils.GetRandomArbitrary(window.screen.availHeight*0.3,window.screen.availHeight*0.7),
                  delay:CustomUtils.GetRandomArbitrary(0,0.25),
-                 duration:0.5,
-                 callbackScope: this,
+                 duration:DataSetting.DefaultDuration,
+                 callbackScope:this,
                  
                  onComplete:()=>{
                      this.rotetStock(this._cartPull);
@@ -413,7 +425,7 @@ export class BaseViwe extends Container {
         } else if (this._cartStock.children.length == 0 && this._mobPull.children.length == 0) {
             this._parent.emit(Event.GAMEOVER, this)
         } else if(this._cartPull.children.length  == 0 || this._mobPull.children.length == 0){
-            this.cartToedge();
+            this.cartToEdge();
         } 
     }
 
@@ -422,7 +434,7 @@ export class BaseViwe extends Container {
         CustomUtils.ResizeBack(this._back);
         CustomUtils.ResizePullMob(this._mobPull);
         CustomUtils.ResizeMyPull(this._cartPull);
-        // CustomUtils.ResizeTable(this._table);
+        CustomUtils.ResizeTable(this._table);
     }
 
 

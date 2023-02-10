@@ -15,5 +15,13 @@ export class Event {
 
     public static readonly MOVETOEDGE ='eventMoveToEdge';
 
+    public static readonly UI_GETCART ='UI_GETCART';
+    public static readonly UI_HELP ='UI_HELP';
+    public static readonly UI_RESET ='UI_RESET';
+    public static readonly UI_MENU_OPEN ='UI_MENU_OPEN';
+    public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
+
+    
+
 
 }

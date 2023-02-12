@@ -19,14 +19,14 @@ export class UIController extends Container {
         this.on(Event.UI_MENU_OPEN,this.menuOpen);
         this.on(Event.UI_MENU_CLOSE,this.menuClose);
         this.on(Event.UI_RESET,this.reset);
-        this.on(Event.ROUNDCLOSE,this.roundCloseI);
+        this.on(Event.ROUNDCLOSE_I,this.roundCloseI);
         return this;
     }
 
 
     roundCloseI(){
-      DataSetting.WhoseMoveID = 0; 
-      this.parent.emit(Event.ACTION,Event.ROUNDCLOSE);
+      DataSetting.WhoseMoveID = 2;
+      this.parent.emit(Event.ACTION,Event.ROUNDCLOSE_I);
     }
 
     getCart(){
@@ -44,4 +44,19 @@ export class UIController extends Container {
     reset(){
 
     }
+
+    preperNewRound(){
+        if(DataSetting.WhoseMoveID == 2){
+            this._viwe.ectionOnHeroMy(false);
+            this._viwe.ectionOnHeroMob(true);
+        } else{
+            this._viwe.ectionOnHeroMy(true);
+            this._viwe.ectionOnHeroMob(false);
+        }
+    }
+
+    firastRound(){
+        // this._viwe.ectionOnHeroMob(false);
+    }
+
 }

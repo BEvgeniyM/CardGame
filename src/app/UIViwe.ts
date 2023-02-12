@@ -18,6 +18,8 @@ export class UIViwe extends Container {
     private _heroMy: Sprite = {} as Sprite
     private _heroMob: Sprite = {} as Sprite
     private _helpClose: Sprite = {} as Sprite
+    private _helpPaper: Sprite = {} as Sprite
+    private _helpseal: Sprite = {} as Sprite
 
     private _helpData = new Container()
 
@@ -34,6 +36,9 @@ export class UIViwe extends Container {
         this._heroMy = this.cretHero(this._heroMy,DataSetting.HeroMy,this.clickOnHeroMy.bind(this));
         this._heroMob = this.cretHero(this._heroMy,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
         this._helpClose = this.cretHero(this._helpClose,DataSetting.HelpClose,this.helpClick.bind(this));
+        this._helpPaper = this.cretHero(this._helpPaper,DataSetting.HelpPaper,this.helpPaper.bind(this));
+        this._helpseal = this.cretHero(this._helpseal,DataSetting.Helpseal,this.helpseal.bind(this));
+
         this._menu = this.cretHero(this._menu,DataSetting.Menu,this.clickOnMenu.bind(this));
 
         this.creatHelp();
@@ -54,7 +59,7 @@ export class UIViwe extends Container {
         s.interactive = true;
         s.on('pointerdown', f);
         s.anchor.set(cnf.ax,cnf.ay);
-        CustomUtils.SetScaleOfProz(s as PIXI.Sprite, cnf.scale);
+        CustomUtils.SetScaleOfProz(s as PIXI.Sprite, cnf);
         CustomUtils.SetPositionProz(s,cnf);
         // gsap.to(s,{
            
@@ -76,6 +81,8 @@ export class UIViwe extends Container {
         btn.position.set(0, 0);
         btn.alpha = 0.5;
         this._helpData.addChild(btn);
+        this._helpData.addChild(this._helpPaper);
+        this._helpData.addChild(this._helpseal);
         this._helpData.addChild(this._helpClose);
         this._helpData.visible =false
         this.addChild(this._helpData);
@@ -88,24 +95,30 @@ export class UIViwe extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    clickOnHeroMy(){
-        if(this._heroMy.name == DataSetting.HeroMy.t){
-            this.rotationHero(this._heroMy,DataSetting.HeroMy.tb)
-        } else  this.rotationHero(this._heroMy,DataSetting.HeroMy.t);
-        this.parent.emit(Event.ROUNDCLOSE);
+    clickOnHeroMy(f:boolean = true){
+        this.parent.emit(Event.ROUNDCLOSE_I,"I");
+        // this.ectionOnHeroMy(f);
+    }
+    ectionOnHeroMy(f:boolean = true){
+        if(this._heroMy.name == DataSetting.HeroMy.tb || f == true){
+            this.rotationHero(this._heroMy,DataSetting.HeroMy.t)
+        } else  this.rotationHero(this._heroMy,DataSetting.HeroMy.tb);
     }
 
-    clickOnHeroMob(){
-        if(this._heroMob.name == DataSetting.HeroMob.t){
-            this.rotationHero(this._heroMob,DataSetting.HeroMob.tb)
-        } else  this.rotationHero(this._heroMob,DataSetting.HeroMob.t)
+    clickOnHeroMob(f:boolean = true){
+        // this.ectionOnHeroMob(f);
+    }
+
+    ectionOnHeroMob(f:boolean = true){
+        if(this._heroMob.name == DataSetting.HeroMob.tb || f == true){
+            this.rotationHero(this._heroMob,DataSetting.HeroMob.t)
+        } else  this.rotationHero(this._heroMob,DataSetting.HeroMob.tb);
     }
 
     rotationHero(s:Sprite,t:string){
         s.name = t
         // this.parent.emit(Event.UI_MENU_OPEN);
-        const sx = CustomUtils.SetScaleOfProz(s as PIXI.Sprite, DataSetting.HeroMob.scale);
+        const sx = CustomUtils.SetScaleOfProz(s as PIXI.Sprite, DataSetting.HeroMob);
 
         CustomUtils.GoTo(s.scale,{
                 x:sx*0.1,
@@ -120,6 +133,12 @@ export class UIViwe extends Container {
                         onComplete:()=>{
                         }})
                 }})
+    }
+
+    helpPaper(){
+    }
+
+    helpseal(){
     }
 
     helpClick(){
@@ -138,19 +157,24 @@ export class UIViwe extends Container {
 
 
     resizeCanvas(){
-        CustomUtils.SetScaleOfProz(this._menu as PIXI.Sprite, DataSetting.Menu.scale);
+        CustomUtils.SetScaleOfProz(this._menu as PIXI.Sprite, DataSetting.Menu);
         CustomUtils.GoToProz(this._menu,DataSetting.Menu);
 
-        // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel.scale);
+        CustomUtils.SetTextureOfProz(this._helpPaper,DataSetting.HelpPaper);
+        CustomUtils.SetScaleOfProz(this._helpPaper as PIXI.Sprite, DataSetting.HelpPaper);
+        CustomUtils.GoToProz(this._helpPaper,DataSetting.HelpPaper);
+
+        // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel);
         // CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
 
-        CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy.scale);
+        debugger
+        CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy);
         CustomUtils.GoToProz(this._heroMy,DataSetting.HeroMy);
 
-        CustomUtils.SetScaleOfProz(this._heroMob as PIXI.Sprite, DataSetting.HeroMob.scale);
+        CustomUtils.SetScaleOfProz(this._heroMob as PIXI.Sprite, DataSetting.HeroMob);
         CustomUtils.GoToProz(this._heroMob,DataSetting.HeroMob);
 
-        CustomUtils.SetScaleOfProz(this._helpClose as PIXI.Sprite, DataSetting.HelpClose.scale);
+        CustomUtils.SetScaleOfProz(this._helpClose as PIXI.Sprite, DataSetting.HelpClose);
         CustomUtils.GoToProz(this._helpClose,DataSetting.HelpClose);
 
     }

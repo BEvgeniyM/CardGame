@@ -201,6 +201,9 @@ export class BaseViwe extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    mobFite(){
+        this.mobMoveCartToTable(this._mobPull, this._mobPull.children[0] as Cart);
+    }
 
     checkCart(s: PIXI.Container): boolean {
 
@@ -228,31 +231,29 @@ export class BaseViwe extends Container {
             onComplete: () => {
                 this.checkWin();
                 this._parent.setRoundLoase(2);
-                this._parent.emit(Event.PICKUPCARDS);
+                // this._parent.emit(Event.PICKUPCARDS);
+                this._parent.emit(Event.PICKUPCARD_MOB);
             }
         })
         return false
     }
 
 
-    checkPossibleToPutCard():boolean{
+    checkPossibleToPutCard(): boolean {
         const cartPossibleArray: Array<string> = [];
-        if(!this._table.children.length){
+        if (!this._table.children.length) {
             return true
         }
         for (let i = 0; i < this._table.children.length; i++) {
             const cart = this._table.children[i] as Cart;
 
-            if (cart.id[0][1] == this._mylastCart.id[0][1] || this._mylastCart.id[0][1] == this._mylastCart.mastW){
-               return true
+            if (cart.id[0][1] == this._mylastCart.id[0][1] || this._mylastCart.id[0][1] == this._mylastCart.mastW) {
+                return true
             }
         }
         return false
     }
     // const response = await fetch('https://api.github.com/users/sitepen'); 
-
-
-
 
 
     moveToTableMob() {
@@ -284,7 +285,6 @@ export class BaseViwe extends Container {
             if (!this._table.children[0]) {
                 return
             }
-            debugger
             const cart = this.getCart(this._table)
             cart.anchor.set(0.5);
 
@@ -310,20 +310,34 @@ export class BaseViwe extends Container {
     endRound() {
         this.checkCountCart(this._mobPull, false);
         this.checkCountCart(this._cartPull, true);
+        
+        gsap.to(this, {
+            delay: DataSetting.DefaultDeley * 6,
+            onComplete: () => {
+                this.parent.emit(Event.CHECKCARDAND);
+            }
+        })
+
     }
     checkCountCart(s: Container, open: boolean) {
+        let c = 0;
         if (s.children.length < 6) {
-            const c = 6 - s.children.length
+            c = 6 - s.children.length
             for (let i = 0; i < c; i++) {
                 gsap.to(this, {
-                    delay: 0.5 * i,
+                    delay: DataSetting.DefaultDeley * i,
                     onComplete: () => {
                         this.moveCartTo(s, this.getCart(this._cartStock), this.angleCal(s.children.length), open);
                     }
                 })
             }
         }
+
     }
+    checkEndRound() {
+        
+    }
+    
     cartToContener(s: Container, cart: Cart) {
         cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
         this._cartStock.removeChild(cart);
@@ -384,8 +398,8 @@ export class BaseViwe extends Container {
         const cart = e.currentTarget;
         this._mylastCart = cart;
 
-        if(!this.checkPossibleToPutCard()){
-            const p =cart.y
+        if (!this.checkPossibleToPutCard()) {
+            const p = cart.y
             const z = cart.zIndex
             cart.zIndex = 1000
             gsap.to(cart, {
@@ -393,13 +407,13 @@ export class BaseViwe extends Container {
                 direction: DataSetting.DefaultDuration,
                 callbackScope: this,
                 onComplete: () => {
-                   gsap.to(cart,{
-                    y:p,
-                    direction: DataSetting.DefaultDuration,
-                    onComplete:()=>{
-                        cart.zIndex = z;
-                    }
-                   })
+                    gsap.to(cart, {
+                        y: p,
+                        direction: DataSetting.DefaultDuration,
+                        onComplete: () => {
+                            cart.zIndex = z;
+                        }
+                    })
                 }
             })
             return false
@@ -408,14 +422,14 @@ export class BaseViwe extends Container {
         this.parent.emit(Event.MYCARTONTABLE);
         e.currentTarget.anchor.set(0.5);
 
-      
+
 
         cart.position.set(e.currentTarget.getGlobalPosition().x, e.currentTarget.getGlobalPosition().y);
         this._cartPull.removeChild(cart);
         this._topCont.addChild(cart);
 
         this.setZindeCart(cart);
-        
+
 
         gsap.to(cart, {
             angle: CustomUtils.GetRandomArbitrary(-7, 7),
@@ -432,7 +446,7 @@ export class BaseViwe extends Container {
         })
     }
     cartToEdge() {
-        this.parent.emit(Event.MOVETOEDGE);
+        // this.parent.emit(Event.MOVETOEDGE);
 
         while (this._table.children.length != 0) {
             if (!this._table.children[0]) {
@@ -479,6 +493,10 @@ export class BaseViwe extends Container {
         CustomUtils.ResizePullMob(this._mobPull);
         CustomUtils.ResizeMyPull(this._cartPull);
         CustomUtils.ResizeTable(this._table);
+    }
+
+    lockUnLockMyCart(f: boolean) {
+        this._mobPull.interactiveChildren = f;
     }
 
 

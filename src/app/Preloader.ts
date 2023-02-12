@@ -49,7 +49,9 @@ export class Preloader extends Container {
 
 
 
-            loader.add("preLoder", "./assets/jocer.jpeg");
+            loader.add("papir", "./assets/papir.png");
+            loader.add("seal", "./assets/seal.png");
+            loader.add("papir_2", "./assets/papir_2.png");
             loader.add("back_", "./assets/back_.png");
             loader.add("za", "./assets/za.png");
             loader.add("zs", "./assets/zs.png");
@@ -167,7 +169,7 @@ export class Preloader extends Container {
         sprite.angle = CustomUtils.GetRandomArbitrary(75, 120)
         sprite.zIndex = 2000;
         sprite.alpha = 0;
-        CustomUtils.SetScaleOfProz(sprite,DataSetting.Progress.scale)
+        CustomUtils.SetScaleOfProz(sprite,DataSetting.Progress)
         gsap.timeline()
             .to(sprite.scale, {
                 x: 0.1,

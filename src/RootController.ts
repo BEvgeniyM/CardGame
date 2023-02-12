@@ -41,8 +41,7 @@ export class RootController extends Container {
         this.on(Event.ACTION, this.anyEction);
         this.on(Event.PICKUPCARDS, this.anyEction);
         this.on(Event.PICKUPCARDSEND, this.anyEction);
-
-
+        this.on(Event.CHECKCARDAND, this.anyEction);
 
     }
 
@@ -119,6 +118,7 @@ export class RootController extends Container {
             onComplete: () => {
                 this._UIviwe.start();
                 this._viwe.start(10, this._cardsTexture);
+                this.firastRound();
             }
         })
     }
@@ -127,21 +127,48 @@ export class RootController extends Container {
     anyEction(actoin: string) {
         debugger
         switch (actoin) {
+            case Event.ROUNDCLOSE_I:
+                DataSetting.WhoseMoveID = 2;
+                this._controller.myCartToEdge();
+                this._controller.endRound();
+                break;
+
+            case Event.ROUNDCLOSE_MOB:
+                DataSetting.WhoseMoveID = 1;
+                // this._controller.myCartToEdge();
+                // this._controller.endRound();
+
+                break
             case Event.ROUNDCLOSE:
-                DataSetting.WhoseMoveID = 0;
-                this._controller.myCartToEdge()
+                // DataSetting.WhoseMoveID = 0;
+                this._controller.myCartToEdge();
+                this._controller.endRound();
                 break;
             case Event.PICKUPCARDS:
-                // this._controller.pickUpCards()
+                debugger
                 break;
             case Event.PICKUPCARDSEND:
+                debugger
                 // this._controller.pickUpCards()
+                break;
+            case Event.CHECKCARDAND:
+                this.preperNewRound();
                 break;
             default:
                 break;
         }
 
     }
+
+    preperNewRound() {
+        this._UIcontroller.preperNewRound()
+        this._controller.preperNewRound()
+    }
+
+    firastRound() {
+        this._UIcontroller.firastRound();
+    }
+
 }
 
 type CartType = {

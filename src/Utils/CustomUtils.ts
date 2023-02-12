@@ -111,12 +111,26 @@ export class CustomUtils {
         return s
     }
 
-    static SetScaleOfProz(s: PIXI.Sprite, proz:number):number{
+    static SetScaleOfProz(s: PIXI.Sprite, cnf:any):number{
         s.scale.set(1);
+
+        if(CustomUtils.IsPortret() && cnf.portret && cnf.portret.scale){
+            if(CustomUtils.IsPortret()) {
+                s.scale.set(window.innerHeight * cnf.portret.scale /s.height);
+            }else s.scale.set(window.innerWidth * cnf.portret.scale /s.height);
+            return s.scale.x
+        }
+
         if(CustomUtils.IsPortret()) {
-            s.scale.set(window.innerHeight * proz /s.height);
-        }else s.scale.set(window.innerWidth* proz /s.height);
+            s.scale.set(window.innerHeight * cnf.scale /s.height);
+        }else s.scale.set(window.innerWidth * cnf.scale /s.height);
         return s.scale.x
+    }
+
+    static SetTextureOfProz(s: PIXI.Sprite, cnf:any){
+        if(CustomUtils.IsPortret() && cnf.portret && cnf.portret.t){
+            s.texture = PIXI.Texture.from(cnf.portret.t);
+        }else s.texture = PIXI.Texture.from(cnf.t);
     }
 
    

@@ -12,9 +12,14 @@ export class Event {
     public static readonly FITCARD ='eventFITCARD';
     public static readonly PICKUPCARDS ='eventPickUpCards';
     public static readonly PICKUPCARDSEND ='eventPickUpCardsEnd';
+    public static readonly PICKUPCARD_MOB ='PICKUPCARD_MOB';
 
     public static readonly MOVETOEDGE ='eventMoveToEdge';
     public static readonly ROUNDCLOSE ='ROUNDCLOSE';
+    public static readonly ROUNDCLOSE_I ='ROUNDCLOSE_I';
+    public static readonly ROUNDCLOSE_MOB ='ROUNDCLOSE_MOB';
+
+    public static readonly CHECKCARDAND ='CHECKCARDAND';
 
     public static readonly ACTION ='ACTION';
 

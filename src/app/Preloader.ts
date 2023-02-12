@@ -50,6 +50,8 @@ init():Preloader{
         loader.add("winPanel", "./assets/winPanel.png");
 
         loader.add("splash_screen_1", "./assets/splash_screen_1.png");
+        loader.add("sl_screen", "./assets/sl_screen.png");
+
         loader.add("splash_screen_2", "./assets/splash_screen_2.png");
         loader.add("splash_screen_3", "./assets/splash_screen_3.png");
 
@@ -113,7 +115,7 @@ creatPreloader():void{
     this.addChild(sprite);
     }
 
-    const texture = PIXI.Texture.from('splash_screen_1');
+    const texture = PIXI.Texture.from('sl_screen');
     this._sleshScren = new Sprite(texture);
     this._sleshScren.position.set(window.innerWidth*0.5, window.innerHeight*0.5);
     this._sleshScren.scale.set(this._skale);

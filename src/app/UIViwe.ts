@@ -7,6 +7,7 @@ import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 import * as PIXI from 'pixi.js'
+import gsap from 'gsap';
 
 
 export class UIViwe extends Container {
@@ -55,6 +56,15 @@ export class UIViwe extends Container {
         s.anchor.set(cnf.ax,cnf.ay);
         CustomUtils.SetScaleOfProz(s as PIXI.Sprite, cnf.scale);
         CustomUtils.SetScalePositionProz(s,cnf);
+        // gsap.to(s,{
+           
+        //         x:cnf.x+CustomUtils.GetRandomArbitrary(-10,10),
+        //         y:cnf.y+CustomUtils.GetRandomArbitrary(-10,10),
+               
+          
+        //     duration: DataSetting.DefaultDuration,
+        //     repeat:1000,
+        // })
         return s
     }
 
@@ -69,6 +79,7 @@ export class UIViwe extends Container {
         this._helpData.addChild(this._helpClose);
         this._helpData.visible =false
         this.addChild(this._helpData);
+        
     }
 
 
@@ -93,14 +104,17 @@ export class UIViwe extends Container {
     rotationHero(s:Sprite,t:string){
         s.name = t
         this.parent.emit(Event.UI_MENU_OPEN);
-        const sx = s.scale.x;
+        const sx = CustomUtils.SetScaleOfProz(s as PIXI.Sprite, DataSetting.HeroMob.scale);
+
         CustomUtils.GoTo(s.scale,{
-                x:0,
+                x:sx*0.1,
+                delay:0,
                 callbackScope:s,
                 onComplete:()=>{
                     s.texture = PIXI.Texture.from(t);
                     CustomUtils.GoTo(s.scale,{
                         x:sx,
+                        delay:0,
                         callbackScope:s,
                         onComplete:()=>{
                         }})

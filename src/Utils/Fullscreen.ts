@@ -35,9 +35,9 @@ export function requestFullScreen(element: DocumentElementWithFullscreen) {
 
 export function deviceDetect():boolean{
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-     return false
+     return  true
     } else {
-        return true
+        return false
     }
 }
 

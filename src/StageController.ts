@@ -1,14 +1,16 @@
-import { Container, Application, Loader, Sprite, settings, ENV } from 'pixi.js'
+import { Container, Application, Loader, Sprite, settings, ENV, GC_MODES } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { BaseViwe } from './app/BaseViwe';
 import { Cart } from './app/Cart';
+import { DataSetting } from '../src/Utils/DataSetting'
+
 import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';
 
 export class StageController {
 
-    backgroundColor: number = 0x072500;
-    gameWidth: number = 960;
-    gameHeight: number = 540;
+    backgroundColor: number = 0x00000;
+    gameWidth: number = DataSetting.GameWidth;
+    gameHeight: number = DataSetting.GameHeight;
 
     static dragTarget: PIXI.DisplayObject | null = null;
     static app: Application
@@ -20,6 +22,8 @@ export class StageController {
             width: this.gameWidth,
             height: this.gameHeight,
             resizeTo: window,
+            antialias:true,
+            autoDensity:true
         });
         document.body.appendChild(StageController.app.view);
 
@@ -32,9 +36,16 @@ export class StageController {
     }
 
     init(): Application {
-        settings.RESOLUTION = window.devicePixelRatio;
-        settings.PREFER_ENV = ENV.WEBGL_LEGACY;
-        
+        // settings.RESOLUTION = window.devicePixelRatio;
+        // settings.PREFER_ENV = ENV.WEBGL_LEGACY;
+        PIXI.settings.PREFER_ENV = PIXI.ENV.WEBGL2
+        // PIXI.settings.RESOLUTION = 2
+        PIXI.settings.GC_MODE = GC_MODES.AUTO;
+        PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.LINEAR
+        PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT =false
+        PIXI.settings.PREFER_ENV = PIXI.ENV.WEBGL2
+        PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH;
+
         StageController.app.stage.sortableChildren = true;
         StageController.app.stage.interactive = true;
         // StageController.app.stage.hitArea = StageController.app.screen;

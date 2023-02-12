@@ -24,7 +24,7 @@ export class CustomUtils {
     }
 
     static GetScaleCart():number{
-        return   CustomUtils.CartHeight/(window.screen.availHeight - CustomUtils.CartHeight)
+        return   CustomUtils.CartHeight/(window.innerHeight - CustomUtils.CartHeight)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,33 +35,33 @@ export class CustomUtils {
     static ResizeBack(s:PIXI.Sprite): void{
         s.scale.set(1);
         s.anchor.set(0.5);
-        s.angle = window.screen.availWidth < window.screen.availHeight?90:0;
+        s.angle = window.innerWidth< window.innerHeight?90:0;
 
         if(s.width == s.height){
-            if(window.screen.availHeight > window.screen.availWidth){
-                s.scale.set (window.screen.availHeight/ s.height);
-            } else  s.scale.set (window.screen.availWidth / s.width);
+            if(window.innerHeight > window.innerWidth){
+                s.scale.set (window.innerHeight/ s.height);
+            } else  s.scale.set (window.innerWidth/ s.width);
         } else {
-            if(window.screen.availHeight > window.screen.availWidth){
-                s.scale.set (window.screen.availWidth / s.height); 
-            }else s.scale.set (window.screen.availHeight/ s.height);
+            if(window.innerHeight > window.innerWidth){
+                s.scale.set (window.innerWidth/ s.height); 
+            }else s.scale.set (window.innerHeight/ s.height);
         }
-        s.position.set(window.screen.availWidth/2, window.screen.availHeight/2)
+        s.position.set(window.innerWidth/2, window.innerHeight/2)
     }
 
     static ResizePreloader(s: PIXI.Container): PIXI.Container {
-        s.position.set(window.screen.availWidth*0.5, window.outerHeight * 0.5);
+        s.position.set(window.innerWidth*0.5, window.outerHeight * 0.5);
         return CustomUtils.ResizeContainerChildren(s);
     }
 
     static ResizeStock(s:PIXI.Container){
-        s.position.set(window.screen.availWidth * 0.9, window.outerHeight * 0.5);
+        s.position.set(window.innerWidth* 0.9, window.outerHeight * 0.5);
         return CustomUtils.ResizeContainerChildren(s);
     }
 
     static ResizeMyPull(s:PIXI.Container){
         const c = {
-            x:(window.screen.availWidth - s.width) / 2 + s.width / 2,
+            x:(window.innerWidth- s.width) / 2 + s.width / 2,
             y:window.outerHeight  - s.height * 0.2
         }
         CustomUtils.GoTo(s,c);
@@ -70,8 +70,8 @@ export class CustomUtils {
 
     static ResizePullMob(s:PIXI.Container){
         const c = {
-            x:window.screen.availWidth * 0.5,
-            y:window.screen.availHeight * 0.01+ s.height * 0.2
+            x:window.innerWidth* 0.5,
+            y:window.innerHeight * 0.01+ s.height * 0.2
         }
         CustomUtils.GoTo(s,c);
         return CustomUtils.ResizeContainerChildren(s);
@@ -79,8 +79,8 @@ export class CustomUtils {
 
     static ResizeTable(s:PIXI.Container){
         const c = {
-            x:window.screen.availWidth * 0.5,
-            y:window.screen.availHeight * 0.5
+            x:window.innerWidth* 0.5,
+            y:window.innerHeight * 0.5
         }
         CustomUtils.GoTo(s,c);
         return CustomUtils.ResizeContainerChildren(s);
@@ -94,8 +94,8 @@ export class CustomUtils {
     }
 
     static ResizeSprit(s:PIXI.Sprite): number{
-        const sch= window.screen.availHeight/4;
-        const scw = window.screen.availWidth/4;
+        const sch= window.innerHeight/4;
+        const scw = window.innerWidth/4;
         const sc = sch <scw?sch:scw;
         
         s.scale.set(1);
@@ -112,19 +112,19 @@ export class CustomUtils {
     static SetScaleOfProz(s:PIXI.Container | PIXI.Sprite, proz:number):number{
         s.scale.set(1);
         if(CustomUtils.IsPortret()) {
-            s.scale.set(window.screen.availHeight * proz /s.height);
-        }else s.scale.set(window.screen.availWidth * proz /s.height);
+            s.scale.set(window.innerHeight * proz /s.height);
+        }else s.scale.set(window.innerWidth* proz /s.height);
         return s.scale.x
     }
 
     static SetScalePositionProz(s:PIXI.Container, cnf:any){
-        s.position.set(window.screen.availWidth * cnf.x, window.screen.availHeight * cnf.y);
+        s.position.set(window.innerWidth* cnf.x, window.innerHeight * cnf.y);
     }
 
     static GoToProz(s:any,cnf: any){
         const c = {
-            x:cnf.x*window.screen.availWidth,
-            y:cnf.y*window.screen.availHeight,
+            x:cnf.x*window.innerWidth,
+            y:cnf.y*window.innerHeight,
             duration:cnf.duration
         }
         gsap.to(s,c)
@@ -132,7 +132,7 @@ export class CustomUtils {
     }
 
     static IsPortret():boolean{
-       return  window.screen.availHeight > window.screen.availWidth
+       return  window.innerHeight > window.innerWidth
     }
 }
 

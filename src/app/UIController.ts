@@ -1,6 +1,8 @@
 import { Container } from 'pixi.js'
 import { Event } from './Event';
 import { UIViwe } from './UIViwe';
+import { DataSetting } from '../Utils/DataSetting';
+
 import * as PIXI from 'pixi.js'
 
 
@@ -17,7 +19,14 @@ export class UIController extends Container {
         this.on(Event.UI_MENU_OPEN,this.menuOpen);
         this.on(Event.UI_MENU_CLOSE,this.menuClose);
         this.on(Event.UI_RESET,this.reset);
+        this.on(Event.ROUNDCLOSE,this.roundCloseI);
         return this;
+    }
+
+
+    roundCloseI(){
+      DataSetting.WhoseMoveID = 0; 
+      this.parent.emit(Event.ACTION,Event.ROUNDCLOSE);
     }
 
     getCart(){

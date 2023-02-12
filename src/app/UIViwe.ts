@@ -30,7 +30,7 @@ export class UIViwe extends Container {
     }
 
     start(): void {
-        this._winPanel = this.cretHero(this._winPanel,DataSetting.WinPanel);
+        // this._winPanel = this.cretHero(this._winPanel,DataSetting.WinPanel);
         this._heroMy = this.cretHero(this._heroMy,DataSetting.HeroMy,this.clickOnHeroMy.bind(this));
         this._heroMob = this.cretHero(this._heroMy,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
         this._helpClose = this.cretHero(this._helpClose,DataSetting.HelpClose,this.helpClick.bind(this));
@@ -55,7 +55,7 @@ export class UIViwe extends Container {
         s.on('pointerdown', f);
         s.anchor.set(cnf.ax,cnf.ay);
         CustomUtils.SetScaleOfProz(s as PIXI.Sprite, cnf.scale);
-        CustomUtils.SetScalePositionProz(s,cnf);
+        CustomUtils.SetPositionProz(s,cnf);
         // gsap.to(s,{
            
         //         x:cnf.x+CustomUtils.GetRandomArbitrary(-10,10),
@@ -92,7 +92,8 @@ export class UIViwe extends Container {
     clickOnHeroMy(){
         if(this._heroMy.name == DataSetting.HeroMy.t){
             this.rotationHero(this._heroMy,DataSetting.HeroMy.tb)
-        } else  this.rotationHero(this._heroMy,DataSetting.HeroMy.t)
+        } else  this.rotationHero(this._heroMy,DataSetting.HeroMy.t);
+        this.parent.emit(Event.ROUNDCLOSE);
     }
 
     clickOnHeroMob(){
@@ -103,7 +104,7 @@ export class UIViwe extends Container {
 
     rotationHero(s:Sprite,t:string){
         s.name = t
-        this.parent.emit(Event.UI_MENU_OPEN);
+        // this.parent.emit(Event.UI_MENU_OPEN);
         const sx = CustomUtils.SetScaleOfProz(s as PIXI.Sprite, DataSetting.HeroMob.scale);
 
         CustomUtils.GoTo(s.scale,{
@@ -140,8 +141,8 @@ export class UIViwe extends Container {
         CustomUtils.SetScaleOfProz(this._menu as PIXI.Sprite, DataSetting.Menu.scale);
         CustomUtils.GoToProz(this._menu,DataSetting.Menu);
 
-        CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel.scale);
-        CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
+        // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel.scale);
+        // CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
 
         CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy.scale);
         CustomUtils.GoToProz(this._heroMy,DataSetting.HeroMy);

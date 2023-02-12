@@ -2,6 +2,7 @@ import { Sprite, Texture } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
+import { DataSetting } from '../Utils/DataSetting';
 
 export class Cart extends Sprite {
 
@@ -9,8 +10,7 @@ export class Cart extends Sprite {
    private _openDur: number = 0.5 //s
    /** SETING */
 
-    protected _back =  Texture.from('skin_2');
-    protected _cart =  Texture.from('cartBack');
+    protected _back =  Texture.from(DataSetting.Cart.skin);
     public _timeLine!: gsap.core.Timeline;
 
     public _gsap: gsap.core.Tween | null = null;
@@ -18,12 +18,10 @@ export class Cart extends Sprite {
     public value:number = 0;
     public mastW:string = '';
 
-    constructor(texture: Texture, public id: [string,string],f:[string,string]) {
+    constructor(protected _cart: Texture, public id: [string,string],f:[string,string]) {
         super();
         this.texture = this._back;
-        this._cart = texture
         this.mastW = f[0][1];
-
         let w:number = 1;
 
         if(f[0][1]==id[0][1]){

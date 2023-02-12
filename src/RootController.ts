@@ -9,16 +9,17 @@ import { Preloader } from './app/Preloader';
 import { Event } from './app/Event';
 import { gsap } from "gsap";
 import { type } from 'os';
+import { DataSetting } from './Utils/DataSetting';
 
 export class RootController extends Container {
 
 
-   /** SETING */
-   private _startDelay: number = 0.5 //s
+    /** SETING */
+    private _startDelay: number = 0.5 //s
 
 
 
-   /** SETING */
+    /** SETING */
 
 
     private _preloader: Preloader = {} as Preloader
@@ -26,37 +27,44 @@ export class RootController extends Container {
     private _viwe: BaseViwe = {} as BaseViwe;
     private _UIviwe: UIViwe = {} as UIViwe;
     private _UIcontroller: UIController = {} as UIController;
-    private _cardsTexture: Array<[string,string]> = [];
+    private _cardsTexture: Array<[string, string]> = [];
     private _data: any;
 
 
     constructor(private _app: Application) {
         super();
         this.name = this.constructor.name;
-        this.on(Event.PRELOADERCOMPLETE,this.gameStart);
-        this.on(Event.LOADGAMESTART,this.loadGameStart);
+        _app.stage.addChild(this);
+
+        this.on(Event.PRELOADERCOMPLETE, this.gameStart);
+        this.on(Event.LOADGAMESTART, this.loadGameStart);
+        this.on(Event.ACTION, this.anyEction);
+        this.on(Event.PICKUPCARDS, this.anyEction);
+        this.on(Event.PICKUPCARDSEND, this.anyEction);
+
+
 
     }
 
 
     init(): void {
         this._preloader = new Preloader(this).init();
-
+        this.addChild(this._preloader);
 
         this._viwe = new BaseViwe();
         this._controller = new BaseController(this._viwe).init();
-        this._app.stage.addChild(this._controller);
+        this.addChild(this._controller);
 
         this._UIviwe = new UIViwe();
         this._UIcontroller = new UIController(this._UIviwe).init();
-        this._app.stage.addChild(this._UIcontroller);
+        this.addChild(this._UIcontroller);
     }
 
     //** Loaded asset *****************************************/
     //    Start                                               //
     //*********************************************************/
 
-    loadGameStart(){
+    loadGameStart() {
         this._data = new MessageMeneger(this).init();
     }
 
@@ -68,7 +76,7 @@ export class RootController extends Container {
 
             for (let i = 0; i < cards.length; i++) {
                 loader.add(cards[i].code, cards[i].image);
-                this._cardsTexture.push([cards[i].code,cards[i].value]);
+                this._cardsTexture.push([cards[i].code, cards[i].value]);
                 // this._cardsTexture.push('eeer');
             }
 
@@ -77,7 +85,8 @@ export class RootController extends Container {
             });
 
             loader.onProgress.once((e: any) => {
-                //    console.log(e.progress);           
+                console.log(e.progress);
+                //    this._preloader.onProgress()          
             });
 
             loader.onError.once(() => {
@@ -89,10 +98,10 @@ export class RootController extends Container {
     }
 
     onCompleteloadGameAssets(): void {
-        gsap.to(this,{
-            delay:this._startDelay,
-            callbackScope:this,
-            onComplete:()=>{
+        gsap.to(this, {
+            delay: this._startDelay,
+            callbackScope: this,
+            onComplete: () => {
                 this._preloader.highPreLoader();
             }
         })
@@ -103,19 +112,39 @@ export class RootController extends Container {
     //*********************************************************/
 
 
-    gameStart(){
-        gsap.to(this,{
-            delay:this._startDelay,
-            callbackScope:this,
-            onComplete:()=>{
+    gameStart() {
+        gsap.to(this, {
+            delay: this._startDelay,
+            callbackScope: this,
+            onComplete: () => {
                 this._UIviwe.start();
                 this._viwe.start(10, this._cardsTexture);
             }
         })
     }
+
+
+    anyEction(actoin: string) {
+        debugger
+        switch (actoin) {
+            case Event.ROUNDCLOSE:
+                DataSetting.WhoseMoveID = 0;
+                this._controller.myCartToEdge()
+                break;
+            case Event.PICKUPCARDS:
+                // this._controller.pickUpCards()
+                break;
+            case Event.PICKUPCARDSEND:
+                // this._controller.pickUpCards()
+                break;
+            default:
+                break;
+        }
+
+    }
 }
 
 type CartType = {
-    texture:string,
-    id:string
+    texture: string,
+    id: string
 }

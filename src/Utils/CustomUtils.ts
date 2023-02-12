@@ -31,11 +31,13 @@ export class CustomUtils {
     /**                       ReSize VALUE                                                                        */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    static SetAngle(s:PIXI.Container | PIXI.Sprite){
+        s.angle = window.innerWidth< window.innerHeight?90:0;
+    }
     static ResizeBack(s:PIXI.Sprite): void{
         s.scale.set(1);
         s.anchor.set(0.5);
-        s.angle = window.innerWidth< window.innerHeight?90:0;
+        CustomUtils.SetAngle(s);
 
         if(s.width == s.height){
             if(window.innerHeight > window.innerWidth){
@@ -109,7 +111,7 @@ export class CustomUtils {
         return s
     }
 
-    static SetScaleOfProz(s:PIXI.Container | PIXI.Sprite, proz:number):number{
+    static SetScaleOfProz(s: PIXI.Sprite, proz:number):number{
         s.scale.set(1);
         if(CustomUtils.IsPortret()) {
             s.scale.set(window.innerHeight * proz /s.height);
@@ -117,8 +119,12 @@ export class CustomUtils {
         return s.scale.x
     }
 
-    static SetScalePositionProz(s:PIXI.Container, cnf:any){
-        s.position.set(window.innerWidth* cnf.x, window.innerHeight * cnf.y);
+   
+
+    static SetPositionProz(s:PIXI.Container, cnf:any){
+        if(cnf.portret && CustomUtils.IsPortret()){
+            s.position.set(window.innerWidth* cnf.portret.x, window.innerHeight * cnf.portret.y);
+        } else s.position.set(window.innerWidth* cnf.x, window.innerHeight * cnf.y);
     }
 
     static GoToProz(s:any,cnf: any){

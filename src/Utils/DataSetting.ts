@@ -15,9 +15,28 @@ export class DataSetting {
     static DefaultDeley:number = 0.5;    // in [s]
     static DefaultDuration:number = 0.5  // in [s]
 
+    
+    static WhoseMoveID: number = 2;
+    static WhoseLoseID: number = 2;
 
-    // static MemuBtnHeight = 0.2        // [%] of Height screen
-    // static WinPanelHeight = 0.1        // [%] of Height screen
+
+
+
+
+
+    static Cart  = {
+        skin:'skin_2'
+    }
+
+    static Progress = {
+        x:0.37,
+        y:0.9,
+        scale:0.38,
+        portret:{
+            x:0.1,
+            y:0.35,
+        }
+    }
 
     static Menu = {t:'menu',x:0.07,y:0.88,ax:0.5,ay:0.5,scale:0.2,duration:DataSetting.DefaultDuration}
     static WinPanel = {t:'winPanel',x:0,y:0,ax:0,ay:0,scale:0.1,duration:DataSetting.DefaultDuration}

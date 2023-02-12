@@ -5,24 +5,24 @@ import * as PIXI from 'pixi.js'
 
 
 export class BaseController extends Container {
-    
-    constructor(private _viwe:BaseViwe) {
+
+    constructor(private _viwe: BaseViwe) {
         super();
         this.name = this.constructor.name;
         this.addChild(_viwe);
     }
 
-    public roundLoasePlayrId:number = 0;
+    public roundLoasePlayrId: number = 0;
 
 
     init(): BaseController {
         this.on(Event.GAMEOVER, this.gameOveerMessage);
         this.on(Event.YOUWIN, this.winMessage);
-        this.on(Event.FITCARD,this.fitCard);
-        this.on(Event.PICKUPCARDS,this.pickUpCards);
-        this.on(Event.MYCARTONTABLE,this.myCartOnTable);
-        this.on(Event.PICKUPCARDSEND,this.pickUpCardsEnd);
-        this.on(Event.MOVETOEDGE,this.myCartToEdge);
+        this.on(Event.FITCARD, this.fitCard);
+        this.on(Event.PICKUPCARDS, this.pickUpCards);
+        this.on(Event.MYCARTONTABLE, this.myCartOnTable);
+        this.on(Event.PICKUPCARDSEND, this.pickUpCardsEnd);
+        this.on(Event.MOVETOEDGE, this.myCartToEdge);
         return this;
 
     }
@@ -32,11 +32,11 @@ export class BaseController extends Container {
     /**                       SET VALUE                                                                        */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    setInteractive(s:Container, f:boolean):void{
+    setInteractive(s: Container, f: boolean): void {
         s.interactiveChildren = f;
     }
 
-    setRoundLoase(i:number){
+    setRoundLoase(i: number) {
         this.roundLoasePlayrId = i;
     }
 
@@ -45,50 +45,52 @@ export class BaseController extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    fitCard(){
-        this.setInteractive(this._viwe.get_cartPull(),true);
+    fitCard() {
+        this.setInteractive(this._viwe.get_cartPull(), true);
         this._viwe.checkWin();
     }
 
-    pickUpCards(){
-        this.setInteractive(this._viwe.get_cartPull(),true);
+    pickUpCards() {
+        this.parent.emit(Event.PICKUPCARDS,Event.PICKUPCARDS)
+        this.setInteractive(this._viwe.get_cartPull(), true);
         this._viwe.pickUpCards(this.roundLoasePlayrId);
     }
 
-    pickUpCardsEnd(){
-       this.endRound();
-    }
-
-    myCartOnTable(){
-        this.setInteractive(this._viwe.get_cartPull(),false);
-        this._viwe.get_cartPull().interactive = false;
-    }
-
-    myCartToEdge(){
+    pickUpCardsEnd() {
+        this.parent.emit(Event.PICKUPCARDSEND, Event.PICKUPCARDSEND)
         this.endRound();
     }
 
-    endRound(){
+    myCartOnTable() {
+        this.setInteractive(this._viwe.get_cartPull(), false);
+        this._viwe.get_cartPull().interactive = false;
+    }
+
+    myCartToEdge() {
+        this.endRound();
+    }
+
+    endRound() {
         this._viwe.endRound();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       MESSEGE                                                                        */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
 
     startGame(): void {
     }
 
-    gameOveerMessage(view: BaseViwe): void {        
+    gameOveerMessage(view: BaseViwe): void {
         view.endMasege('game over');
     }
 
-    winMessage(view: BaseViwe): void {        
+    winMessage(view: BaseViwe): void {
         view.endMasege('You Win');
     }
 
-  
 
-   
+
+
 }

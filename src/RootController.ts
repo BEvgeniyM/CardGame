@@ -29,6 +29,7 @@ export class RootController extends Container {
     private _UIcontroller: UIController = {} as UIController;
     private _cardsTexture: Array<[string, string]> = [];
     private _data: any;
+    private _chengeWhoseMoveID: boolean = false;
 
 
     constructor(private _app: Application) {
@@ -125,34 +126,35 @@ export class RootController extends Container {
 
 
     anyEction(actoin: string) {
-        debugger
+        
         switch (actoin) {
             case Event.ROUNDCLOSE_I:
-                DataSetting.WhoseMoveID = 2;
-                this._controller.myCartToEdge();
-                this._controller.endRound();
+                debugger
+                this._controller.emit(Event.ACTION,Event.ROUNDCLOSE_I);
+                // this.chengeWhoseMoveID(2);
                 break;
 
             case Event.ROUNDCLOSE_MOB:
-                DataSetting.WhoseMoveID = 1;
-                // this._controller.myCartToEdge();
-                // this._controller.endRound();
-
+                // this.chengeWhoseMoveID(1);
+                // this._controller.emit(Event.ACTION,Event.ROUNDCLOSE_MOB);
+                debugger
                 break
             case Event.ROUNDCLOSE:
-                // DataSetting.WhoseMoveID = 0;
-                this._controller.myCartToEdge();
-                this._controller.endRound();
+                debugger
                 break;
             case Event.PICKUPCARDS:
                 debugger
                 break;
             case Event.PICKUPCARDSEND:
                 debugger
-                // this._controller.pickUpCards()
                 break;
             case Event.CHECKCARDAND:
+                debugger
                 this.preperNewRound();
+                break;
+
+            case Event.MYCARTONTABLE:
+                debugger
                 break;
             default:
                 break;
@@ -160,13 +162,32 @@ export class RootController extends Container {
 
     }
 
+  
+  
+
     preperNewRound() {
-        this._UIcontroller.preperNewRound()
-        this._controller.preperNewRound()
+        if (this._chengeWhoseMoveID) {
+            this._UIcontroller.preperNewRound();
+        }
+
+        this._controller.preperNewRound();
+        this._chengeWhoseMoveID = false;
     }
+
+
+    chengeWhoseMoveID(f: number):boolean {
+        if (f != DataSetting.WhoseMoveID) {
+            this._chengeWhoseMoveID = true;
+            DataSetting.WhoseMoveID = f;
+            return true
+        }
+        return false
+    }
+
 
     firastRound() {
         this._UIcontroller.firastRound();
+        this._controller.firastRound();
     }
 
 }

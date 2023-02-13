@@ -19,6 +19,7 @@ export class BaseViwe extends Container {
     private _mobPull: Container = new Container();
     private _table: Container = new Container();
     private _mylastCart: Cart = {} as Cart;
+    private _moblastCart: Cart = {} as Cart;
 
 
     private _pullCount: number = 0;
@@ -138,7 +139,7 @@ export class BaseViwe extends Container {
         }
 
         this.majorMastOpen(this._cartStock.children[0] as Cart);
-        this.endRound();
+        // this.endRound();
 
         return this;
     }
@@ -201,64 +202,17 @@ export class BaseViwe extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    mobFite(){
-        this.mobMoveCartToTable(this._mobPull, this._mobPull.children[0] as Cart);
-    }
-
-    checkCart(s: PIXI.Container): boolean {
-
-        for (let i = 0; i < this._mobPull.children.length; i++) {
-            const cart = this._mobPull.children[i] as Cart;
-
-            if (this._mylastCart.id[0][1] == cart.id[0][1] && this._mylastCart.value < cart.value) {
-                this.mobMoveCartToTable(s, cart);
-                return true
-            }
-        }
-
-        for (let i = 0; i < this._mobPull.children.length; i++) {
-            const cart = this._mobPull.children[i] as Cart;
-
-            if (cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value) {
-                this.mobMoveCartToTable(s, cart);
-                return true
-            }
-        }
-
-        gsap.to(this, {
-            delay: DataSetting.DefaultDeley,
-            callbackScope: this,
-            onComplete: () => {
-                this.checkWin();
-                this._parent.setRoundLoase(2);
-                // this._parent.emit(Event.PICKUPCARDS);
-                this._parent.emit(Event.PICKUPCARD_MOB);
-            }
-        })
-        return false
+    mobFite() {
+        // this._moblastCart = this._mobPull.children[0] as Cart
+        // this.mobMoveCartToTable(this._mobPull, this._mobPull.children[0] as Cart);
     }
 
 
-    checkPossibleToPutCard(): boolean {
-        const cartPossibleArray: Array<string> = [];
-        if (!this._table.children.length) {
-            return true
-        }
-        for (let i = 0; i < this._table.children.length; i++) {
-            const cart = this._table.children[i] as Cart;
 
-            if (cart.id[0][1] == this._mylastCart.id[0][1] || this._mylastCart.id[0][1] == this._mylastCart.mastW) {
-                return true
-            }
-        }
-        return false
-    }
+
+
     // const response = await fetch('https://api.github.com/users/sitepen'); 
 
-
-    moveToTableMob() {
-        this.checkCart(this._mobPull);
-    }
 
     rotetStock(s: PIXI.Container) {
         const a = s.name == '_mobPull' ? -90 : 90;
@@ -281,63 +235,15 @@ export class BaseViwe extends Container {
 
 
     pickUpCards(id: number) {
-        while (this._table.children.length != 0) {
-            if (!this._table.children[0]) {
-                return
-            }
-            const cart = this.getCart(this._table)
-            cart.anchor.set(0.5);
-
-            if (this.myorMod(id)) {
-                cart.on('pointerdown', this.moveToTable, this);
-                this.moveCartTo(this._cartPull, cart, this.angleCal(this._cartPull.children.length), true)
-            } else {
-                cart.cloasCart();
-                cart.off('pointerdown', this.moveToTable, this);
-                this.moveCartTo(this._mobPull, cart, this.angleCal(this._mobPull.children.length), false)
-            }
-        }
-
-        gsap.to(this, {
-            delay: this._table.children.length * this._delayNewCart + DataSetting.DefaultDuration,
-            onComplete: () => {
-                this.parent.emit(Event.PICKUPCARDSEND);
-            }
-        })
+       
     }
 
 
-    endRound() {
-        this.checkCountCart(this._mobPull, false);
-        this.checkCountCart(this._cartPull, true);
-        
-        gsap.to(this, {
-            delay: DataSetting.DefaultDeley * 6,
-            onComplete: () => {
-                this.parent.emit(Event.CHECKCARDAND);
-            }
-        })
 
-    }
-    checkCountCart(s: Container, open: boolean) {
-        let c = 0;
-        if (s.children.length < 6) {
-            c = 6 - s.children.length
-            for (let i = 0; i < c; i++) {
-                gsap.to(this, {
-                    delay: DataSetting.DefaultDeley * i,
-                    onComplete: () => {
-                        this.moveCartTo(s, this.getCart(this._cartStock), this.angleCal(s.children.length), open);
-                    }
-                })
-            }
-        }
+    // checkEndRound() {
 
-    }
-    checkEndRound() {
-        
-    }
-    
+    // }
+
     cartToContener(s: Container, cart: Cart) {
         cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
         this._cartStock.removeChild(cart);
@@ -348,105 +254,18 @@ export class BaseViwe extends Container {
 
         this.addChild(cart);
     }
-    moveCartTo(s: Container, cart: Cart, angle: number, open: boolean) {
-        this.cartToContener(s, cart);
 
-        gsap.to(cart, {
-            x: s.x,
-            angle: angle,
-            y: s.y,
-            callbackScope: this,
-            delay: this._delayNewCart,
-            onCompleteParams: [cart],
-            duration: DataSetting.DefaultDuration,
-            onComplete: () => {
-                cart.position.set(0, 0);
-                this.removeChild(cart)
-                s.addChild(cart);
-                this.rotetStock(s);
+    // moveCartTo(s: Container, cart: Cart, angle: number, open: boolean) {
+    // }
+    // mobMoveCartToTable(s: Container, cart: Cart) {
+    // }
 
-                CustomUtils.GoTo(s, { angle: s.angle - this._angle, duration: 2 });
-                // CustomUtils.GoTo(cart.pivot,{x:cart.width/2,y:cart.height*1.2,duration:2});
-
-                if (open) {
-                    cart.openCart();
-                    cart.on('pointerdown', this.moveToTable, this)
-                }
-                this.resizeCanvas();
-            }
-        })
-    }
-    mobMoveCartToTable(s: Container, cart: Cart) {
-        cart.openCart();
-        this.setZindeCart(cart);
-        this.cartToContener(s, cart);
-
-        gsap.to(cart, {
-            angle: CustomUtils.GetRandomArbitrary(-7, 7),
-            x: this._table.x,
-            y: this._table.y + CustomUtils.GetRandomArbitrary(-5, 5),
-            direction: DataSetting.DefaultDuration,
-            onComplete: () => {
-                cart.position.set(0, 0)
-                this._topCont.removeChild(cart);
-                this._table.addChild(cart);
-                this._parent.emit(Event.FITCARD);
-            }
-        })
-    }
-    moveToTable(e: any) {
-        const cart = e.currentTarget;
-        this._mylastCart = cart;
-
-        if (!this.checkPossibleToPutCard()) {
-            const p = cart.y
-            const z = cart.zIndex
-            cart.zIndex = 1000
-            gsap.to(cart, {
-                y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
-                direction: DataSetting.DefaultDuration,
-                callbackScope: this,
-                onComplete: () => {
-                    gsap.to(cart, {
-                        y: p,
-                        direction: DataSetting.DefaultDuration,
-                        onComplete: () => {
-                            cart.zIndex = z;
-                        }
-                    })
-                }
-            })
-            return false
-        }
-
-        this.parent.emit(Event.MYCARTONTABLE);
-        e.currentTarget.anchor.set(0.5);
-
-
-
-        cart.position.set(e.currentTarget.getGlobalPosition().x, e.currentTarget.getGlobalPosition().y);
-        this._cartPull.removeChild(cart);
-        this._topCont.addChild(cart);
-
-        this.setZindeCart(cart);
-
-
-        gsap.to(cart, {
-            angle: CustomUtils.GetRandomArbitrary(-7, 7),
-            x: this._table.x,
-            y: this._table.y + CustomUtils.GetRandomArbitrary(-5, 5),
-            direction: DataSetting.DefaultDuration,
-            callbackScope: this,
-            onComplete: () => {
-                cart.position.set(0, 0);
-                this._topCont.removeChild(cart);
-                this._table.addChild(cart);
-                this.moveToTableMob();
-            }
-        })
-    }
     cartToEdge() {
-        // this.parent.emit(Event.MOVETOEDGE);
+        const g = gsap.timeline({
+            onComplete: () => {
+                this._parent.emit(Event.ACTION, Event.PICKUPCARDSEND);
+            }
+        })
 
         while (this._table.children.length != 0) {
             if (!this._table.children[0]) {
@@ -460,20 +279,17 @@ export class BaseViwe extends Container {
             this._table.removeChild(cart);
             this.addChild(cart);
 
-            gsap.to(cart, {
+            g.to(cart, {
                 angle: 0 + CustomUtils.GetRandomArbitrary(-120, 120),
                 x: CustomUtils.GetRandomArbitrary(0, window.screen.availWidth * 0.2),
                 y: CustomUtils.GetRandomArbitrary(window.screen.availHeight * 0.3, window.screen.availHeight * 0.7),
                 delay: CustomUtils.GetRandomArbitrary(0, 0.25),
                 duration: DataSetting.DefaultDuration,
                 callbackScope: this,
-
-                onComplete: () => {
-                    this.rotetStock(this._cartPull);
-                    this.rotetStock(this._mobPull);
-                }
-            })
+            }, '<')
         }
+
+
     }
 
 
@@ -556,6 +372,245 @@ export class BaseViwe extends Container {
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    preperatCart(cart: Cart) {
+        cart.anchor.set(0.5);
+        cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
+        this._cartPull.removeChild(cart);
+        this._mobPull.removeChild(cart);
+        this._topCont.addChild(cart);
+    }
+    animaLittleMove(cart: Cart) {
+        const p = cart.y;
+        const z = cart.zIndex;
+        cart.zIndex = 1000
+        gsap.to(cart, {
+            y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
+            direction: DataSetting.DefaultDuration,
+            callbackScope: this,
+            onComplete: () => {
+                gsap.to(cart, {
+                    y: p,
+                    direction: DataSetting.DefaultDuration,
+                    onComplete: () => {
+                        cart.zIndex = z;
+                    }
+                })
+            }
+        })
+    }
+    animaCartMove(cart: Cart, s: Container, t: Container, e: any, g?: any) {
+        const gg = g ? g : gsap;
+        gg.to(cart, {
+            angle: CustomUtils.GetRandomArbitrary(-7, 7),
+            x: t.x,
+            y: t.y + CustomUtils.GetRandomArbitrary(-5, 5),
+            direction: DataSetting.DefaultDuration,
+            callbackScope: this,
+            onComplete: () => {
+                cart.position.set(0, 0);
+                this._topCont.removeChild(cart);
+                t.addChild(cart);
+                this.parent.emit(Event.ACTION, e);
+            }
+        })
+    }
+    cardTo(cart: Cart, s: Container, t: Container, e: string, g?: any) {
+        this._mylastCart = cart;
+        DataSetting.MylastCart = cart
+
+        if (!this.checkPossibleToPutCard()) {
+            this.animaLittleMove(cart);
+            return false;
+        }
+
+        this.preperatCart(cart);
+        this.setZindeCart(cart);
+        this.animaCartMove(cart, s, t, e, g);
+
+    }
+
+    ImoveToTable(e: any) {
+        const cart = e.currentTarget;
+        e.currentTarget = null;
+        if (DataSetting.WhoseMoveID != DataSetting.My_ID) {
+            this.cardTo(cart, this._cartPull, this._table, Event.MYCARTONTABLE);
+            cart.off('pointerdown', this.ImoveToTable, this);
+        } else if (this.checkPossibleToTableCard(cart)) {
+            cart.off('pointerdown', this.ImoveToTable, this);
+            this.cardTo(cart, this._cartPull, this._table, Event.IFITECARTONTABLE);
+        } else this.animaLittleMove(cart);
+    }
+
+    MobmoveToTable() {
+        for (let i = 0; i < this._mobPull.children.length; i++) {
+            const cart = this._mobPull.children[i] as Cart;
+            if (this.checkPossibleToTableCard(cart)) {
+                cart.openCart();
+                this._mobPull.children[0] && this.cardTo(cart, this._mobPull, this._table, Event.MOBCARTONTABLE);
+                return true
+            }
+            this.animaLittleMove(cart);
+        }
+
+        this._parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB)
+        return false;
+    }
+
+
+    mobPickUpCart() {
+        this.pickUpCart(this._mobPull);
+    }
+
+    i_PickUpCart() {
+        this.pickUpCart(this._cartPull);
+    }
+
+    pickUpCart(s: Container) {
+        const g = gsap.timeline({
+            onComplete: () => {
+                this.rotetStock(this._mobPull);
+                this.rotetStock(this._cartPull);
+                this.parent.emit(Event.ACTION, Event.PICKUPCARDSEND);
+            }
+        })
+
+        const c = this._table.children.length;
+        for (let i = 0; i < c; i++) {
+            const cart = this._table.children[0] as Cart;
+            this.cardTo(cart, this._table, s, 'iiii', g);
+            cart.cloasCart();
+        }
+    }
+
+
+    cardToMob() {
+        for (let i = 0; i < this._mobPull.children.length; i++) {
+            const c = this._mobPull.children[i] as Cart;
+            if (this.checkPossibleToTableCard(c)) {
+                this.cardTo(c, this._mobPull, this._table, Event.MYCARTONTABLE);
+                return
+            }
+        }
+    }
+
+
+
+    chekTopCartOnTableFite(cart: Cart): boolean {
+        const l = this._table.children.length - 1;
+        const topCart = this._table.children[l] as Cart;
+        if (topCart.id[0][1] == cart.id[0][1] && topCart.value < cart.value) {
+            return true
+        } else if (cart.mastW == cart.id[0][1] && topCart.value < cart.value) {
+            return true
+        }
+        return false
+    }
+
+    checkPossibleToTableCard(c: Cart): boolean {
+        if (!this._table.children.length) {
+            return true
+        }
+        for (let i = 0; i < this._table.children.length; i++) {
+            const cart = this._table.children[i] as Cart;
+
+            if (cart.id[0][1] == c.id[0][1] && cart.value < c.value) {
+                return true
+            } else if (c.mastW == c.id[0][1] && cart.value < c.value) {
+                return true
+            }
+        }
+        return false
+    }
+    checkPossibleToPutCard(): boolean {
+        if (!this._table.children.length) {
+            return true
+        }
+        for (let i = 0; i < this._table.children.length; i++) {
+            const cart = this._table.children[i] as Cart;
+
+
+            if (cart.id[0][1] == this._mylastCart.id[0][1] || this._mylastCart.id[0][1] == this._mylastCart.mastW) {
+                return true
+            }
+        }
+        return false
+    }
+    mobTryingFiteCartOnTable() {
+        this.mobFiteCart(this._mobPull);
+    }
+    mobFiteCart(s: PIXI.Container): boolean {
+        this._mylastCart = this._table.children[this._table.children.length - 1] as Cart;
+        for (let i = 0; i < this._mobPull.children.length; i++) {
+            const cart = this._mobPull.children[i] as Cart;
+
+            if (this._mylastCart.id[0][1] == cart.id[0][1] && this._mylastCart.value < cart.value) {
+                this.cardTo(cart, this._mobPull, this._table, Event.MOBFITECARTONTABLE);
+                cart.openCart();
+                return true
+            }
+        }
+
+        for (let i = 0; i < this._mobPull.children.length; i++) {
+            const cart = this._mobPull.children[i] as Cart;
+
+            if (cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value) {
+                this.cardTo(cart, this._mobPull, this._table, Event.MOBFITECARTONTABLE);
+                cart.openCart();
+                return true
+            }
+        }
+
+        gsap.to(this, {
+            delay: DataSetting.DefaultDeley,
+            callbackScope: this,
+            onComplete: () => {
+                this.checkWin();
+                this._parent.setRoundLoase(2);
+                this._parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
+            }
+        })
+        return false
+    }
+
+    endRound() {
+        const g = gsap.timeline({
+            onComplete: () => {
+                this.rotetStock(this._mobPull);
+                this.rotetStock(this._cartPull);
+                this.parent.emit(Event.ACTION, Event.ROUNDEND);
+            }
+        })
+        this.checkCountCart(g, this._mobPull, "uuuu");
+        this.checkCountCart(g, this._cartPull, 'uuuu');
+    }
+
+    checkCountCart(g: any, t: Container, e: string) {
+        let c = 0;
+        if (t.children.length < 6) {
+            c = 6 - t.children.length
+            for (let i = 0; i < c; i++) {
+                g.to(this, {
+                    // delay: DataSetting.DefaultDeley * i,
+                    onComplete: () => {
+                        this.cardTo(this.getCart(this._cartStock), this._cartStock, t, e, g);
+                    }
+                }, '<')
+            }
+        }
+
+    }
+
+
+
+    openCartMy() {
+        for (let i = 0; i < this._cartPull.children.length; i++) {
+            const cart = this._cartPull.children[i] as Cart
+            cart.openCart();
+            cart.on('pointerdown', this.ImoveToTable, this);
+        }
+    }
 
 
 }

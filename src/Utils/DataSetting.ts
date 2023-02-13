@@ -2,6 +2,7 @@ import { Container } from 'pixi.js'
 import { Event } from '../app/Event';
 import { BaseViwe } from '../app/BaseViwe';
 import * as PIXI from 'pixi.js'
+import { Cart } from '../app/Cart';
 
 
 
@@ -17,7 +18,11 @@ export class DataSetting {
 
     
     static WhoseMoveID: number = 1;
-    static WhoseLoseID: number = 2;
+    static WhoseFiteID: number = 1;
+
+    static My_ID: number = 2;
+    static MylastCart: Cart = {} as Cart;
+    static MoBlastCart: Cart = {} as Cart;
 
 
 

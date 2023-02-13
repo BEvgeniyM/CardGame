@@ -167,7 +167,7 @@ export class UIViwe extends Container {
         // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel);
         // CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
 
-        debugger
+        
         CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy);
         CustomUtils.GoToProz(this._heroMy,DataSetting.HeroMy);
 

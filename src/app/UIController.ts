@@ -2,6 +2,7 @@ import { Container } from 'pixi.js'
 import { Event } from './Event';
 import { UIViwe } from './UIViwe';
 import { DataSetting } from '../Utils/DataSetting';
+import gsap from 'gsap';
 
 import * as PIXI from 'pixi.js'
 
@@ -25,7 +26,7 @@ export class UIController extends Container {
 
 
     roundCloseI(){
-      DataSetting.WhoseMoveID = 2;
+    //   DataSetting.WhoseMoveID = 2;
       this.parent.emit(Event.ACTION,Event.ROUNDCLOSE_I);
     }
 
@@ -48,10 +49,21 @@ export class UIController extends Container {
     preperNewRound(){
         if(DataSetting.WhoseMoveID == 2){
             this._viwe.ectionOnHeroMy(false);
-            this._viwe.ectionOnHeroMob(true);
+            gsap.to(this,{
+             delay:DataSetting.DefaultDeley,
+             onComplete:()=>{
+                this._viwe.ectionOnHeroMob(true);
+             }
+            })
+         
         } else{
-            this._viwe.ectionOnHeroMy(true);
             this._viwe.ectionOnHeroMob(false);
+            gsap.to(this,{
+                delay:DataSetting.DefaultDeley,
+                onComplete:()=>{
+                    this._viwe.ectionOnHeroMy(true);
+                }
+               })
         }
     }
 

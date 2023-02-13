@@ -7,12 +7,19 @@ export class Event {
     public static readonly LOADGAMESTART ='eventLoadCartStart';
     public static readonly PRELOADERCOMPLETE ='eventPreLoaderComplete';
     public static readonly MOVEFROMTABLE ='eventMoveFromTable';
-    public static readonly MYCARTONTABLE ='eventMyCartOnTable';
+
+    public static readonly MYCARTONTABLE ='MYCARTONTABLE';
+    public static readonly MOBCARTONTABLE ='MOBCARTONTABLE';
+    public static readonly IFITECARTONTABLE ='IFITECARTONTABLE';
+    public static readonly MOBFITECARTONTABLE ='MOBFITECARTONTABLE';
+    public static readonly IPICKUPCART ='IPICKUPCART';
+    public static readonly MOBPICKUPCART ='MOBPICKUPCART';
 
     public static readonly FITCARD ='eventFITCARD';
     public static readonly PICKUPCARDS ='eventPickUpCards';
-    public static readonly PICKUPCARDSEND ='eventPickUpCardsEnd';
+    public static readonly PICKUPCARDSEND ='PICKUPCARDSEND';
     public static readonly PICKUPCARD_MOB ='PICKUPCARD_MOB';
+    public static readonly ROUNDEND ='ROUNDEND';
 
     public static readonly MOVETOEDGE ='eventMoveToEdge';
     public static readonly ROUNDCLOSE ='ROUNDCLOSE';
@@ -33,6 +40,7 @@ export class Event {
     public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
 
 
+    
     
 
 

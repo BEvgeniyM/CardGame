@@ -115,6 +115,10 @@ export class UIViwe extends Container {
         } else  this.rotationHero(s,cnf.tb);
     }
 
+    lockBtn(f:boolean):void{
+      this.interactiveChildren = f;
+    }
+
 
     rotationHero(s:Sprite,t:string){
         s.name = t

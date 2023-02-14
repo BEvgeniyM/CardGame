@@ -31,15 +31,18 @@ export class UIController extends Container {
         switch (action) {
             case Event.ROUNDCLOSE_I:
                 this.parent.emit(Event.ACTION, Event.ROUNDCLOSE_I);
+                this._viwe.lockBtn(false);
                 this._viwe.ectionOnHeroMy(false);
                 this._viwe.ectionOnHeroMob(true);
                 break;
-            case Event.ROUNDLOES_I:
-             
-                break;
-            case Event.ROUNDCLOSE_MOB:
+            case Event.ROUNDCLOSE_MOB:  
+                this._viwe.lockBtn(false);
                 this._viwe.ectionOnHeroMy(true);
                 this._viwe.ectionOnHeroMob(false);
+                break;
+            case Event.ROUNDCLOSE:
+                debugger
+                this._viwe.lockBtn(true);
                 break;
         }
     }
@@ -66,6 +69,8 @@ export class UIController extends Container {
     }
 
     preperNewRound() {
+        debugger
+        this._viwe.lockBtn(true);
         if (DataSetting.WhoseMoveID == 2) {
             this._viwe.ectionOnHeroMy(false);
             gsap.to(this, {
@@ -87,7 +92,9 @@ export class UIController extends Container {
     }
 
     firastRound() {
-        // this._viwe.ectionOnHeroMob(false);
+        this._viwe.lockBtn(false);
+        this._viwe.ectionOnHeroMy(true);
+        this._viwe.ectionOnHeroMob(false);
     }
 
 }

@@ -39,7 +39,7 @@ export class BaseController extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     action(action: string) {
-        // debugger
+        debugger
         switch (action) {
             case Event.MYCARTONTABLE:
                 this.checkEction();
@@ -61,6 +61,7 @@ export class BaseController extends Container {
 
 
             case Event.ROUNDCLOSE_I:
+                this.parent.emit(Event.ACTION, Event.LOCKBTN);
                 if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
                     this._viwe.i_PickUpCart();
                 } else {
@@ -70,6 +71,7 @@ export class BaseController extends Container {
                 this.chengeWhoseLosePreRoundID(2);
                 break;
             case Event.ROUNDCLOSE_MOB:
+                this.parent.emit(Event.ACTION, Event.LOCKBTN);
                 this.parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
                 if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
                     this._viwe.cartToEdge();

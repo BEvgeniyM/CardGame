@@ -96,7 +96,7 @@ export class BaseViwe extends Container {
         return this._table
     }
 
-    addbackground() {
+    addbackground(): void {
         this._back = Cart.SpriteCreat(this, 'table_4', 1);
         const c = {
             x: window.screen.availWidth / 2,
@@ -144,7 +144,7 @@ export class BaseViwe extends Container {
         return this;
     }
 
-    majorMastOpen(cart: Cart) {
+    majorMastOpen(cart: Cart): void {
         const c = {
             x: -cart.height * 0.5,
             angle: -90,
@@ -156,11 +156,12 @@ export class BaseViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       CALC                                                                              */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     getCart(s?: any): Cart {
         return s.children?.pop() as Cart;
     }
 
-    angleCal(count: number = this._pullCount) {
+    angleCal(count: number = this._pullCount): number {
         let angle: number = count * this._angle - 75;
 
         if (angle >= 75) {
@@ -187,7 +188,7 @@ export class BaseViwe extends Container {
         return i % 2 != 0
     }
 
-    setZindeCart(cart: Cart) {
+    setZindeCart(cart: Cart): void {
         cart.zIndex = this._cartZIndex;
         this._cartZIndex++;
         this.sortChildren();
@@ -213,7 +214,7 @@ export class BaseViwe extends Container {
     // const response = await fetch('https://api.github.com/users/sitepen'); 
 
 
-    rotetStock(s: PIXI.Container) {
+    rotetStock(s: PIXI.Container): void {
         const a = s.name == '_mobPull' ? -90 : 90;
         gsap.to(s, {
             angle: -s.children.length / 2 * this._angle,
@@ -234,7 +235,7 @@ export class BaseViwe extends Container {
 
 
 
-    cartToContener(s: Container, cart: Cart) {
+    cartToContener(s: Container, cart: Cart): void {
         cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
         this._cartStock.removeChild(cart);
         this._table.removeChild(cart);
@@ -245,7 +246,7 @@ export class BaseViwe extends Container {
         this.addChild(cart);
     }
 
-    cartToEdge() {
+    cartToEdge(): void {
         const g = gsap.timeline({
             onComplete: () => {
                 this._parent.emit(Event.ACTION, Event.PICKUPCARDSEND);
@@ -280,7 +281,7 @@ export class BaseViwe extends Container {
             this._parent.emit(Event.ACTION, Event.YOUWIN);
         } else if (this._cartStock.children.length == 0 && this._mobPull.children.length == 0) {
             this._parent.emit(Event.ACTION, Event.GAMEOVER);
-        } 
+        }
     }
 
     resizeCanvas(): void {
@@ -348,14 +349,14 @@ export class BaseViwe extends Container {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    preperatCart(cart: Cart) {
+    preperatCart(cart: Cart): void {
         cart.anchor.set(0.5);
         cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
         this._cartPull.removeChild(cart);
         this._mobPull.removeChild(cart);
         this._topCont.addChild(cart);
     }
-    animaLittleMove(cart: Cart) {
+    animaLittleMove(cart: Cart): void {
         const p = cart.y;
         const z = cart.zIndex;
         cart.zIndex = 1000
@@ -376,7 +377,7 @@ export class BaseViwe extends Container {
             }
         })
     }
-    animaCartMove(cart: Cart, s: Container, t: Container, e: any, g?: any) {
+    animaCartMove(cart: Cart, s: Container, t: Container, e: any, g?: any): void {
         const gg = g ? g : gsap;
         gg.to(cart, {
             angle: CustomUtils.GetRandomArbitrary(-7, 7),
@@ -392,7 +393,7 @@ export class BaseViwe extends Container {
             }
         })
     }
-    cardTo(cart: Cart, s: Container, t: Container, e: string, g?: any) {
+    cardTo(cart: Cart, s: Container, t: Container, e: string, g?: any): boolean {
         this._mylastCart = cart;
         DataSetting.MylastCart = cart
 
@@ -406,11 +407,10 @@ export class BaseViwe extends Container {
         this.preperatCart(cart);
         this.setZindeCart(cart);
         this.animaCartMove(cart, s, t, e, g);
-
+        return true;
     }
 
-    ImoveToTable(e: any) {
-        debugger
+    ImoveToTable(e: any): void {
         const cart = e.currentTarget;
         e.currentTarget = null;
         if (DataSetting.WhoseMoveID != DataSetting.My_ID) {
@@ -422,7 +422,7 @@ export class BaseViwe extends Container {
         } else this.animaLittleMove(cart);
     }
 
-    MobmoveToTable() {
+    MobmoveToTable(): boolean {
         for (let i = 0; i < this._mobPull.children.length; i++) {
             const cart = this._mobPull.children[i] as Cart;
             if (this.checkPossibleToTableCard(cart)) {
@@ -438,15 +438,15 @@ export class BaseViwe extends Container {
     }
 
 
-    mobPickUpCart() {
+    mobPickUpCart(): void {
         this.pickUpCart(this._mobPull);
     }
 
-    i_PickUpCart() {
+    i_PickUpCart(): void {
         this.pickUpCart(this._cartPull);
     }
 
-    pickUpCart(s: Container) {
+    pickUpCart(s: Container): void {
         const g = gsap.timeline({
             onComplete: () => {
                 this.rotetStock(this._mobPull);
@@ -464,7 +464,7 @@ export class BaseViwe extends Container {
     }
 
 
-    cardToMob() {
+    cardToMob(): void {
         for (let i = 0; i < this._mobPull.children.length; i++) {
             const c = this._mobPull.children[i] as Cart;
             if (this.checkPossibleToTableCard(c)) {
@@ -567,8 +567,8 @@ export class BaseViwe extends Container {
             }
         });
 
-        this.checkCountCart(g, this._mobPull, "uuuu");
-        this.checkCountCart(g, this._cartPull, 'uuuu');
+        this.checkCountCart(g, this._mobPull, "_mobPull");
+        this.checkCountCart(g, this._cartPull, '_cartPull');
     }
 
     checkCountCart(g: any, t: Container, e: string): void {

@@ -137,6 +137,7 @@ export class RootController extends Container {
             //     this._UIcontroller.emit(Event.ACTION, Event.ROUNDLOES_MOB);
             //     break;
             case Event.ROUNDCLOSE:
+                this._UIcontroller.emit(Event.ACTION, Event.ROUNDCLOSE);
                 break;
             case Event.PICKUPCARDS:
                 break;

@@ -1,4 +1,6 @@
-export class Event {
+import * as PIXI from 'pixi.js'
+
+export class Event  {
     public static readonly CLICK = 'eventClick';
     public static readonly PUTINPULL = 'eventPutInPull';
     public static readonly GAMEOVER = 'eventGameOver';
@@ -33,9 +35,8 @@ export class Event {
     public static readonly CHECKCARDAND ='CHECKCARDAND';
 
     public static readonly ACTION ='ACTION';
-
-    
-    
+    public static readonly LOCKBTN ='LOCKBTN';
+    public static readonly UN_LOCK_BTN ='UN_LOCK_BTN';
 
     public static readonly UI_GETCART ='UI_GETCART';
     public static readonly UI_HELP ='UI_HELP';
@@ -43,7 +44,20 @@ export class Event {
     public static readonly UI_MENU_OPEN ='UI_MENU_OPEN';
     public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
 
+    public static ArrayOfListeners: Array<PIXI.DisplayObject> = [];
 
+  
+    
+    public static InitEmiter(s:PIXI.DisplayObject,e:string,f:Function):void{
+        s.on(e,f as any);
+        Event.ArrayOfListeners.push(s);
+    }
+
+    public static DispachEvent(e:string,a?:string):void{
+        for (let i = 0; i < Event.ArrayOfListeners.length; i++) {
+             Event.ArrayOfListeners[i].emit(e,a);
+        }
+    }
     
     
 

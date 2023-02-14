@@ -1,0 +1,23 @@
+<font>
+  <info face="fontNazar" size="200" bold="0" italic="0" charset="" unicode="" stretchH="100" smooth="1" aa="1" padding="0,0,0,0" spacing="0,0" outline="0"/>
+  <common lineHeight="265" base="181" scaleW="638" scaleH="492" pages="1" packed="0"/>
+  <pages>
+    <page id="0" file="fontNazar.png"/>
+  </pages>
+  <chars count="12">
+<!-- 0 -->		    <char id="48" x="1" y="1" xoffset="0" yoffset="0" xadvance="77" width="77" height="109" oX="4" oY="8" oW="85" oH="125"/>
+<!-- 1 -->		    <char id="49" x="80" y="1" xoffset="0" yoffset="0" xadvance="53" width="53" height="105" oX="11" oY="10" oW="85" oH="125"/>
+<!-- 2 -->		    <char id="50" x="135" y="1" xoffset="0" yoffset="0" xadvance="75" width="75" height="107" oX="6" oY="8" oW="85" oH="125"/>
+<!-- 3 -->		    <char id="51" x="212" y="1" xoffset="0" yoffset="0" xadvance="74" width="74" height="110" oX="7" oY="8" oW="85" oH="125"/>
+<!-- 4 -->		    <char id="52" x="288" y="1" xoffset="0" yoffset="0" xadvance="80" width="80" height="105" oX="2" oY="10" oW="85" oH="125"/>
+<!-- 5 -->		    <char id="53" x="370" y="1" xoffset="0" yoffset="0" xadvance="73" width="73" height="108" oX="5" oY="10" oW="85" oH="125"/>
+<!-- 6 -->		    <char id="54" x="445" y="1" xoffset="0" yoffset="0" xadvance="76" width="76" height="108" oX="5" oY="9" oW="85" oH="125"/>
+<!-- 7 -->		    <char id="55" x="523" y="1" xoffset="0" yoffset="0" xadvance="75" width="75" height="105" oX="6" oY="10" oW="85" oH="125"/>
+<!-- 8 -->		    <char id="56" x="600" y="1" xoffset="0" yoffset="0" xadvance="76" width="76" height="109" oX="5" oY="8" oW="85" oH="125"/>
+<!-- 9 -->		    <char id="57" x="678" y="1" xoffset="0" yoffset="0" xadvance="77" width="77" height="108" oX="3" oY="8" oW="85" oH="125"/>
+<!-- 9 -->		    <char n="coma.png" x="757" y="1" xoffset="0" yoffset="" xadvance="33" width="33" height="50" oX="26" oY="72" oW="85" oH="125"/>
+<!-- . -->		    <char id="46" x="792" y="1" xoffset="0" yoffset="70" xadvance="31" width="31" height="30" oX="26" oY="87" oW="85" oH="125"/>
+
+<!-- space -->	<char id="32" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="40"/>
+<!-- tab -->	<char id="9" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="160"/> </chars>
+</font>

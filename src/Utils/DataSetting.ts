@@ -50,20 +50,43 @@ export class DataSetting {
     static HeroMob = {t:'hero_2',tb:'shift_2',x:0.90,y:0.08,ax:0.5,ay:0.5,scale:0.18,duration:DataSetting.DefaultDuration}  
     
     static HelpClose = {t:'round_close',x:0.9,y:0.1,ax:0.5,ay:0.5,scale:0.08,duration:DataSetting.DefaultDuration} 
-    static HelpPaper = {t:'papir',x:0.1,y:0.1,ax:0,ay:0,scale:0.4,duration:DataSetting.DefaultDuration, portret:{
+    static HelpPaper = {t:'papir',x:0.5,y:0.5,ax:0.5,ay:0.5,scale:0.4,duration:DataSetting.DefaultDuration, portret:{
         t:'papir_2',
         x:0.5,
-        y:0.35,
+        y:0.5,
         scale:0.7
     }} 
-    static Helpseal = {t:'seal',x:0.7,y:0.6,ax:0,ay:0,scale:0.1,duration:DataSetting.DefaultDuration, portret:{
-        x:0.6,
-        y:0.5,
-        scale:0.1
-    }} 
+    // static Helpseal = {t:'seal',x:0.7,y:0.6,ax:0,ay:0,scale:0.1,duration:DataSetting.DefaultDuration, portret:{
+    //     x:0.6,
+    //     y:0.5,
+    //     scale:0.1
+    // }} 
+
+    static TextHelp = {text:'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
+    x:0.2,y:0.3,ax:0.5,ay:0.5,duration:DataSetting.DefaultDuration,
+    displacementFilterTexture:'splash_screen_1',
+    scaleX:10,
+    scaleY:10,
+    mask:'shift_1',
+    mask_scale:2,
+    moveMask:true,
+    portret:{
+        x:0.2,
+        y:0.2,
+        duration:DataSetting.DefaultDuration
+    },
+        style:{
+        fontFamily:'PoorStory',
+        fontSize: 20,
+        fill: 'white',
+        align: 'center',
+        color:'0x00000'
+      },}
+
     static HeroMobPosition = [1,1]      // in Px
 
-
+  static YouWin:string ='YOU WIN'
+  static YouLose:string ='You Lose'
 
 
     

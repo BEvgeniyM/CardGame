@@ -25,9 +25,11 @@
     "author": "MEvgeniyB",
     "license": "MIT",
     "dependencies": {
+        "@pixi/tilemap": "^3.2.2",
         "core-js": "^3.26.0",
         "gsap": "^3.11.4",
         "pixi-spine": "^3.0.16",
+        "pixi-webfont-loader": "^1.0.2",
         "pixi.js": "^6.5.8",
         "regenerator-runtime": "^0.13.10"
     },

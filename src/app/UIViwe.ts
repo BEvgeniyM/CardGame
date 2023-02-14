@@ -6,6 +6,7 @@ import { CustomUtils } from '../Utils/CustomUtils'
 import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
+import {WebFont} from '../app/WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
 
@@ -19,12 +20,11 @@ export class UIViwe extends Container {
     private _heroMob: Sprite = {} as Sprite
     private _helpClose: Sprite = {} as Sprite
     private _helpPaper: Sprite = {} as Sprite
+    private _helpDataText: WebFont = {} as WebFont
     private _helpseal: Sprite = {} as Sprite
 
     private _helpData = new Container()
 
-
-    
 
     constructor(){
         super()
@@ -32,13 +32,15 @@ export class UIViwe extends Container {
     }
 
     start(): void {
-        // this._winPanel = this.cretHero(this._winPanel,DataSetting.WinPanel);
         this._heroMy = this.cretHero(this._heroMy,DataSetting.HeroMy,this.clickOnHeroMy.bind(this));
         this._heroMob = this.cretHero(this._heroMy,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
         this._helpClose = this.cretHero(this._helpClose,DataSetting.HelpClose,this.helpClick.bind(this));
         this._helpPaper = this.cretHero(this._helpPaper,DataSetting.HelpPaper,this.helpPaper.bind(this));
-        this._helpseal = this.cretHero(this._helpseal,DataSetting.Helpseal,this.helpseal.bind(this));
-
+        
+        const t = Object.assign({parent:this}, DataSetting.TextHelp);
+        
+        this._helpDataText = new WebFont('_helpDataText',t);
+        
         this._menu = this.cretHero(this._menu,DataSetting.Menu,this.clickOnMenu.bind(this));
 
         this.creatHelp();
@@ -82,7 +84,8 @@ export class UIViwe extends Container {
         btn.alpha = 0.5;
         this._helpData.addChild(btn);
         this._helpData.addChild(this._helpPaper);
-        this._helpData.addChild(this._helpseal);
+        // this._helpData.addChild(this._helpseal);
+        this._helpData.addChild(this._helpDataText);
         this._helpData.addChild(this._helpClose);
         this._helpData.visible =false
         this.addChild(this._helpData);
@@ -94,26 +97,24 @@ export class UIViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    clickOnHeroMy(f:boolean = true){
-        this.parent.emit(Event.ROUNDCLOSE_I,"I");
-        // this.ectionOnHeroMy(f);
-    }
-    ectionOnHeroMy(f:boolean = true){
-        if(this._heroMy.name == DataSetting.HeroMy.tb || f == true){
-            this.rotationHero(this._heroMy,DataSetting.HeroMy.t)
-        } else  this.rotationHero(this._heroMy,DataSetting.HeroMy.tb);
-    }
-
     clickOnHeroMob(f:boolean = true){
-        // this.ectionOnHeroMob(f);
+    }
+    clickOnHeroMy(f:boolean = true){
+        this.parent.emit(Event.ACTION,Event.ROUNDCLOSE_I);
     }
 
-    ectionOnHeroMob(f:boolean = true){
-        if(this._heroMob.name == DataSetting.HeroMob.tb || f == true){
-            this.rotationHero(this._heroMob,DataSetting.HeroMob.t)
-        } else  this.rotationHero(this._heroMob,DataSetting.HeroMob.tb);
+    ectionOnHeroMy(f:boolean = true){
+        this.ectionOnHero(this._heroMy,DataSetting.HeroMy,f);
     }
+    ectionOnHeroMob(f:boolean = true){
+        this.ectionOnHero(this._heroMob,DataSetting.HeroMob,f);
+    }
+    ectionOnHero(s:Sprite,cnf:any,f:boolean){
+        if(f == true){
+            this.rotationHero(s,cnf.t)
+        } else  this.rotationHero(s,cnf.tb);
+    }
+
 
     rotationHero(s:Sprite,t:string){
         s.name = t
@@ -167,7 +168,7 @@ export class UIViwe extends Container {
         // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel);
         // CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
 
-        
+
         CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy);
         CustomUtils.GoToProz(this._heroMy,DataSetting.HeroMy);
 

@@ -8,7 +8,10 @@ import { StageController } from '../StageController'
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
 import { DataSetting } from '../Utils/DataSetting';
+import { WebfontLoaderPlugin } from "pixi-webfont-loader";
 
+//** Plugin Should be add befor start Loaders !!!*/
+PIXI.Loader.registerPlugin(WebfontLoaderPlugin);
 
 export class Preloader extends Container {
 
@@ -23,6 +26,7 @@ export class Preloader extends Container {
 
     constructor(private _perent: PIXI.DisplayObject) {
         super();
+        Loader.registerPlugin(WebfontLoaderPlugin);
     }
 
     init(): Preloader {
@@ -40,6 +44,7 @@ export class Preloader extends Container {
     loadGameAssets(): Promise<void> {
         return new Promise((res, rej) => {
             const loader = Loader.shared;
+            
             loader.add("skin_1", "./assets/skin_1.png");
 
             loader.add("splash_screen_1", "./assets/splash_screen_1.png");
@@ -53,7 +58,7 @@ export class Preloader extends Container {
             loader.add("seal", "./assets/seal.png");
             loader.add("papir_2", "./assets/papir_2.png");
             loader.add("back_", "./assets/back_.png");
-            loader.add("za", "./assets/za.png");
+            // loader.add("za", "./assets/za.png");
             loader.add("zs", "./assets/zs.png");
             loader.add("skin_2", "./assets/skin_2.png");
             loader.add("skin_3", "./assets/skin_3.png");
@@ -75,8 +80,26 @@ export class Preloader extends Container {
             loader.add("close", "./assets/close.png");
             loader.add("round_close", "./assets/round_close.png");
             loader.add("menu", "./assets/menu.png");
+            loader.add("PoorStory-Regular", "./assets/font/PoorStory-Regular.ttf");
+            loader.add("Freehand-Regular", "./assets/Freehand-Regular.ttf");
+            loader.add("Snippet-Regular", "./assets/font/Snippet-Regular.ttf");
+            loader.add("Snippet", "./assets/font/Snippet.ttf");
 
-
+            // for (let key in this.request) {
+            //     if (this.request[key].indexOf('.ttf') != -1) {
+            //         isStart = true
+            //         const o  =  {
+            //             name: key,
+            //             url:this.request[key]
+            //             }
+            //         this.webFontLoader.add(o)  
+            //         delete this.request[key]             
+            //     }else if (this.request[key].indexOf('fontTextur') != -1) {
+            //         isStart = true               
+            //         this.webFontLoader.add(key, this.request[key])    
+            //         delete this.request[key]               
+            //     }
+            // }
 
 
             loader.onProgress.add((e: any) => {

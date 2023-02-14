@@ -32,6 +32,17 @@ module.exports = (env) => {
                         "css-loader",
                     ],
                 },
+                {
+                    // Now we apply rule for static files
+                    test: /\.(png|jpe?g|gif|svg|woff|woff2|eot|ttf|otf|mp3|ogg|mp4)$/,
+                    type: 'asset/resource',
+                    loader: 'file-loader',
+                    options: {
+                      name: '[path][name].[ext]',
+                      // context: 'public',
+                      outputPath :  '/assets/'
+                    },
+                  },
             ],
         },
         optimization: {

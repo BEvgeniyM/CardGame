@@ -8,7 +8,7 @@ import * as PIXI from 'pixi.js'
 
 
 export class UIController extends Container {
-    constructor(private _viwe:UIViwe) {
+    constructor(private _viwe: UIViwe) {
         super();
         this.name = this.constructor.name;
         this.addChild(_viwe);
@@ -17,57 +17,76 @@ export class UIController extends Container {
     init(): UIController {
         this.on(Event.UI_GETCART, this.getCart);
         this.on(Event.UI_HELP, this.helpOpen);
-        this.on(Event.UI_MENU_OPEN,this.menuOpen);
-        this.on(Event.UI_MENU_CLOSE,this.menuClose);
-        this.on(Event.UI_RESET,this.reset);
-        this.on(Event.ROUNDCLOSE_I,this.roundCloseI);
+        this.on(Event.UI_MENU_OPEN, this.menuOpen);
+        this.on(Event.UI_MENU_CLOSE, this.menuClose);
+        this.on(Event.UI_RESET, this.reset);
+
+        this.on(Event.ACTION, this.action);
         return this;
     }
 
 
-    roundCloseI(){
-    //   DataSetting.WhoseMoveID = 2;
-      this.parent.emit(Event.ACTION,Event.ROUNDCLOSE_I);
-    }
-
-    getCart(){
-
-    }
-    helpOpen(){
-        
-    }
-    menuOpen(){
+    action(action: string) {
         debugger
-    }
-    menuClose(){
-        
-    }
-    reset(){
-
-    }
-
-    preperNewRound(){
-        if(DataSetting.WhoseMoveID == 2){
-            this._viwe.ectionOnHeroMy(false);
-            gsap.to(this,{
-             delay:DataSetting.DefaultDeley,
-             onComplete:()=>{
+        switch (action) {
+            case Event.ROUNDCLOSE_I:
+                this.parent.emit(Event.ACTION, Event.ROUNDCLOSE_I);
+                this._viwe.ectionOnHeroMy(false);
                 this._viwe.ectionOnHeroMob(true);
-             }
-            })
-         
-        } else{
-            this._viwe.ectionOnHeroMob(false);
-            gsap.to(this,{
-                delay:DataSetting.DefaultDeley,
-                onComplete:()=>{
-                    this._viwe.ectionOnHeroMy(true);
-                }
-               })
+                break;
+            case Event.ROUNDLOES_I:
+             
+                break;
+            case Event.ROUNDCLOSE_MOB:
+                this._viwe.ectionOnHeroMy(true);
+                this._viwe.ectionOnHeroMob(false);
+                break;
         }
     }
 
-    firastRound(){
+    // roundCloseI() {
+    //     //   DataSetting.WhoseMoveID = 2;
+
+    // }
+
+    getCart() {
+
+    }
+    helpOpen() {
+
+    }
+    menuOpen() {
+        debugger
+    }
+    menuClose() {
+
+    }
+    reset() {
+
+    }
+
+    preperNewRound() {
+        if (DataSetting.WhoseMoveID == 2) {
+            this._viwe.ectionOnHeroMy(false);
+            gsap.to(this, {
+                delay: DataSetting.DefaultDeley,
+                onComplete: () => {
+                    this._viwe.ectionOnHeroMob(true);
+                }
+            })
+
+        } else {
+            this._viwe.ectionOnHeroMob(false);
+            gsap.to(this, {
+                delay: DataSetting.DefaultDeley,
+                onComplete: () => {
+                    this._viwe.ectionOnHeroMy(true);
+                }
+            })
+        }
+    }
+
+    firastRound() {
         // this._viwe.ectionOnHeroMob(false);
     }
 

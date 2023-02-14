@@ -104,7 +104,7 @@ export class BaseViwe extends Container {
         }
         CustomUtils.GoTo(this._back, c);
         CustomUtils.ResizeBack(this._back);
-        Cart.SpriteCreat(this, 'za', 0, 1).scale.set(10);
+        Cart.SpriteCreat(this, 'table_4', 0, 1).scale.set(10);
     }
 
 
@@ -157,7 +157,6 @@ export class BaseViwe extends Container {
     /**                       CALC                                                                              */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     getCart(s?: any): Cart {
-        // this._cartArras
         return s.children?.pop() as Cart;
     }
 
@@ -234,15 +233,6 @@ export class BaseViwe extends Container {
     }
 
 
-    pickUpCards(id: number) {
-       
-    }
-
-
-
-    // checkEndRound() {
-
-    // }
 
     cartToContener(s: Container, cart: Cart) {
         cart.position.set(cart.getGlobalPosition().x, cart.getGlobalPosition().y);
@@ -254,11 +244,6 @@ export class BaseViwe extends Container {
 
         this.addChild(cart);
     }
-
-    // moveCartTo(s: Container, cart: Cart, angle: number, open: boolean) {
-    // }
-    // mobMoveCartToTable(s: Container, cart: Cart) {
-    // }
 
     cartToEdge() {
         const g = gsap.timeline({
@@ -288,19 +273,14 @@ export class BaseViwe extends Container {
                 callbackScope: this,
             }, '<')
         }
-
-
     }
-
 
     checkWin(): void {
         if (this._cartStock.children.length == 0 && this._cartPull.children.length == 0) {
-            this._parent.emit(Event.YOUWIN, this)
+            this._parent.emit(Event.ACTION, Event.YOUWIN);
         } else if (this._cartStock.children.length == 0 && this._mobPull.children.length == 0) {
-            this._parent.emit(Event.GAMEOVER, this)
-        } else if (this._cartPull.children.length == 0 || this._mobPull.children.length == 0) {
-            this.cartToEdge();
-        }
+            this._parent.emit(Event.ACTION, Event.GAMEOVER);
+        } 
     }
 
     resizeCanvas(): void {
@@ -310,12 +290,6 @@ export class BaseViwe extends Container {
         CustomUtils.ResizeMyPull(this._cartPull);
         CustomUtils.ResizeTable(this._table);
     }
-
-    lockUnLockMyCart(f: boolean) {
-        this._mobPull.interactiveChildren = f;
-    }
-
-
 
     endMasege(text: string): void {
         const graphics = new PIXI.Graphics();
@@ -385,6 +359,7 @@ export class BaseViwe extends Container {
         const p = cart.y;
         const z = cart.zIndex;
         cart.zIndex = 1000
+        cart.off('pointerdown', this.ImoveToTable, this);
         gsap.to(cart, {
             y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
             direction: DataSetting.DefaultDuration,
@@ -395,6 +370,7 @@ export class BaseViwe extends Container {
                     direction: DataSetting.DefaultDuration,
                     onComplete: () => {
                         cart.zIndex = z;
+                        cart.on('pointerdown', this.ImoveToTable, this);
                     }
                 })
             }
@@ -425,6 +401,8 @@ export class BaseViwe extends Container {
             return false;
         }
 
+        cart.off('pointerdown', this.ImoveToTable, this);
+
         this.preperatCart(cart);
         this.setZindeCart(cart);
         this.animaCartMove(cart, s, t, e, g);
@@ -432,13 +410,14 @@ export class BaseViwe extends Container {
     }
 
     ImoveToTable(e: any) {
+        debugger
         const cart = e.currentTarget;
         e.currentTarget = null;
         if (DataSetting.WhoseMoveID != DataSetting.My_ID) {
             this.cardTo(cart, this._cartPull, this._table, Event.MYCARTONTABLE);
-            cart.off('pointerdown', this.ImoveToTable, this);
+            // cart.off('pointerdown', this.ImoveToTable, this);
         } else if (this.checkPossibleToTableCard(cart)) {
-            cart.off('pointerdown', this.ImoveToTable, this);
+            // cart.off('pointerdown', this.ImoveToTable, this);
             this.cardTo(cart, this._cartPull, this._table, Event.IFITECARTONTABLE);
         } else this.animaLittleMove(cart);
     }
@@ -574,19 +553,25 @@ export class BaseViwe extends Container {
         return false
     }
 
-    endRound() {
+    endRound(): void {
+        if (this._cartStock.children.length == 0) {
+            this.parent.emit(Event.ACTION, Event.ROUNDEND);
+            return
+        }
+
         const g = gsap.timeline({
             onComplete: () => {
                 this.rotetStock(this._mobPull);
                 this.rotetStock(this._cartPull);
                 this.parent.emit(Event.ACTION, Event.ROUNDEND);
             }
-        })
+        });
+
         this.checkCountCart(g, this._mobPull, "uuuu");
         this.checkCountCart(g, this._cartPull, 'uuuu');
     }
 
-    checkCountCart(g: any, t: Container, e: string) {
+    checkCountCart(g: any, t: Container, e: string): void {
         let c = 0;
         if (t.children.length < 6) {
             c = 6 - t.children.length
@@ -602,11 +587,14 @@ export class BaseViwe extends Container {
 
     }
 
+    lockUnLockMyCart(f: boolean): void {
+        this._mobPull.interactiveChildren = f;
+    }
 
 
-    openCartMy() {
+    openCartMy(): void {
         for (let i = 0; i < this._cartPull.children.length; i++) {
-            const cart = this._cartPull.children[i] as Cart
+            const cart = this._cartPull.children[i] as Cart;
             cart.openCart();
             cart.on('pointerdown', this.ImoveToTable, this);
         }

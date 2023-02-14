@@ -40,10 +40,6 @@ export class RootController extends Container {
         this.on(Event.PRELOADERCOMPLETE, this.gameStart);
         this.on(Event.LOADGAMESTART, this.loadGameStart);
         this.on(Event.ACTION, this.anyEction);
-        this.on(Event.PICKUPCARDS, this.anyEction);
-        this.on(Event.PICKUPCARDSEND, this.anyEction);
-        this.on(Event.CHECKCARDAND, this.anyEction);
-
     }
 
 
@@ -126,35 +122,30 @@ export class RootController extends Container {
 
 
     anyEction(actoin: string) {
-        
+        // debugger
         switch (actoin) {
             case Event.ROUNDCLOSE_I:
-                debugger
-                this._controller.emit(Event.ACTION,Event.ROUNDCLOSE_I);
-                // this.chengeWhoseMoveID(2);
+                this._controller.emit(Event.ACTION, Event.ROUNDCLOSE_I);
                 break;
-
             case Event.ROUNDCLOSE_MOB:
-                // this.chengeWhoseMoveID(1);
-                // this._controller.emit(Event.ACTION,Event.ROUNDCLOSE_MOB);
-                debugger
+                this._UIcontroller.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
                 break
+            // case Event.ROUNDLOES_I:
+            //     this._UIcontroller.emit(Event.ACTION, Event.ROUNDLOES_I);
+            //     break;
+            // case Event.ROUNDCLOSE_MOB:
+            //     this._UIcontroller.emit(Event.ACTION, Event.ROUNDLOES_MOB);
+            //     break;
             case Event.ROUNDCLOSE:
-                debugger
                 break;
             case Event.PICKUPCARDS:
-                debugger
                 break;
             case Event.PICKUPCARDSEND:
-                debugger
                 break;
             case Event.CHECKCARDAND:
-                debugger
                 this.preperNewRound();
                 break;
-
             case Event.MYCARTONTABLE:
-                debugger
                 break;
             default:
                 break;
@@ -162,8 +153,8 @@ export class RootController extends Container {
 
     }
 
-  
-  
+
+
 
     preperNewRound() {
         if (this._chengeWhoseMoveID) {
@@ -175,7 +166,7 @@ export class RootController extends Container {
     }
 
 
-    chengeWhoseMoveID(f: number):boolean {
+    chengeWhoseMoveID(f: number): boolean {
         if (f != DataSetting.WhoseMoveID) {
             this._chengeWhoseMoveID = true;
             DataSetting.WhoseMoveID = f;

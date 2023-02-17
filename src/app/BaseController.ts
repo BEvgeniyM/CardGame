@@ -39,69 +39,71 @@ export class BaseController extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     action(action: string) {
-        debugger
+        // debugger
         switch (action) {
-            case Event.MYCARTONTABLE:
+            case Event.I_MOVE_CARD_ON_TABLE:
                 this.checkEction();
                 break;
-            case Event.MOBCARTONTABLE:
+            case Event.MOB_MOVE_CARD_ON_TABLE:
                 this.checkEction();
                 break;
 
-            case Event.IFITECARTONTABLE:
+            case Event.I_FITE_CARF_ON_TABLE:
+                this._viwe.lockUnLockMyCart(true);
                 this.chackHowRun();
                 break;
-            case Event.MOBFITECARTONTABLE:
+            case Event.MOB_FITE_CARF_ON_TABLE:
+                this._viwe.lockUnLockMyCart(true);
                 break;
 
-            case Event.IPICKUPCART:
+            case Event.I_PICKUP_CARD:
                 break;
-            case Event.MOBPICKUPCART:
+            case Event.MOB_PICKUP_CARD:
                 break;
 
 
-            case Event.ROUNDCLOSE_I:
-                this.parent.emit(Event.ACTION, Event.LOCKBTN);
+            case Event.I_CLOSE_ROUND:
+                this.parent.emit(Event.ACTION, Event.LOCK_BTN);
                 if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
                     this._viwe.i_PickUpCart();
                 } else {
                     this._viwe.cartToEdge();
                 }
-                // this.parent.emit(Event.ACTION,Event.ROUNDLOES_I);
                 this.chengeWhoseLosePreRoundID(2);
                 break;
-            case Event.ROUNDCLOSE_MOB:
-                this.parent.emit(Event.ACTION, Event.LOCKBTN);
-                this.parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
+            case Event.MOB_CLOSE_ROUND:
+                this.parent.emit(Event.ACTION, Event.LOCK_BTN);
+                this.parent.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
                 if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
                     this._viwe.cartToEdge();
                 } else {
                     this._viwe.mobPickUpCart();
                 }
-                // this.parent.emit(Event.ACTION,Event.ROUNDLOES_MOB);
                 this.chengeWhoseLosePreRoundID(1);
                 break;
 
 
-            case Event.PICKUPCARDSEND:
-                this._viwe.openCartMy();
+            case Event.PICKUP_CARDS_END:
+                this._viwe.closeCartMob();
+                // this._viwe.openCartMy();
                 this._viwe.endRound();
                 break;
-            case Event.ROUNDEND:
+            case Event.ROUND_END:
                 this._viwe.openCartMy();
-                this.parent.emit(Event.ACTION, Event.ROUNDCLOSE);
-                this.emit(Event.ACTION, Event.ROUNDCLOSE);
+                this.parent.emit(Event.ACTION, Event.ROUND_CLOSE);
+                this.emit(Event.ACTION, Event.ROUND_CLOSE);
                 break;
-            case Event.ROUNDCLOSE:
+            case Event.ROUND_CLOSE:
+                this._viwe.lockUnLockMyCart(true);
                 this._viwe.checkWin();
                 this.chackHowRun();
                 break;
 
 
-            case Event.YOUWIN:
+            case Event.YOU_WIN:
                 this._viwe.endMasege(DataSetting.YouWin);
                 break;
-            case Event.GAMEOVER:
+            case Event.GAME_OVER:
                 this._viwe.endMasege(DataSetting.YouLose);
                 break;
 
@@ -139,9 +141,7 @@ export class BaseController extends Container {
     }
 
     preperNewRound(): void {
-        if (DataSetting.WhoseMoveID == 2) {
-            this._viwe.mobFite()
-        }
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

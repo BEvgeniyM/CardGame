@@ -16,10 +16,10 @@ export class UIController extends Container {
 
     init(): UIController {
         this.on(Event.UI_GETCART, this.getCart);
-        this.on(Event.UI_HELP, this.helpOpen);
-        this.on(Event.UI_MENU_OPEN, this.menuOpen);
-        this.on(Event.UI_MENU_CLOSE, this.menuClose);
-        this.on(Event.UI_RESET, this.reset);
+        // this.on(Event.UI_HELP, this.helpOpen);
+        // this.on(Event.UI_MENU_OPEN, this.menuOpen);
+        // this.on(Event.UI_MENU_CLOSE, this.menuClose);
+        // this.on(Event.UI_RESET, this.reset);
 
         this.on(Event.ACTION, this.action);
         return this;
@@ -27,20 +27,20 @@ export class UIController extends Container {
 
 
     action(action: string) {
-        debugger
+        // debugger
         switch (action) {
-            case Event.ROUNDCLOSE_I:
-                this.parent.emit(Event.ACTION, Event.ROUNDCLOSE_I);
+            case Event.I_CLOSE_ROUND:
+                this.parent.emit(Event.ACTION, Event.I_CLOSE_ROUND);
                 this._viwe.lockBtn(false);
                 this._viwe.ectionOnHeroMy(false);
                 this._viwe.ectionOnHeroMob(true);
                 break;
-            case Event.ROUNDCLOSE_MOB:  
+            case Event.MOB_CLOSE_ROUND:  
                 this._viwe.lockBtn(false);
                 this._viwe.ectionOnHeroMy(true);
                 this._viwe.ectionOnHeroMob(false);
                 break;
-            case Event.ROUNDCLOSE:
+            case Event.ROUND_CLOSE:
                 debugger
                 this._viwe.lockBtn(true);
                 break;
@@ -59,7 +59,6 @@ export class UIController extends Container {
 
     }
     menuOpen() {
-        debugger
     }
     menuClose() {
 
@@ -69,7 +68,6 @@ export class UIController extends Container {
     }
 
     preperNewRound() {
-        debugger
         this._viwe.lockBtn(true);
         if (DataSetting.WhoseMoveID == 2) {
             this._viwe.ectionOnHeroMy(false);

@@ -1,42 +1,33 @@
 import * as PIXI from 'pixi.js'
 
 export class Event  {
-    public static readonly CLICK = 'eventClick';
-    public static readonly PUTINPULL = 'eventPutInPull';
-    public static readonly GAMEOVER = 'eventGameOver';
-    public static readonly YOUWIN = 'eventYouWin';
+    public static readonly GAME_OVER = 'GAME_OVER';
+    public static readonly YOU_WIN = 'YOU_WIN';
 
-    public static readonly LOADGAMESTART ='eventLoadCartStart';
-    public static readonly PRELOADERCOMPLETE ='eventPreLoaderComplete';
-    public static readonly MOVEFROMTABLE ='eventMoveFromTable';
+    public static readonly LOAD_GAME_START ='LOAD_GAME_START';
+    public static readonly PRELOADER_COMPLETE ='PRELOADER_COMPLETE';
 
-    public static readonly MYCARTONTABLE ='MYCARTONTABLE';
-    public static readonly MOBCARTONTABLE ='MOBCARTONTABLE';
-    public static readonly IFITECARTONTABLE ='IFITECARTONTABLE';
-    public static readonly MOBFITECARTONTABLE ='MOBFITECARTONTABLE';
-    public static readonly IPICKUPCART ='IPICKUPCART';
-    public static readonly MOBPICKUPCART ='MOBPICKUPCART';
+    public static readonly I_MOVE_CARD_ON_TABLE ='I_MOVE_CARD_ON_TABLE';
+    public static readonly MOB_MOVE_CARD_ON_TABLE ='MOB_MOVE_CARD_ON_TABLE';
 
-    public static readonly FITCARD ='eventFITCARD';
-    public static readonly PICKUPCARDS ='eventPickUpCards';
-    public static readonly PICKUPCARDSEND ='PICKUPCARDSEND';
+    public static readonly I_FITE_CARF_ON_TABLE ='I_FITE_CARF_ON_TABLE';
+    public static readonly MOB_FITE_CARF_ON_TABLE ='MOB_FITE_CARF_ON_TABLE';
 
-    public static readonly ROUNDEND ='ROUNDEND';
+    public static readonly I_PICKUP_CARD ='I_PICKUP_CARD';
+    public static readonly MOB_PICKUP_CARD ='MOB_PICKUP_CARD';
+    public static readonly PICKUP_CARDS_END ='PICKUP_CARDS_END';
 
-    public static readonly MOVETOEDGE ='eventMoveToEdge';
-    public static readonly ROUNDCLOSE ='ROUNDCLOSE';
+    public static readonly MOVE_CARD_TO_EDGE ='MOVE_CARD_TO_EDGE';
+    public static readonly ROUND_END ='ROUND_END';
+    public static readonly ROUND_CLOSE ='ROUND_CLOSE';
 
-    public static readonly ROUNDCLOSE_I ='ROUNDCLOSE_I';
-    public static readonly ROUNDCLOSE_MOB ='ROUNDCLOSE_MOB';
-    public static readonly ROUNDLOES_I ='ROUNDLOES_I';
-    public static readonly ROUNDLOES_MOB ='PICKUPCARD_MOB';
-   
+    public static readonly I_CLOSE_ROUND ='I_CLOSE_ROUND';
+    public static readonly MOB_CLOSE_ROUND ='MOB_CLOSE_ROUND';
 
-    public static readonly CHECKCARDAND ='CHECKCARDAND';
+    public static readonly CHECK_CARD_AND ='CHECK_CARD_AND';
 
     public static readonly ACTION ='ACTION';
-    public static readonly LOCKBTN ='LOCKBTN';
-    public static readonly UN_LOCK_BTN ='UN_LOCK_BTN';
+    public static readonly LOCK_BTN ='LOCK_BTN';
 
     public static readonly UI_GETCART ='UI_GETCART';
     public static readonly UI_HELP ='UI_HELP';
@@ -45,8 +36,6 @@ export class Event  {
     public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
 
     public static ArrayOfListeners: Array<PIXI.DisplayObject> = [];
-
-  
     
     public static InitEmiter(s:PIXI.DisplayObject,e:string,f:Function):void{
         s.on(e,f as any);
@@ -58,8 +47,4 @@ export class Event  {
              Event.ArrayOfListeners[i].emit(e,a);
         }
     }
-    
-    
-
-
 }

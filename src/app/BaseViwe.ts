@@ -63,16 +63,16 @@ export class BaseViwe extends Container {
 
         this.addChild(this._table).name = '_table';
 
-        this._mobPull.position.set(window.outerWidth * 0.5, 0);
+        this._mobPull.position.set(window.innerWidth * 0.5, 0);
         this._mobPull.zIndex = 100
         this.addChild(this._mobPull).name = '_mobPull';
 
-        this._cartPull.position.set(window.outerWidth * 0.5, window.outerHeight);
+        this._cartPull.position.set(window.innerWidth * 0.5, window.outerHeight);
         this._cartPull.zIndex = 200
         this.addChild(this._cartPull).name = '_cartPull';
 
         this._cartStock.zIndex = 300
-        this._cartStock.position.set(window.screen.availWidth * 0.90, window.screen.availHeight * 0.5 + CustomUtils.CartHeight / 2)
+        this._cartStock.position.set(window.innerWidth * 0.90, window.i * 0.5 + CustomUtils.CartHeight / 2)
         this.addChild(this._cartStock).name = '_cartStock';
 
         window.addEventListener("resize", this.resizeCanvas.bind(this));
@@ -98,13 +98,17 @@ export class BaseViwe extends Container {
 
     addbackground(): void {
         this._back = Cart.SpriteCreat(this, 'table_4', 1);
-        const c = {
-            x: window.screen.availWidth / 2,
-            y: window.screen.availHeight / 2
-        }
-        CustomUtils.GoTo(this._back, c);
+        // const c = {
+        //     x: window.innerWidth * 0.5,
+        //     y: window.innerHeight *0.5
+        // }
+
+        CustomUtils.SetPositionProz(this._back, DataSetting.BackGround);
+        CustomUtils.GoToProz(this._back, DataSetting.BackGround);
         CustomUtils.ResizeBack(this._back);
-        Cart.SpriteCreat(this, 'table_4', 0, 1).scale.set(10);
+
+        // CustomUtils.GoTo(this._back, c);
+        // Cart.SpriteCreat(this, 'table_4', 0, 1).scale.set(10);
     }
 
 
@@ -138,13 +142,14 @@ export class BaseViwe extends Container {
             this.resizeCanvas();
         }
 
-        this.majorMastOpen(this._cartStock.children[0] as Cart);
+        this.majorMastOpen();
         // this.endRound();
 
         return this;
     }
 
-    majorMastOpen(cart: Cart): void {
+    majorMastOpen(): void {
+        const cart = this._cartStock.children[0] as Cart
         const c = {
             x: -cart.height * 0.5,
             angle: -90,
@@ -156,7 +161,7 @@ export class BaseViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       CALC                                                                              */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     getCart(s?: any): Cart {
         return s.children?.pop() as Cart;
     }
@@ -202,17 +207,7 @@ export class BaseViwe extends Container {
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    mobFite() {
-        // this._moblastCart = this._mobPull.children[0] as Cart
-        // this.mobMoveCartToTable(this._mobPull, this._mobPull.children[0] as Cart);
-    }
-
-
-
-
-
     // const response = await fetch('https://api.github.com/users/sitepen'); 
-
 
     rotetStock(s: PIXI.Container): void {
         const a = s.name == '_mobPull' ? -90 : 90;
@@ -249,7 +244,7 @@ export class BaseViwe extends Container {
     cartToEdge(): void {
         const g = gsap.timeline({
             onComplete: () => {
-                this._parent.emit(Event.ACTION, Event.PICKUPCARDSEND);
+                this._parent.emit(Event.ACTION, Event.PICKUP_CARDS_END);
             }
         })
 
@@ -278,13 +273,27 @@ export class BaseViwe extends Container {
 
     checkWin(): void {
         if (this._cartStock.children.length == 0 && this._cartPull.children.length == 0) {
-            this._parent.emit(Event.ACTION, Event.YOUWIN);
+            this._parent.emit(Event.ACTION, Event.YOU_WIN);
         } else if (this._cartStock.children.length == 0 && this._mobPull.children.length == 0) {
-            this._parent.emit(Event.ACTION, Event.GAMEOVER);
+            this._parent.emit(Event.ACTION, Event.GAME_OVER);
         }
     }
 
     resizeCanvas(): void {
+
+        // CustomUtils.SetScaleOfProz(this._cartStock as PIXI.Sprite, DataSetting.Stock);
+        // CustomUtils.GoToProz(this._cartStock,DataSetting.Stock);
+
+        // CustomUtils.SetScaleOfProz(this._cartPull as PIXI.Sprite, DataSetting.My_Pull);
+        // CustomUtils.GoToProz(this._cartPull,DataSetting.My_Pull);
+
+        // CustomUtils.SetScaleOfProz(this._mobPull as PIXI.Sprite, DataSetting.Mob_Pull);
+        // CustomUtils.GoToProz(this._mobPull,DataSetting.Mob_Pull);
+
+        // CustomUtils.SetScaleOfProz(this._table as PIXI.Sprite, DataSetting.Table_Pull);
+        // CustomUtils.GoToProz(this._table,DataSetting.Table_Pull);
+
+
         CustomUtils.ResizeStock(this._cartStock);
         CustomUtils.ResizeBack(this._back);
         CustomUtils.ResizePullMob(this._mobPull);
@@ -359,8 +368,8 @@ export class BaseViwe extends Container {
     animaLittleMove(cart: Cart): void {
         const p = cart.y;
         const z = cart.zIndex;
-        cart.zIndex = 1000
-        cart.off('pointerdown', this.ImoveToTable, this);
+        cart.zIndex = 1000;
+        this.lockUnLockMyCart(false);
         gsap.to(cart, {
             y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
             direction: DataSetting.DefaultDuration,
@@ -371,7 +380,7 @@ export class BaseViwe extends Container {
                     direction: DataSetting.DefaultDuration,
                     onComplete: () => {
                         cart.zIndex = z;
-                        cart.on('pointerdown', this.ImoveToTable, this);
+                        this.lockUnLockMyCart(true);
                     }
                 })
             }
@@ -413,12 +422,16 @@ export class BaseViwe extends Container {
     ImoveToTable(e: any): void {
         const cart = e.currentTarget;
         e.currentTarget = null;
+        if (!cart) {
+            return
+        }
+        this._mylastCart = cart;
         if (DataSetting.WhoseMoveID != DataSetting.My_ID) {
-            this.cardTo(cart, this._cartPull, this._table, Event.MYCARTONTABLE);
-            // cart.off('pointerdown', this.ImoveToTable, this);
+            this.cardTo(cart, this._cartPull, this._table, Event.I_MOVE_CARD_ON_TABLE);
+            this.lockUnLockMyCart(false);
         } else if (this.checkPossibleToTableCard(cart)) {
-            // cart.off('pointerdown', this.ImoveToTable, this);
-            this.cardTo(cart, this._cartPull, this._table, Event.IFITECARTONTABLE);
+            this.lockUnLockMyCart(false);
+            this.cardTo(cart, this._cartPull, this._table, Event.I_FITE_CARF_ON_TABLE);
         } else this.animaLittleMove(cart);
     }
 
@@ -427,13 +440,13 @@ export class BaseViwe extends Container {
             const cart = this._mobPull.children[i] as Cart;
             if (this.checkPossibleToTableCard(cart)) {
                 cart.openCart();
-                this._mobPull.children[0] && this.cardTo(cart, this._mobPull, this._table, Event.MOBCARTONTABLE);
+                this._mobPull.children[0] && this.cardTo(cart, this._mobPull, this._table, Event.MOB_MOVE_CARD_ON_TABLE);
                 return true
             }
             this.animaLittleMove(cart);
         }
 
-        this._parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB)
+        this._parent.emit(Event.ACTION, Event.MOB_CLOSE_ROUND)
         return false;
     }
 
@@ -451,7 +464,7 @@ export class BaseViwe extends Container {
             onComplete: () => {
                 this.rotetStock(this._mobPull);
                 this.rotetStock(this._cartPull);
-                this.parent.emit(Event.ACTION, Event.PICKUPCARDSEND);
+                this.parent.emit(Event.ACTION, Event.PICKUP_CARDS_END);
             }
         })
 
@@ -459,7 +472,7 @@ export class BaseViwe extends Container {
         for (let i = 0; i < c; i++) {
             const cart = this._table.children[0] as Cart;
             this.cardTo(cart, this._table, s, 'iiii', g);
-            cart.cloasCart();
+            // cart.cloasCart();
         }
     }
 
@@ -468,7 +481,7 @@ export class BaseViwe extends Container {
         for (let i = 0; i < this._mobPull.children.length; i++) {
             const c = this._mobPull.children[i] as Cart;
             if (this.checkPossibleToTableCard(c)) {
-                this.cardTo(c, this._mobPull, this._table, Event.MYCARTONTABLE);
+                this.cardTo(c, this._mobPull, this._table, Event.I_MOVE_CARD_ON_TABLE);
                 return
             }
         }
@@ -525,7 +538,7 @@ export class BaseViwe extends Container {
             const cart = this._mobPull.children[i] as Cart;
 
             if (this._mylastCart.id[0][1] == cart.id[0][1] && this._mylastCart.value < cart.value) {
-                this.cardTo(cart, this._mobPull, this._table, Event.MOBFITECARTONTABLE);
+                this.cardTo(cart, this._mobPull, this._table, Event.MOB_FITE_CARF_ON_TABLE);
                 cart.openCart();
                 return true
             }
@@ -535,7 +548,7 @@ export class BaseViwe extends Container {
             const cart = this._mobPull.children[i] as Cart;
 
             if (cart.mastW == cart.id[0][1] && this._mylastCart.value < cart.value) {
-                this.cardTo(cart, this._mobPull, this._table, Event.MOBFITECARTONTABLE);
+                this.cardTo(cart, this._mobPull, this._table, Event.MOB_FITE_CARF_ON_TABLE);
                 cart.openCart();
                 return true
             }
@@ -547,7 +560,7 @@ export class BaseViwe extends Container {
             onComplete: () => {
                 this.checkWin();
                 this._parent.setRoundLoase(2);
-                this._parent.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
+                this._parent.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
             }
         })
         return false
@@ -555,7 +568,7 @@ export class BaseViwe extends Container {
 
     endRound(): void {
         if (this._cartStock.children.length == 0) {
-            this.parent.emit(Event.ACTION, Event.ROUNDEND);
+            this.parent.emit(Event.ACTION, Event.ROUND_END);
             return
         }
 
@@ -563,7 +576,7 @@ export class BaseViwe extends Container {
             onComplete: () => {
                 this.rotetStock(this._mobPull);
                 this.rotetStock(this._cartPull);
-                this.parent.emit(Event.ACTION, Event.ROUNDEND);
+                this.parent.emit(Event.ACTION, Event.ROUND_END);
             }
         });
 
@@ -579,7 +592,8 @@ export class BaseViwe extends Container {
                 g.to(this, {
                     // delay: DataSetting.DefaultDeley * i,
                     onComplete: () => {
-                        this.cardTo(this.getCart(this._cartStock), this._cartStock, t, e, g);
+                        const cart = this.getCart(this._cartStock);
+                        cart && this.cardTo(cart, this._cartStock, t, e, g);
                     }
                 }, '<')
             }
@@ -588,15 +602,25 @@ export class BaseViwe extends Container {
     }
 
     lockUnLockMyCart(f: boolean): void {
-        this._mobPull.interactiveChildren = f;
+        this._cartPull.interactiveChildren = f;
     }
 
 
     openCartMy(): void {
-        for (let i = 0; i < this._cartPull.children.length; i++) {
-            const cart = this._cartPull.children[i] as Cart;
-            cart.openCart();
-            cart.on('pointerdown', this.ImoveToTable, this);
+        this.cartOpenOrClose(this._cartPull, true);
+    }
+
+    closeCartMob(): void {
+        this.cartOpenOrClose(this._mobPull, false);
+    }
+
+    cartOpenOrClose(s: Container, f: boolean): void {
+        for (let i = 0; i < s.children.length; i++) {
+            const cart = s.children[i] as Cart;
+            if (f) {
+                cart.openCart();
+                cart.on('pointerdown', this.ImoveToTable, this);
+            } else cart.cloasCart();
         }
     }
 

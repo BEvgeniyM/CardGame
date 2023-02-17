@@ -17,6 +17,7 @@ export class Cart extends Sprite {
     public _lockEvent: boolean = false;
     public value: number = 0;
     public mastW: string = '';
+    protected _isOpen: boolean = false;
 
     constructor(protected _cart: Texture, public id: [string, string], f: [string, string]) {
         super();
@@ -55,16 +56,28 @@ export class Cart extends Sprite {
         CustomUtils.ResizeSprit(this)
     }
 
-    openCart() {
-        // this.anchor.set(0.5);
+    isNeedOpen(): boolean {
+        if (this._isOpen) {
+            return false
+        }
+        return this._isOpen = true;
+    }
+
+    openCart(): void {
+        // if (!this.isNeedOpen()) {
+        //     return
+        // }
+
+        debugger
+        const cx = this.scale.x * 0.1;
         this._timeLine = gsap.timeline()
             .to(this.scale, {
-                x: 0,
+                x: cx,
                 callbackScope: this,
                 duration: this._openDur,
                 onComplete: () => {
                     this.texture = this._cart;
-                    CustomUtils.ResizeSprit(this)
+                    CustomUtils.ResizeSprit(this);
                     this.scale.x = 0;
                 }
             })
@@ -78,7 +91,7 @@ export class Cart extends Sprite {
             }, '>')
     }
 
-    cloasCart() {
+    cloasCart(): void {
         this._timeLine = gsap.timeline()
             .to(this.scale, {
                 x: 0,
@@ -101,7 +114,7 @@ export class Cart extends Sprite {
         //    this._timeLine.reversed();
     }
 
-    setCart(e: PIXI.Texture) {
+    setCart(e: PIXI.Texture): void {
         this._cart = e;
     }
 

@@ -37,8 +37,8 @@ export class RootController extends Container {
         this.name = this.constructor.name;
         _app.stage.addChild(this);
 
-        this.on(Event.PRELOADERCOMPLETE, this.gameStart);
-        this.on(Event.LOADGAMESTART, this.loadGameStart);
+        this.on(Event.PRELOADER_COMPLETE, this.gameStart);
+        this.on(Event.LOAD_GAME_START, this.loadGameStart);
         this.on(Event.ACTION, this.anyEction);
     }
 
@@ -94,7 +94,7 @@ export class RootController extends Container {
     }
 
     onCompleteloadGameAssets(): void {
-        gsap.to(this, {
+        gsap.to(this, { 
             delay: this._startDelay,
             callbackScope: this,
             onComplete: () => {
@@ -124,29 +124,25 @@ export class RootController extends Container {
     anyEction(actoin: string) {
         // debugger
         switch (actoin) {
-            case Event.ROUNDCLOSE_I:
-                this._controller.emit(Event.ACTION, Event.ROUNDCLOSE_I);
+            case Event.I_CLOSE_ROUND:
+                this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
                 break;
-            case Event.ROUNDCLOSE_MOB:
-                this._UIcontroller.emit(Event.ACTION, Event.ROUNDCLOSE_MOB);
+            case Event.MOB_CLOSE_ROUND:
+                this._UIcontroller.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
                 break
-            // case Event.ROUNDLOES_I:
-            //     this._UIcontroller.emit(Event.ACTION, Event.ROUNDLOES_I);
-            //     break;
-            // case Event.ROUNDCLOSE_MOB:
-            //     this._UIcontroller.emit(Event.ACTION, Event.ROUNDLOES_MOB);
-            //     break;
-            case Event.ROUNDCLOSE:
-                this._UIcontroller.emit(Event.ACTION, Event.ROUNDCLOSE);
+            case Event.I_CLOSE_ROUND:
                 break;
-            case Event.PICKUPCARDS:
+            case Event.MOB_CLOSE_ROUND:
                 break;
-            case Event.PICKUPCARDSEND:
+            case Event.ROUND_CLOSE:
+                this._UIcontroller.emit(Event.ACTION, Event.ROUND_CLOSE);
                 break;
-            case Event.CHECKCARDAND:
+            case Event.PICKUP_CARDS_END:
+                break;
+            case Event.CHECK_CARD_AND:
                 this.preperNewRound();
                 break;
-            case Event.MYCARTONTABLE:
+            case Event.I_MOVE_CARD_ON_TABLE:
                 break;
             default:
                 break;

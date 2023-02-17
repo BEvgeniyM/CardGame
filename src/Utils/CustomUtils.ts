@@ -121,9 +121,7 @@ export class CustomUtils {
             return s.scale.x
         }
 
-        if(CustomUtils.IsPortret()) {
-            s.scale.set(window.innerHeight * cnf.scale /s.height);
-        }else s.scale.set(window.innerWidth * cnf.scale /s.height);
+        s.scale.set(window.innerWidth * cnf.scale /s.height);
         return s.scale.x
     }
 

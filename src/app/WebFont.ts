@@ -135,7 +135,8 @@ export class WebFont extends Container {
             // letterSpacing:2,  
         }
         let style = Object.assign(defaultStyle, this.config.style)
-        // style.fontFamily ='PoorStory'
+        // debugger
+        // style.fontFamily ='Freehand-Regular'
         // create some white text using the Snippet webfont
         // const textSample = new PIXI.Text(this.config.text, style);
 

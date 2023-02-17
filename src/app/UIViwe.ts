@@ -100,7 +100,7 @@ export class UIViwe extends Container {
     clickOnHeroMob(f:boolean = true){
     }
     clickOnHeroMy(f:boolean = true){
-        this.parent.emit(Event.ACTION,Event.ROUNDCLOSE_I);
+        this.parent.emit(Event.ACTION,Event.I_CLOSE_ROUND);
     }
 
     ectionOnHeroMy(f:boolean = true){

@@ -87,13 +87,15 @@ export class DataSetting {
 
     static SplashScreenBackGround = {
         type: 'GraphicImage',
+        interType: 'Rectangle',
         color: 0x000000,
         x: 0,
         y: 0,
         w: 10,
         h: 10,
         z: 1001,
-        alpha: 1
+        alpha: 1,
+        scale:1,
     }
 
     static SplashScreen = {
@@ -130,7 +132,20 @@ export class DataSetting {
     /*********************************************************************************************** */
     /******** Button Part *********************************************************8**************** */
     /*********************************************************************************************** */
+   
 
+    static HeroMy = {
+        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:2,ax:0.5,ay:0.5},
+        {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
+        type: 'SpriteImage',
+        t: 'hero_1', tb: 'shift_1', x: 0.90, y: 0.90, ax: 0.5, ay: 0.5, scale: 0.2, duration: DataSetting.DefaultDuration
+    }
+    static HeroMob = {
+        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:2,ax:0.5,ay:0.5},
+        {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
+        type: 'SpriteImage',
+        t: 'hero_2', tb: 'shift_3', x: 0.90, y: 0.08, ax: 0.5, ay: 0.5, scale: 0.18, duration: DataSetting.DefaultDuration 
+    }
 
     static Menu = {
         type: 'SpriteImage',
@@ -140,14 +155,11 @@ export class DataSetting {
         type: 'SpriteImage',
         t: 'winPanel', x: 0, y: 0, ax: 0, ay: 0, scale: 0.1, duration: DataSetting.DefaultDuration
     }
-    static HeroMy = {
+    static HelpClose = {
         type: 'SpriteImage',
-        t: 'hero_1', tb: 'shift_1', x: 0.90, y: 0.90, ax: 0.5, ay: 0.5, scale: 0.2, duration: DataSetting.DefaultDuration
-    }
-    static HeroMob = { t: 'hero_2', tb: 'shift_3', x: 0.90, y: 0.08, ax: 0.5, ay: 0.5, scale: 0.18, duration: DataSetting.DefaultDuration }
-
-    static HelpClose = { t: 'round_close', x: 0.9, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.08, duration: DataSetting.DefaultDuration }
+        t: 'round_close', x: 0.9, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.08, duration: DataSetting.DefaultDuration }
     static HelpPaper = {
+        type: 'SpriteImage',
         t: 'papir', x: 0.5, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.4, duration: DataSetting.DefaultDuration, portret: {
             t: 'papir_2',
             x: 0.5,
@@ -155,6 +167,21 @@ export class DataSetting {
             scale: 0.7
         }
     }
+    static HelpBackGround = {
+        type: 'GraphicImage',
+        interType: 'Rectangle',
+        color: 0x000000,
+        x: 0,
+        y: 0,
+        w: 10,
+        h: 10,
+        z: 1001,
+        scale:1,
+        alpha: 0.5
+    }
 
-
+    static MessageHelp = {
+        type: 'MessageContainer',
+        array:[DataSetting.HeroMy,DataSetting.HeroMob]
+    }
 }   

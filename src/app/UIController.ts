@@ -41,7 +41,6 @@ export class UIController extends Container {
                 this._viwe.ectionOnHeroMob(false);
                 break;
             case Event.ROUND_CLOSE:
-                debugger
                 this._viwe.lockBtn(true);
                 break;
         }

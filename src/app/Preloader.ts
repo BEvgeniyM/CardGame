@@ -127,7 +127,7 @@ export class Preloader extends Container {
 
     creatPreloader(): void {
         new Element(this, DataSetting.SplashScreenBackGround);
-        this._sleshScren = new Element(this, DataSetting.SplashScreen).getElement();
+        this._sleshScren = new Element(this, DataSetting.SplashScreen).element;
 
         CustomUtils.ResizeBack(this._sleshScren as Sprite);
         this.resizeCanvas();
@@ -164,7 +164,7 @@ export class Preloader extends Container {
 
     onProgress(e: any) {
 
-        let sprite = new Element(this._pregress, DataSetting.Progress).getElement() as Sprite;
+        let sprite = new Element(this._pregress, DataSetting.Progress).element as Sprite;
         sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
         sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
         this._pregress.pivot.set(this._pregress.width * 1, 0);

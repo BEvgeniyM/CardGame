@@ -7,26 +7,33 @@ import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 import { Button } from './Components/Button';
-import {WebFont} from './WebFont';
+import { Message } from './Components/Message';
+import {WebFont} from './Components/BaseComponents/WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
+import {Element, ElementConfig } from './Components/Element';
+
 
 
 export class UIViwe extends Container {
 
-    private _menu: Sprite;
+    // private _menu: Sprite;
     private _close: Sprite;
     private _winPanel: Sprite;
     private _heroMy: Sprite;
     // private _heroMy: DisplayObject;
     private _heroMob: Sprite;
-    private _helpClose: Sprite;
-    private _helpPaper: Sprite;
+   
     private _helpDataText: WebFont;
     private _helpseal: Sprite;
 
     private _helpData = new Container()
 
+    private _helpClose: Button;
+    private _helpPaper: Button;
+    private _btnTackCard_I: Button;
+    private _btnTackCard_Mob: Button;
+    private _menu: Button;
 
     constructor(){
         super()
@@ -34,17 +41,18 @@ export class UIViwe extends Container {
     }
 
     start(): void {
-        this._heroMy = this.cretHero(this._heroMy,DataSetting.HeroMy,this.clickOnHeroMy.bind(this));
-        // this._heroMy =  new Button (this,DataSetting.HeroMy,['pointerdown'],[this.clickOnHeroMy.bind(this)]).getElement();
-        this._heroMob = this.cretHero(this._heroMob,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
-        this._helpClose = this.cretHero(this._helpClose,DataSetting.HelpClose,this.helpClick.bind(this));
-        this._helpPaper = this.cretHero(this._helpPaper,DataSetting.HelpPaper,this.helpPaper.bind(this));
         
-        const t = Object.assign({parent:this}, DataSetting.TextHelp);
-        
+        this._helpClose =  new Button (this,DataSetting.HelpClose,['pointerdown'],[this.helpClick.bind(this)]);
+        this._helpPaper =  new Button (this,DataSetting.HelpPaper,['pointerdown'],[this.helpPaper.bind(this)]);
+        this._menu =  new Button (this,DataSetting.Menu,['pointerdown'],[this.clickOnMenu.bind(this)]);
+
+
+        this._btnTackCard_I =  new Button (this,DataSetting.HeroMy,['pointerdown'],[this.clickOnHeroMy.bind(this)]);
+        this._btnTackCard_Mob =  new Button (this,DataSetting.HeroMob,['pointerdown'],[this.clickOnHeroMob.bind(this)]);
+
+        const t = Object.assign({parent:this}, DataSetting.TextHelp);        
         this._helpDataText = new WebFont('_helpDataText',t);
         
-        this._menu = this.cretHero(this._menu,DataSetting.Menu,this.clickOnMenu.bind(this));
 
         this.creatHelp();
 
@@ -53,45 +61,16 @@ export class UIViwe extends Container {
     }
     
 
-    cretHero(s:Sprite,cnf:any,f:any = ()=>{}): Sprite{
-        s = Cart.SpriteCreat(this,cnf.t);
-
-        // The important bit of this example, this is how you change the default blend mode of the sprite
-        // s.blendMode = PIXI.BLEND_MODES.ADD;
-        s.blendMode = PIXI.BLEND_MODES.HARD_LIGHT;
-
-        s.name = cnf.t;
-        s.interactive = true;
-        s.on('pointerdown', f);
-        s.anchor.set(cnf.ax,cnf.ay);
-        CustomUtils.SetScaleOfProz(s as PIXI.Sprite, cnf);
-        CustomUtils.SetPositionProz(s,cnf);
-        // gsap.to(s,{
-           
-        //         x:cnf.x+CustomUtils.GetRandomArbitrary(-10,10),
-        //         y:cnf.y+CustomUtils.GetRandomArbitrary(-10,10),
-               
-          
-        //     duration: DataSetting.DefaultDuration,
-        //     repeat:1000,
-        // })
-        return s
-    }
 
     creatHelp(){
-        const btn = new PIXI.Graphics();
-        btn.beginFill(0x00000);
-        btn.drawRect(0, 0, window.outerWidth*4, window.outerHeight*4);
-        btn.endFill();
-        btn.position.set(0, 0);
-        btn.alpha = 0.5;
-        this._helpData.addChild(btn);
-        this._helpData.addChild(this._helpPaper);
-        // this._helpData.addChild(this._helpseal);
+        const btn = new Element(this._helpData,DataSetting.HelpBackGround).element
+        this._helpData.addChild(this._helpPaper.element);
         this._helpData.addChild(this._helpDataText);
-        this._helpData.addChild(this._helpClose);
+        this._helpData.addChild(this._helpClose.element);
         this._helpData.visible =false
         this.addChild(this._helpData);
+
+        // new Message(this,DataSetting.MessageHelp);
         
     }
 
@@ -105,45 +84,25 @@ export class UIViwe extends Container {
     clickOnHeroMy(f:boolean = true){
         this.parent.emit(Event.ACTION,Event.I_CLOSE_ROUND);
     }
-
     ectionOnHeroMy(f:boolean = true){
-        this.ectionOnHero(this._heroMy,DataSetting.HeroMy,f);
+        this.ectionOnHero(this._btnTackCard_I,f);
     }
     ectionOnHeroMob(f:boolean = true){
-        this.ectionOnHero(this._heroMob,DataSetting.HeroMob,f);
+        this.ectionOnHero(this._btnTackCard_Mob,f);
     }
-    ectionOnHero(s:Sprite,cnf:any,f:boolean){
-        debugger
-        // s.animation
+    ectionOnHero(s:Button,f:boolean){
         if(f == true){
-            this.rotationHero(s,cnf.t)
-        } else  this.rotationHero(s,cnf.tb);
+            s.animation.rotatingAndСhangingTexture(s.config.t);
+        } else s.animation.rotatingAndСhangingTexture(s.config.tb);
     }
+
+   
 
     lockBtn(f:boolean):void{
       this.interactiveChildren = f;
     }
 
 
-    rotationHero(s:Sprite,t:string){
-        s.name = t
-        // this.parent.emit(Event.UI_MENU_OPEN);
-        const sx = CustomUtils.SetScaleOfProz(s as PIXI.Sprite, DataSetting.HeroMob);
-
-        CustomUtils.GoTo(s.scale,{
-                x:sx*0.1,
-                delay:0,
-                callbackScope:s,
-                onComplete:()=>{
-                    s.texture = PIXI.Texture.from(t);
-                    CustomUtils.GoTo(s.scale,{
-                        x:sx,
-                        delay:0,
-                        callbackScope:s,
-                        onComplete:()=>{
-                        }})
-                }})
-    }
 
     helpPaper(){
     }
@@ -156,6 +115,7 @@ export class UIViwe extends Container {
     }
 
     clickOnMenu(){
+        debugger
         this._helpData.visible = true;
     }
 
@@ -167,25 +127,26 @@ export class UIViwe extends Container {
 
 
     resizeCanvas(){
-        CustomUtils.SetScaleOfProz(this._menu as PIXI.Sprite, DataSetting.Menu);
-        CustomUtils.GoToProz(this._menu,DataSetting.Menu);
+        CustomUtils.SetScaleOfProz(this._menu.element as PIXI.Sprite, DataSetting.Menu);
+        CustomUtils.GoToProz(this._menu.element,DataSetting.Menu);
 
-        CustomUtils.SetTextureOfProz(this._helpPaper,DataSetting.HelpPaper);
-        CustomUtils.SetScaleOfProz(this._helpPaper as PIXI.Sprite, DataSetting.HelpPaper);
-        CustomUtils.GoToProz(this._helpPaper,DataSetting.HelpPaper);
+        CustomUtils.SetScaleOfProz(this._btnTackCard_I.element as PIXI.Sprite, DataSetting.HeroMy);
+        CustomUtils.GoToProz(this._btnTackCard_I.element,DataSetting.HeroMy);
 
-        // CustomUtils.SetScaleOfProz(this._winPanel as PIXI.Sprite, DataSetting.WinPanel);
-        // CustomUtils.GoToProz(this._winPanel,DataSetting.WinPanel);
+        CustomUtils.SetScaleOfProz(this._btnTackCard_Mob.element as PIXI.Sprite, DataSetting.HeroMob);
+        CustomUtils.GoToProz(this._btnTackCard_Mob.element,DataSetting.HeroMob);
 
 
-        CustomUtils.SetScaleOfProz(this._heroMy as PIXI.Sprite, DataSetting.HeroMy);
-        CustomUtils.GoToProz(this._heroMy,DataSetting.HeroMy);
 
-        CustomUtils.SetScaleOfProz(this._heroMob as PIXI.Sprite, DataSetting.HeroMob);
-        CustomUtils.GoToProz(this._heroMob,DataSetting.HeroMob);
 
-        CustomUtils.SetScaleOfProz(this._helpClose as PIXI.Sprite, DataSetting.HelpClose);
-        CustomUtils.GoToProz(this._helpClose,DataSetting.HelpClose);
+        CustomUtils.SetTextureOfProz(this._helpPaper.element as PIXI.Sprite,DataSetting.HelpPaper);
+        CustomUtils.SetScaleOfProz(this._helpPaper.element as PIXI.Sprite, DataSetting.HelpPaper);
+        CustomUtils.GoToProz(this._helpPaper.element,DataSetting.HelpPaper);
+
+       
+
+        CustomUtils.SetScaleOfProz(this._helpClose.element as PIXI.Sprite, DataSetting.HelpClose);
+        CustomUtils.GoToProz(this._helpClose.element,DataSetting.HelpClose);
 
     }
 

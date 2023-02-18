@@ -68,7 +68,7 @@ export class Cart extends Sprite {
         //     return
         // }
 
-        debugger
+        
         const cx = this.scale.x * 0.1;
         this._timeLine = gsap.timeline()
             .to(this.scale, {

@@ -1,11 +1,10 @@
 import { Sprite, Texture } from 'pixi.js';
-import { ElementConfig } from './Element';
-import { Animation } from './Animation';
+import { ElementConfig } from '../Element';
 
 export class SpriteImage extends Sprite {
-  public animation: Animation;
+  public textureID: string;
 
-  constructor(private config: ElementConfig) {
+  constructor(config: ElementConfig) {
     super();
 
     if (config) {
@@ -20,7 +19,12 @@ export class SpriteImage extends Sprite {
   }
 
   setTexture(str: string): void {
+    this.textureID = str;
     this.texture = Texture.from(str);
+  }
+
+  static GetTexture(str: string): Texture {
+    return Texture.from(str);
   }
 
 }

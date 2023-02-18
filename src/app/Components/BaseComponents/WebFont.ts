@@ -4,8 +4,8 @@ import { CompositeTilemap, CompositeRectTileLayer } from '@pixi/tilemap';
 import { settings } from '@pixi/tilemap';
 
 import gsap from "gsap";
-import { StageController } from '../app/../StageController'
-import { CustomUtils } from '../Utils/CustomUtils'
+import { StageController } from '../../../StageController'
+import { CustomUtils } from '../../../Utils/CustomUtils'
 export class WebFont extends Container {
 
     /*************************************************************************************
@@ -37,22 +37,10 @@ export class WebFont extends Container {
         let s = this.children[0] as PIXI.DisplayObject;
         const cnf = this.config;
 
-
         if (cnf.portret && CustomUtils.IsPortret()) {
             CustomUtils.GoToProz(this, cnf.portret)
         } else CustomUtils.GoToProz(this, cnf)
 
-        // s.scale.set(1);
-        // if (CustomUtils.IsPortret() && cnf.portret && cnf.portret.scale) {
-        //     if (CustomUtils.IsPortret()) {
-        //         s.scale.set(window.innerHeight * cnf.portret.scale / s.height);
-        //     } else s.scale.set(window.innerWidth * cnf.portret.scale / s.height);
-        //     return s.scale.x
-        // }
-
-        // if (CustomUtils.IsPortret()) {
-        //     s.scale.set(window.innerHeight * cnf.scale / s.height);
-        // } else s.scale.set(window.innerWidth * cnf.scale / s.height);
         return s.scale.x
     }
 

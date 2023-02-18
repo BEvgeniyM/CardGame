@@ -61,7 +61,6 @@ export class WebFont extends Container {
 
 
     public creatTilemap(textureName: string): Sprite {
-        debugger
         const texture = PIXI.Texture.from(textureName);
         const sprite = new Sprite();
         const tilemap = new CompositeTilemap();

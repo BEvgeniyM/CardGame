@@ -18,8 +18,8 @@ export class BaseViwe extends Container {
 
     private _mobPull: Container = new Container();
     private _table: Container = new Container();
-    private _mylastCart: Cart = {} as Cart;
-    private _moblastCart: Cart = {} as Cart;
+    private _mylastCart: Cart;
+    private _moblastCart: Cart;
 
 
     private _pullCount: number = 0;
@@ -27,7 +27,7 @@ export class BaseViwe extends Container {
     private _cartHeight: number = 0;
     private _cartZIndex: number = 1;
 
-    private _timeStart: number = 6;
+    private _timeStart: number;
     private _timeEnd: number = 4;
     private _timeDel: number = 0;
     private _delayNewCart: number = 0.5;
@@ -72,7 +72,7 @@ export class BaseViwe extends Container {
         this.addChild(this._cartPull).name = '_cartPull';
 
         this._cartStock.zIndex = 300
-        this._cartStock.position.set(window.innerWidth * 0.90, window.i * 0.5 + CustomUtils.CartHeight / 2)
+        this._cartStock.position.set(window.innerWidth * 0.90, window.innerHeight * 0.5 + CustomUtils.CartHeight / 2)
         this.addChild(this._cartStock).name = '_cartStock';
 
         window.addEventListener("resize", this.resizeCanvas.bind(this));

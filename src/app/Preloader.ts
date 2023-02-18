@@ -1,6 +1,6 @@
-import { Container, Loader, Sprite } from 'pixi.js'
+import { Container, DisplayObject, Loader, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
-import { Image } from './Image';
+import { Element } from '../app/Components/Element';
 import { Event } from './Event';
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
@@ -15,7 +15,7 @@ export class Preloader extends Container {
     /** SETING */
     private _skale: number = 1 //s
     private _cartCount: number = 100;
-    private _sleshScren: Sprite = {} as Sprite;
+    private _sleshScren: Sprite | DisplayObject;
     private _pregress = new Container();
 
     /** SETING */
@@ -126,10 +126,10 @@ export class Preloader extends Container {
     }
 
     creatPreloader(): void {
-        Image.SpriteGraphics(this, DataSetting.SplashScreenBackGround);
-        this._sleshScren = new Image(this, DataSetting.SplashScreen);
+        new Element(this, DataSetting.SplashScreenBackGround);
+        this._sleshScren = new Element(this, DataSetting.SplashScreen).getElement();
 
-        CustomUtils.ResizeBack(this._sleshScren);
+        CustomUtils.ResizeBack(this._sleshScren as Sprite);
         this.resizeCanvas();
     }
 
@@ -164,7 +164,7 @@ export class Preloader extends Container {
 
     onProgress(e: any) {
 
-        let sprite = new Image(this._pregress, DataSetting.Progress);
+        let sprite = new Element(this._pregress, DataSetting.Progress).getElement() as Sprite;
         sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
         sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
         this._pregress.pivot.set(this._pregress.width * 1, 0);
@@ -200,7 +200,7 @@ export class Preloader extends Container {
         //     const sprite = this._pregress.children[i] as Sprite;
         //     CustomUtils.SetScaleOfProz(sprite,DataSetting.Progress);            
         // }
-        CustomUtils.ResizeBack(this._sleshScren);
+        CustomUtils.ResizeBack(this._sleshScren as Sprite);
         this._pregress.scale.set(this._sleshScren.scale.x)
         if (!CustomUtils.IsPortret()) {
             this._pregress.position.set(window.innerWidth * 0.5, window.innerHeight * 0.9);

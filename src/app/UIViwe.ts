@@ -1,4 +1,4 @@
-import { Container, Sprite } from 'pixi.js'
+import { Container, DisplayObject, Sprite } from 'pixi.js'
 import { Event } from './Event';
 import { BaseViwe } from './BaseViwe';
 import { Cart } from './Cart';
@@ -6,22 +6,24 @@ import { CustomUtils } from '../Utils/CustomUtils'
 import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
-import {WebFont} from '../app/WebFont';
+import { Button } from './Components/Button';
+import {WebFont} from './WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
 
 
 export class UIViwe extends Container {
 
-    private _menu: Sprite = {} as Sprite
-    private _close: Sprite = {} as Sprite
-    private _winPanel: Sprite = {} as Sprite
-    private _heroMy: Sprite = {} as Sprite
-    private _heroMob: Sprite = {} as Sprite
-    private _helpClose: Sprite = {} as Sprite
-    private _helpPaper: Sprite = {} as Sprite
-    private _helpDataText: WebFont = {} as WebFont
-    private _helpseal: Sprite = {} as Sprite
+    private _menu: Sprite;
+    private _close: Sprite;
+    private _winPanel: Sprite;
+    private _heroMy: Sprite;
+    // private _heroMy: DisplayObject;
+    private _heroMob: Sprite;
+    private _helpClose: Sprite;
+    private _helpPaper: Sprite;
+    private _helpDataText: WebFont;
+    private _helpseal: Sprite;
 
     private _helpData = new Container()
 
@@ -33,7 +35,8 @@ export class UIViwe extends Container {
 
     start(): void {
         this._heroMy = this.cretHero(this._heroMy,DataSetting.HeroMy,this.clickOnHeroMy.bind(this));
-        this._heroMob = this.cretHero(this._heroMy,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
+        // this._heroMy =  new Button (this,DataSetting.HeroMy,['pointerdown'],[this.clickOnHeroMy.bind(this)]).getElement();
+        this._heroMob = this.cretHero(this._heroMob,DataSetting.HeroMob,this.clickOnHeroMob.bind(this));
         this._helpClose = this.cretHero(this._helpClose,DataSetting.HelpClose,this.helpClick.bind(this));
         this._helpPaper = this.cretHero(this._helpPaper,DataSetting.HelpPaper,this.helpPaper.bind(this));
         
@@ -110,6 +113,8 @@ export class UIViwe extends Container {
         this.ectionOnHero(this._heroMob,DataSetting.HeroMob,f);
     }
     ectionOnHero(s:Sprite,cnf:any,f:boolean){
+        debugger
+        // s.animation
         if(f == true){
             this.rotationHero(s,cnf.t)
         } else  this.rotationHero(s,cnf.tb);

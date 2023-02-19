@@ -7,7 +7,7 @@ import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 import { Button } from './Components/Button';
-import { Message } from './Components/Message';
+import { MessageContainer } from './Components/MessageContainer';
 import {WebFont} from './Components/BaseComponents/WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
@@ -70,7 +70,7 @@ export class UIViwe extends Container {
         this._helpData.visible =false
         this.addChild(this._helpData);
 
-        // new Message(this,DataSetting.MessageHelp);
+        new MessageContainer(this,DataSetting.MessageHelp);
         
     }
 

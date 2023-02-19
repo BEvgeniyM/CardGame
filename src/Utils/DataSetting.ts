@@ -180,8 +180,14 @@ export class DataSetting {
         alpha: 0.5
     }
 
+    static Flag = {
+        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'map_repeat',scale:10,ax:0.5,ay:0.5},
+        {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
+        type: 'SpriteImage',
+        t: 'flag', tb: 'flag', x: 0.1, y: 0.4, ax: 0.5, ay: 0.5, scale: 0.6, duration: DataSetting.DefaultDuration
+    }
     static MessageHelp = {
         type: 'MessageContainer',
-        array:[DataSetting.HeroMy,DataSetting.HeroMob]
+        childs:[DataSetting.Flag]
     }
 }   

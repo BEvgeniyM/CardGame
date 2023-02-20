@@ -4,12 +4,12 @@ import { ElementConfig } from '../Element';
 export class GraphicImage extends Graphics {
   private color: number;
 
-  constructor(private config: ElementConfig) {
+  constructor(public config: ElementConfig) {
     super();
     this.color = config.color ?? 0xffffff;
     this.setup();
   }
-
+z
   private setup(): void {
     this.position.set(this.config.x ?? 0, this.config.y ?? 0);
     this.width = this.config.w ?? 100;

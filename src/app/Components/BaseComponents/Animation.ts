@@ -2,8 +2,10 @@ import { Sprite, DisplayObject } from 'pixi.js';
 import { gsap } from "gsap";
 import { CustomUtils } from '../../../Utils/CustomUtils';
 import { ElementConfig, ElementType,Element } from '../Element';
+import { SimpleRopeImage } from './SimpleRopeImage';
 import { SpriteImage } from './SpriteImage';
 import { Filters } from './Filters';
+import { StageController } from '../../../StageController';
 import { DataSetting } from '../../../Utils/DataSetting';
 
 export class Animation {
@@ -58,5 +60,62 @@ export class Animation {
   addsetBlurFilterAnimation(f:boolean){
     f && this._element.filters?.shift()
     !f && this._filters.setFilter();
+  }
+
+  moveFromTo(){
+   gsap.to( this._element,{
+    x: this._element.x + window.innerWidth*0.05,
+    delay:CustomUtils.GetRandomArbitrary(0,7),
+    duration: DataSetting.DefaultDuration*7,
+    repeat:10000,
+    yoyo:true,
+   })
+  }
+
+  alphaAnimation(a:boolean = true){
+    debugger
+    this._element.alpha = !a?1:0;
+    gsap.to( this._element,{
+      alpha:a?1:0,
+      duration: DataSetting.DefaultDuration * 4,
+     })
+  }
+
+  animationMeth(){
+    const sprite = this._element as SimpleRopeImage;
+
+    if(!sprite.points){
+      console.error("Point array not found in config for Meth");
+      debugger
+      return
+    }
+
+    let count = 0;
+    StageController.app.ticker.add(() => {
+      count += 0.01;
+      for (let i = 0; i <  sprite.points.length; i++) {
+        sprite.points[i].y = Math.sin((i * 0.5) + count) * 2;
+        sprite.points[i].x = i * sprite.xStap + Math.cos((i * 0.3) + count) * 2;
+      }
+    });
+  }
+
+  animationMeth_2(){
+    const sprite = this._element as SimpleRopeImage;
+
+    if(!sprite.points){
+      console.error("Point array not found in config for Meth");
+      debugger
+      return
+    }
+
+    let count = 0;
+    StageController.app.ticker.add(() => {
+      count += 0.1;
+      for (let i = 0; i <  sprite.points.length; i++) {
+        sprite.points[i].y = Math.sin((i * 0.5) + count) * 30;
+        sprite.points[i].x = i * sprite.xStap + Math.cos((i * 0.3) + count) * 20;
+      }
+    });
   }
 }

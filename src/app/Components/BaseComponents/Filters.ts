@@ -7,14 +7,16 @@ export class Filters {
 
   public static readonly DisplacementFilter = 'DISPLACEMENTFILTER';
   public static readonly BlurFilter = 'BLURFILTER';
+  public static readonly Math = 'MATH';
+
   private _element: ElementType;
   private _config: ElementConfig
 
-  constructor (private ELEMENT: Element) {
+  constructor(private ELEMENT: Element) {
     this._element = ELEMENT.element;
     this._config = ELEMENT.config;
     this._element.filters = [];
-    
+
     this.setFilter();
   }
 
@@ -29,6 +31,10 @@ export class Filters {
 
         if (this._config.filter[i].type == Filters.BlurFilter) {
           this.setBlurFilter(this._config.filter[i]);
+        }
+
+        if (this._config.filter[i].type == Filters.Math) {
+          this.setMath(this._config.filter[i]);
         }
 
       }
@@ -70,11 +76,47 @@ export class Filters {
 
     StageController.app.ticker.add(() => {
       displacementSprite.x++;
-      if (displacementSprite.x >= displacementSprite.width / 10) {
+      if (displacementSprite.x >= displacementSprite.width / 2) {
         displacementSprite.x = 0;
       }
     });
   }
+
+  setMath(f: FilterConfig): void {
+
+    // if (!f.DisplacementFilterTexture) {
+    //   return
+    // }
+
+    // let points: Array<PIXI.Point> = [];
+    // const ropeLength = 400 / 20;
+    // for (let i = 0; i < 20; i++) {
+    //   points.push(new PIXI.Point(i * ropeLength, 0));
+    // }
+
+    // // const strip = new PIXI.SimpleRope(PIXI.Texture.from(f?.DisplacementFilterTexture), points);
+
+    // let s = this._element as PIXI.Sprite
+    // const strip = new PIXI.SimpleRope(s.texture, points);
+    // strip.scale.set(f.scale);
+    // this._element.parent.addChild(strip);
+
+
+    // let count = 0;
+    // StageController.app.ticker.add(() => {
+    //   count += 0.1;
+    //   // make the snake
+    //   for (let i = 0; i < points.length; i++) {
+    //     points[i].y = Math.sin((i * 0.5) + count) * 30;
+    //     points[i].x = i * ropeLength + Math.cos((i * 0.3) + count) * 20;
+    //   }
+    // });
+
+
+  }
+
+
+
 }
 
 

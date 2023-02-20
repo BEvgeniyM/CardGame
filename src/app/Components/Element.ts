@@ -1,15 +1,15 @@
-import { Container, DisplayObject, Filter} from 'pixi.js';
+import { Container, IPoint } from 'pixi.js';
+
 import { SpriteImage } from './BaseComponents/SpriteImage';
 import { GraphicImage } from './BaseComponents/GraphicImage';
+import { SimpleRopeImage } from './BaseComponents/SimpleRopeImage';
 import { Animation } from './BaseComponents/Animation';
-import { Filters,FilterConfig } from './BaseComponents/Filters';
+import { Filters, FilterConfig } from './BaseComponents/Filters';
 
 export class Element {
     public static readonly SpriteImage = 'SpriteImage';
     public static readonly GraphicImage = 'GraphicImage';
-
-    // public blurFilters?: Filter | null;
-    // public filters: Array<any> = [];
+    public static readonly SimpleRopeImage = 'SimpleRopeImage';
 
     public element: ElementType;
     public animation: Animation;
@@ -24,15 +24,22 @@ export class Element {
             case Element.GraphicImage:
                 this.element = new GraphicImage(config);
                 break;
+            case Element.SimpleRopeImage:
+                this.element = new SimpleRopeImage(config);
+                break;
             default:
                 break;
         }
 
         if (this.element) {
-            parent.addChild(this.element);
+            parent.addChild(this.element);   
             this.filters = new Filters(this);
-            this.animation = new Animation(this);
+            this.animation = new Animation(this);        
+        } else{
+            console.error("Element not Created !!!");
+            debugger
         }
+      
     }
 }
 
@@ -52,13 +59,13 @@ export interface ElementConfig {
     color?: number;
     w?: number;
     h?: number;
-    filter?:Array<FilterConfig>
+    point?: IPoint[];
+    xStap?:number;
+    filter?: Array<FilterConfig>
 }
 
 
-
-
-export type ElementType = SpriteImage | GraphicImage;
+export type ElementType = SpriteImage | GraphicImage | SimpleRopeImage;
 
 
 

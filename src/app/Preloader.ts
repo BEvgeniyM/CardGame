@@ -51,6 +51,8 @@ export class Preloader extends Container {
 
 
             loader.add("map_repeat", "./assets/map_repeat.png");
+            loader.add("BtnS", "./assets/BtnS.png");
+            loader.add("flag_3", "./assets/flag_3.png");
             loader.add("flag", "./assets/flag.png");
             loader.add("papir", "./assets/papir.png");
             loader.add("seal", "./assets/seal.png");

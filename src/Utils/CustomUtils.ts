@@ -140,17 +140,41 @@ export class CustomUtils {
     }
 
     static GoToProz(s:any,cnf: any){
-        const c = {
-            x:cnf.x*window.innerWidth,
-            y:cnf.y*window.innerHeight,
-            duration:cnf.duration
-        }
+        let c: any
+        if(CustomUtils.IsPortret() && cnf.portret){
+             c = {
+                x:cnf.portret.x*window.innerWidth,
+                y:cnf.portret.y*window.innerHeight,
+                duration:cnf.duration
+            }
+        } else{
+             c = {
+                x:cnf.x*window.innerWidth,
+                y:cnf.y*window.innerHeight,
+                duration:cnf.duration
+            }
+        }       
         gsap.to(s,c)
         return s
     }
 
     static IsPortret():boolean{
        return  window.innerHeight > window.innerWidth
+    }
+
+    // static setPositionAndScaleFromParentOfProz(p:any){
+    //     for (let i = 0; i < p.child.length; i++) {
+    //         const child = p.child[i].element;
+    //         CustomUtils.SetPositionProz(child as PIXI.Sprite, child.config);
+    //         CustomUtils.SetScaleOfProz(child as PIXI.Sprite, child.config);
+    //     }
+
+    // }
+    static setPositionAndScaleFromParentOfProz(p:any){        
+            // CustomUtils.SetPositionProz(p.messageContainer as PIXI.Sprite, p.config);
+            debugger
+            CustomUtils.SetScaleOfProz(p.messageContainer as PIXI.Sprite, p.config);
+            CustomUtils.GoToProz(p.messageContainer as PIXI.Sprite, p.config);
     }
 }
 

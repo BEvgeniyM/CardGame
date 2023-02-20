@@ -6,8 +6,9 @@ import { CustomUtils } from '../Utils/CustomUtils'
 import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
+
 import { Button } from './Components/Button';
-import { MessageContainer } from './Components/MessageContainer';
+import { ElementContainer } from './Components/ElementContainer';
 import {WebFont} from './Components/BaseComponents/WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
@@ -17,7 +18,7 @@ import {Element, ElementConfig } from './Components/Element';
 
 export class UIViwe extends Container {
 
-    // private _menu: Sprite;
+    private _menuMessage: ElementContainer;
     private _close: Sprite;
     private _winPanel: Sprite;
     private _heroMy: Sprite;
@@ -38,6 +39,8 @@ export class UIViwe extends Container {
     constructor(){
         super()
         // this.interactiveChildren = true
+        this.sortableChildren = true
+        this.sortChildren();
     }
 
     start(): void {
@@ -63,6 +66,16 @@ export class UIViwe extends Container {
 
 
     creatHelp(){
+        this._menuMessage = new ElementContainer(this,DataSetting.MessageHelp);
+        this._menuMessage.messageContainer.visible = false
+        for (let i = 1; i < this._menuMessage.child.length; i++) {
+            this._menuMessage.child[i].animation.moveFromTo();
+        }
+        //@ts-ignore()
+        this._menuMessage.child[0].element.setScale();
+        this._menuMessage.child[0].animation.animationMeth();
+
+
         const btn = new Element(this._helpData,DataSetting.HelpBackGround).element
         this._helpData.addChild(this._helpPaper.element);
         this._helpData.addChild(this._helpDataText);
@@ -70,8 +83,7 @@ export class UIViwe extends Container {
         this._helpData.visible =false
         this.addChild(this._helpData);
 
-        new MessageContainer(this,DataSetting.MessageHelp);
-        
+      
     }
 
 
@@ -114,9 +126,14 @@ export class UIViwe extends Container {
         this._helpData.visible = false;
     }
 
-    clickOnMenu(){
+    clickOnMenu(){        
+        this._menuMessage.messageContainer.visible = !this._menuMessage.messageContainer.visible;
         debugger
-        this._helpData.visible = true;
+        // this._menuMessage.animation.alphaAnimation(this._menuMessage.messageContainer.visible)
+        for (let i = 0; i < this._menuMessage.child.length; i++) {
+            this._menuMessage.child[i].animation.alphaAnimation(this._menuMessage.messageContainer.visible);
+        }
+        // this._helpData.visible = true;
     }
 
 
@@ -136,14 +153,12 @@ export class UIViwe extends Container {
         CustomUtils.SetScaleOfProz(this._btnTackCard_Mob.element as PIXI.Sprite, DataSetting.HeroMob);
         CustomUtils.GoToProz(this._btnTackCard_Mob.element,DataSetting.HeroMob);
 
-
+        CustomUtils.setPositionAndScaleFromParentOfProz(this._menuMessage);
 
 
         CustomUtils.SetTextureOfProz(this._helpPaper.element as PIXI.Sprite,DataSetting.HelpPaper);
         CustomUtils.SetScaleOfProz(this._helpPaper.element as PIXI.Sprite, DataSetting.HelpPaper);
         CustomUtils.GoToProz(this._helpPaper.element,DataSetting.HelpPaper);
-
-       
 
         CustomUtils.SetScaleOfProz(this._helpClose.element as PIXI.Sprite, DataSetting.HelpClose);
         CustomUtils.GoToProz(this._helpClose.element,DataSetting.HelpClose);

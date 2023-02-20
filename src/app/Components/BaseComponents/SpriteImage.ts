@@ -4,7 +4,7 @@ import { ElementConfig } from '../Element';
 export class SpriteImage extends Sprite {
   public textureID: string;
 
-  constructor(config: ElementConfig) {
+  constructor(public config: ElementConfig) {
     super();
 
     if (config) {
@@ -23,7 +23,8 @@ export class SpriteImage extends Sprite {
     this.texture = Texture.from(str);
   }
 
-  static GetTexture(str: string): Texture {
+  static GetTexture(str: string | undefined): Texture {
+    if (!str) return Texture.EMPTY
     return Texture.from(str);
   }
 

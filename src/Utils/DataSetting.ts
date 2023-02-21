@@ -43,28 +43,7 @@ export class DataSetting {
     //     scale:0.1
     // }} 
 
-    static TextHelp = {
-        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
-        x: 0.2, y: 0.3, ax: 0.5, ay: 0.5, duration: DataSetting.DefaultDuration,
-        displacementFilterTexture: 'splash_screen_1',
-        scaleX: 10,
-        scaleY: 10,
-        mask: 'shift_1',
-        mask_scale: 2,
-        moveMask: true,
-        portret: {
-            x: 0.2,
-            y: 0.2,
-            duration: DataSetting.DefaultDuration
-        },
-        style: {
-            fontSize: 20,
-            fill: 'white',
-            align: 'center',
-            color: '0x00000',
-            fontFamily: 'Freehand-Regular'
-        },
-    }
+   
 
 
     static Stock = { x: 0.92, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration }
@@ -107,16 +86,18 @@ export class DataSetting {
         ax: 0.5,
         ay: 0.5,
         alpha: 1,
-        scale: 1
+        scale: 1,
+        viweport:{cover:true,angle:true},
+
     }
 
     static Progress = {
         type: 'SpriteImage',
         t: 'skin_1',
-        x: 0.37,
+        x: 0.5,
         y: 0.9,
-        length: 10,
-        scale: 0.04,
+        length: 100,
+        scale: 0.1,
         z: 2000,
         ax: 0.5,
         ay: 0.5,
@@ -124,8 +105,16 @@ export class DataSetting {
         portret: {
             scale: 0.05,
             x: 0.1,
-            y: 0.35,
+            y: 0.5,
         }
+    }
+
+    static SplashScreenContainer = {
+        type: 'ElementContainer',      
+        /** not worc in Conteiner  ax: 0, ay: 1, */
+        x: 0.0, y: 0.0, ax: 0, ay: 1, scale: 1, z: 10000,
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SplashScreenBackGround,DataSetting.SplashScreen],       
     }
 
 
@@ -147,14 +136,22 @@ export class DataSetting {
         t: 'hero_2', tb: 'shift_3', x: 0.90, y: 0.08, ax: 0.5, ay: 0.5, scale: 0.18, duration: DataSetting.DefaultDuration 
     }
 
+    /*********************************************************************************************** */
+    /******** Button Part *********************************************************8**************** */
+    /*********************************************************************************************** */
     static Menu = {
         type: 'SpriteImage',
-        t: 'menu', x: 0.07, y: 0.88, ax: 0.5, ay: 0.5, scale: 0.2, duration: DataSetting.DefaultDuration
+        t: 'menu', x: 0.07, y: 0.88, ax: 0.5, ay: 0.5, scale: 0.2, duration: DataSetting.DefaultDuration, z:1000
     }
     static WinPanel = {
         type: 'SpriteImage',
         t: 'winPanel', x: 0, y: 0, ax: 0, ay: 0, scale: 0.1, duration: DataSetting.DefaultDuration
     }
+
+    /*********************************************************************************************** */
+    /******** help         *********************************************************8**************** */
+    /*********************************************************************************************** */
+
     static HelpClose = {
         type: 'SpriteImage',
         t: 'round_close', x: 0.9, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.08, duration: DataSetting.DefaultDuration }
@@ -180,47 +177,172 @@ export class DataSetting {
         alpha: 0.5
     }
 
-    // static Flag = {
-    //     filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'map_repeat',scale:10,ax:0.5,ay:0.5},
-    //     {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
-    //     type: 'SpriteImage',
-    //     t: 'flag', tb: 'flag', x: 0.1, y: 0.4, ax: 0.5, ay: 0.5, scale: 0.6, duration: DataSetting.DefaultDuration
+    static TextHelp = {
+        type: 'WebFont',
+        text: 'Help Data',
+        filter:[
+            {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        t: 'flag_3', ts: 2, x: 0.5, y: 0.5, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.5, y: 0.5},
+        style: {
+            fontSize: 20,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+
+    // static HelpElementConteiner = {
+    //     type: 'ElementContainer',
+    //     x: 0.0, y: 0.2, scale: 0.5, z: 0,
+    //     portret: {scale: 0.7, x: 0.0, y: 0.2},
+    //     childs:[DataSetting.HelpBackGround,DataSetting.HelpPaper,DataSetting.TextHelp,DataSetting.HelpClose]
     // }
+    /*********************************************************************************************** */
+    /******** ElementContainer Menu *********************************************************8**************** */
+    /*********************************************************************************************** */
     static Flag = {
         filter:[
         {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
         ],
         type: 'SimpleRopeImage',
-        xStap:20,
-        t: 'flag_3', tb: 'flag_3', x: -0.01, y: 0.5, ax: 1, ay: 0.5, scale: 0.3, duration: DataSetting.DefaultDuration
+        xStap:20,        
+        sizeInPXfrom: 300, ///
+        t: 'flag_3', tb: 'flag_3', x: -0.1, y: 1, ax: 0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
+        viweport:{sf:300}
     }
 
     static Btn_0 = {      
         type: 'SpriteImage',
-        xStap:20,
-        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 0.1, ax: 0, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 0.1, x: 0.0, y: 0.1},
+        sizeInPXfrom: 200,
+        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.0, y: 1},
+        viweport:{sf:200}
     }
 
     static Btn_1 = {      
         type: 'SpriteImage',
-        xStap:20,
-        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 0.4, ax: 0, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 0.1, x: 0.0, y: 0.3},
+        sizeInPXfrom: 300,
+        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.0, y: 1},
+        viweport:{sf:300}
     }
 
     static Btn_2 = {     
         type: 'SpriteImage',
-        xStap:20,
-        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 0.7, ax: 0, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 0.1, x: 0.0, y: 0.5},
+        sizeInPXfrom: 400,
+        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.0, y: 1},
+        viweport:{sf:400}
+    }
+
+    static Btn_0_Text = {
+        type: 'WebFont',
+        text: 'Setting',
+        filter:[
+            {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:200},    
+        t: 'shift_3', ts: 2, x: 0.32, y: 0.9, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.32, y: 0.9},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
     }
 
     
-    static MessageHelp = {
+    static Btn_1_Text = {
+        type: 'WebFont',
+        text: 'Help',
+        filter:[
+            {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'shift_3', ts: 2, x: 0.30, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.30, y: 0.93},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+
+    
+    static Btn_2_Text = {
+        type: 'WebFont',
+        text: 'About us',
+        filter:[
+            {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:400},    
+        t: 'shift_3', ts: 2, x: 0.15, y: 0.95, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.15, y: 0.95},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+
+   
+    static Btn_0_Containe = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.1, ax: 0, ay: 0.5, scale: 0.5, z: 0,
-        portret: {scale: 0.7, x: 0.0, y: 0.4},
-        childs:[DataSetting.Flag,DataSetting.Btn_0,DataSetting.Btn_1,DataSetting.Btn_2]
+        x: 0.0, y: 0.0, scale: 1, z: 0,
+        viweport:{sf:0},   
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.Btn_0,DataSetting.Btn_0_Text]
+    }
+    static Btn_1_Containe = {
+        type: 'ElementContainer',
+        x: 0.0, y: 0.0, scale: 1, z: 0,
+        viweport:{sf:0},   
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.Btn_1,DataSetting.Btn_1_Text]
+    }
+    static Btn_2_Containe = {
+        type: 'ElementContainer',
+        x: 0.0, y: 0.0, scale: 1, z: 0,
+        viweport:{sf:0},   
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.Btn_2,DataSetting.Btn_2_Text]
+    }
+    static MenuElementContaine = {
+        type: 'ElementContainer',
+        x: 0.0, y: 0.2, scale: 0.5, z: 0,
+        portret: {scale: 0.7, x: 0.0, y: 0.2},
+        childs:[DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
+    }
+
+    static MenuElementTextHelp = {
+        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
+        x: 0.2, y: 0.3, ax: 0.5, ay: 0.5, duration: DataSetting.DefaultDuration,
+        displacementFilterTexture: 'splash_screen_1',
+        scaleX: 10,
+        scaleY: 10,
+        mask: 'shift_1',
+        mask_scale: 2,
+        moveMask: true,
+        portret: {
+            x: 0.2,
+            y: 0.2,
+            duration: DataSetting.DefaultDuration
+        },
+        style: {
+            fontSize: 20,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
     }
 }   

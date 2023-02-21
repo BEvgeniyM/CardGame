@@ -141,20 +141,41 @@ export class CustomUtils {
 
     static GoToProz(s:any,cnf: any){
         let c: any
-        if(CustomUtils.IsPortret() && cnf.portret){
-             c = {
-                x:cnf.portret.x*window.innerWidth,
-                y:cnf.portret.y*window.innerHeight,
-                duration:cnf.duration
-            }
+
+        if(cnf.sizeInPXfrom){
+            if(CustomUtils.IsPortret() && cnf.portret){
+                c = {
+                   x:cnf.portret.x*cnf.sizeInPXfrom,
+                   y:cnf.portret.y*cnf.sizeInPXfrom,
+                   duration:cnf.duration
+               }
+           } else{
+                c = {
+                   x:cnf.x*cnf.sizeInPXfrom,
+                   y:cnf.y*cnf.sizeInPXfrom,
+                   duration:cnf.duration
+               }
+           }       
+           gsap.to(s,c)
         } else{
-             c = {
-                x:cnf.x*window.innerWidth,
-                y:cnf.y*window.innerHeight,
-                duration:cnf.duration
-            }
-        }       
-        gsap.to(s,c)
+            if(CustomUtils.IsPortret() && cnf.portret){
+                c = {
+                   x:cnf.portret.x*window.innerWidth,
+                   y:cnf.portret.y*window.innerHeight,
+                   duration:cnf.duration
+               }
+           } else{
+                c = {
+                   x:cnf.x*window.innerWidth,
+                   y:cnf.y*window.innerHeight,
+                   duration:cnf.duration
+               }
+           }       
+           gsap.to(s,c)
+        }
+
+       
+       
         return s
     }
 
@@ -170,11 +191,9 @@ export class CustomUtils {
     //     }
 
     // }
-    static setPositionAndScaleFromParentOfProz(p:any){        
-            // CustomUtils.SetPositionProz(p.messageContainer as PIXI.Sprite, p.config);
-            debugger
-            CustomUtils.SetScaleOfProz(p.messageContainer as PIXI.Sprite, p.config);
-            CustomUtils.GoToProz(p.messageContainer as PIXI.Sprite, p.config);
+    static setPositionAndScaleFromParentOfProz(p:any){    
+            CustomUtils.SetScaleOfProz(p.element as PIXI.Sprite, p.config);
+            CustomUtils.GoToProz(p.element as PIXI.Sprite, p.config);
     }
 }
 

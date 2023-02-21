@@ -32,7 +32,8 @@ export class Animation {
     if (sprite.textureID === t) {
       return;
     }
-    const scaleX = CustomUtils.SetScaleOfProz(this._element as Sprite, this._config);
+    const scaleX = this._element.scale.x
+    // const scaleX = CustomUtils.SetScaleOfProz(this._element as Sprite, this._config);
 
     CustomUtils.GoTo(this._element.scale, {
       x: scaleX * 0.1,
@@ -62,22 +63,44 @@ export class Animation {
     !f && this._filters.setFilter();
   }
 
-  moveFromTo(){
+  moveFromTo():Animation{    
    gsap.to( this._element,{
-    x: this._element.x + window.innerWidth*0.05,
-    delay:CustomUtils.GetRandomArbitrary(0,7),
-    duration: DataSetting.DefaultDuration*7,
+    x: this._element.x*0.05,
+    delay:CustomUtils.GetRandomArbitrary(0,3),
+    duration: DataSetting.DefaultDuration*10,
     repeat:10000,
     yoyo:true,
    })
+   return this
   }
 
+  moveFromToZ():Animation{    
+    gsap.to(this._element.scale,{
+     y: 0.95,
+     x: 0.95,
+     delay:CustomUtils.GetRandomArbitrary(0,3),
+     duration: DataSetting.DefaultDuration*10,
+     repeat:10000,
+     yoyo:true,
+    })
+    return this
+   }
+   moveFromToA():Animation{    
+    gsap.to(this._element,{
+     angle:CustomUtils.GetRandomArbitrary(-5,5),
+     delay:CustomUtils.GetRandomArbitrary(0,3),
+     duration: DataSetting.DefaultDuration*10,
+     repeat:10000,
+     yoyo:true,
+    })
+    return this
+   }
+
   alphaAnimation(a:boolean = true){
-    debugger
     this._element.alpha = !a?1:0;
     gsap.to( this._element,{
       alpha:a?1:0,
-      duration: DataSetting.DefaultDuration * 4,
+      duration: DataSetting.DefaultDuration * 1,
      })
   }
 

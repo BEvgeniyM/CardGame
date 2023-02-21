@@ -8,8 +8,7 @@ import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 
 import { Button } from './Components/Button';
-import { ElementContainer } from './Components/ElementContainer';
-import {WebFont} from './Components/BaseComponents/WebFont';
+import {WebFont} from './Components/BaseComponents/WebFont__';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
 import {Element, ElementConfig } from './Components/Element';
@@ -18,7 +17,8 @@ import {Element, ElementConfig } from './Components/Element';
 
 export class UIViwe extends Container {
 
-    private _menuMessage: ElementContainer;
+    private _menuMessage: Element;
+    private _helpElementConteiner: Element
     private _close: Sprite;
     private _winPanel: Sprite;
     private _heroMy: Sprite;
@@ -55,7 +55,14 @@ export class UIViwe extends Container {
 
         const t = Object.assign({parent:this}, DataSetting.TextHelp);        
         this._helpDataText = new WebFont('_helpDataText',t);
+
+
         
+        this._menuMessage = new Element(this,DataSetting.MenuElementContaine);
+        this._menuMessage.element.alpha = 1;
+
+        // this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
+        // this._helpElementConteiner.element.alpha = 1;
 
         this.creatHelp();
 
@@ -66,24 +73,26 @@ export class UIViwe extends Container {
 
 
     creatHelp(){
-        this._menuMessage = new ElementContainer(this,DataSetting.MessageHelp);
-        this._menuMessage.messageContainer.visible = false
-        for (let i = 1; i < this._menuMessage.child.length; i++) {
-            this._menuMessage.child[i].animation.moveFromTo();
-        }
-        //@ts-ignore()
-        this._menuMessage.child[0].element.setScale();
-        this._menuMessage.child[0].animation.animationMeth();
+        // this._btnTackCard_I.animation.moveFromTo()
+        // this._btnTackCard_Mob.animation.moveFromTo()
+        //@ts-ignore       
+        this._menuMessage.element.childs[0].animation.animationMeth();
+        //@ts-ignore
 
+        this._menuMessage.element.childs[0].animation.moveFromTo();
+          //@ts-ignore
+        for (let i = 1; i < this._menuMessage.element.childs.length; i++) {
+              //@ts-ignore
+            this._menuMessage.element.childs[i].animation.moveFromTo().moveFromToZ();
+        }
 
         const btn = new Element(this._helpData,DataSetting.HelpBackGround).element
+
         this._helpData.addChild(this._helpPaper.element);
         this._helpData.addChild(this._helpDataText);
         this._helpData.addChild(this._helpClose.element);
         this._helpData.visible =false
-        this.addChild(this._helpData);
-
-      
+        this.addChild(this._helpData);      
     }
 
 
@@ -127,12 +136,13 @@ export class UIViwe extends Container {
     }
 
     clickOnMenu(){        
-        this._menuMessage.messageContainer.visible = !this._menuMessage.messageContainer.visible;
+        // this._menuMessage.element.visible = !this._menuMessage.element.visible;
         debugger
-        // this._menuMessage.animation.alphaAnimation(this._menuMessage.messageContainer.visible)
-        for (let i = 0; i < this._menuMessage.child.length; i++) {
-            this._menuMessage.child[i].animation.alphaAnimation(this._menuMessage.messageContainer.visible);
-        }
+
+        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha<1?true:false);
+        // for (let i = 0; i < this._menuMessage.child.length; i++) {
+        //     this._menuMessage.child[i].animation.alphaAnimation(this._menuMessage.element.visible);
+        // }
         // this._helpData.visible = true;
     }
 
@@ -144,24 +154,24 @@ export class UIViwe extends Container {
 
 
     resizeCanvas(){
-        CustomUtils.SetScaleOfProz(this._menu.element as PIXI.Sprite, DataSetting.Menu);
-        CustomUtils.GoToProz(this._menu.element,DataSetting.Menu);
+        // CustomUtils.SetScaleOfProz(this._menu.element as PIXI.Sprite, DataSetting.Menu);
+        // CustomUtils.GoToProz(this._menu.element,DataSetting.Menu);
 
-        CustomUtils.SetScaleOfProz(this._btnTackCard_I.element as PIXI.Sprite, DataSetting.HeroMy);
-        CustomUtils.GoToProz(this._btnTackCard_I.element,DataSetting.HeroMy);
+        // CustomUtils.SetScaleOfProz(this._btnTackCard_I.element as PIXI.Sprite, DataSetting.HeroMy);
+        // CustomUtils.GoToProz(this._btnTackCard_I.element,DataSetting.HeroMy);
 
-        CustomUtils.SetScaleOfProz(this._btnTackCard_Mob.element as PIXI.Sprite, DataSetting.HeroMob);
-        CustomUtils.GoToProz(this._btnTackCard_Mob.element,DataSetting.HeroMob);
+        // CustomUtils.SetScaleOfProz(this._btnTackCard_Mob.element as PIXI.Sprite, DataSetting.HeroMob);
+        // CustomUtils.GoToProz(this._btnTackCard_Mob.element,DataSetting.HeroMob);
 
-        CustomUtils.setPositionAndScaleFromParentOfProz(this._menuMessage);
+        // CustomUtils.setPositionAndScaleFromParentOfProz(this._menuMessage);
 
 
-        CustomUtils.SetTextureOfProz(this._helpPaper.element as PIXI.Sprite,DataSetting.HelpPaper);
-        CustomUtils.SetScaleOfProz(this._helpPaper.element as PIXI.Sprite, DataSetting.HelpPaper);
-        CustomUtils.GoToProz(this._helpPaper.element,DataSetting.HelpPaper);
+        // CustomUtils.SetTextureOfProz(this._helpPaper.element as PIXI.Sprite,DataSetting.HelpPaper);
+        // CustomUtils.SetScaleOfProz(this._helpPaper.element as PIXI.Sprite, DataSetting.HelpPaper);
+        // CustomUtils.GoToProz(this._helpPaper.element,DataSetting.HelpPaper);
 
-        CustomUtils.SetScaleOfProz(this._helpClose.element as PIXI.Sprite, DataSetting.HelpClose);
-        CustomUtils.GoToProz(this._helpClose.element,DataSetting.HelpClose);
+        // CustomUtils.SetScaleOfProz(this._helpClose.element as PIXI.Sprite, DataSetting.HelpClose);
+        // CustomUtils.GoToProz(this._helpClose.element,DataSetting.HelpClose);
 
     }
 

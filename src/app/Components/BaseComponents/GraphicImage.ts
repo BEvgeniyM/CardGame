@@ -9,7 +9,7 @@ export class GraphicImage extends Graphics {
     this.color = config.color ?? 0xffffff;
     this.setup();
   }
-z
+
   private setup(): void {
     this.position.set(this.config.x ?? 0, this.config.y ?? 0);
     this.width = this.config.w ?? 100;

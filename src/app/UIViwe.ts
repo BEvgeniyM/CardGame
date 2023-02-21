@@ -8,7 +8,7 @@ import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 
 import { Button } from './Components/Button';
-import {WebFont} from './Components/BaseComponents/WebFont__';
+import {WebFont} from './Components/BaseComponents/WebFont';
 import * as PIXI from 'pixi.js'
 import gsap from 'gsap';
 import {Element, ElementConfig } from './Components/Element';
@@ -54,7 +54,7 @@ export class UIViwe extends Container {
         this._btnTackCard_Mob =  new Button (this,DataSetting.HeroMob,['pointerdown'],[this.clickOnHeroMob.bind(this)]);
 
         const t = Object.assign({parent:this}, DataSetting.TextHelp);        
-        this._helpDataText = new WebFont('_helpDataText',t);
+        // this._helpDataText = new WebFont('_helpDataText',t);
 
 
         

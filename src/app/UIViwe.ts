@@ -89,7 +89,7 @@ export class UIViwe extends Container {
         const btn = new Element(this._helpData,DataSetting.HelpBackGround).element
 
         this._helpData.addChild(this._helpPaper.element);
-        this._helpData.addChild(this._helpDataText);
+        // this._helpData.addChild(this._helpDataText);
         this._helpData.addChild(this._helpClose.element);
         this._helpData.visible =false
         this.addChild(this._helpData);      

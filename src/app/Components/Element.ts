@@ -18,7 +18,8 @@ export class Element {
     public static readonly GraphicImage = 'GraphicImage';
     public static readonly SimpleRopeImage = 'SimpleRopeImage';
     public static readonly ElementContainer = 'ElementContainer';
-    
+
+    public childs:Element[] = [];
     public element: ElementType;
     public animation: Animation;
     public filters: Filters;
@@ -66,6 +67,7 @@ export class Element {
 
 export interface ElementConfig {
     type?: string;                     // ElementType
+    name?: string;                     // Name
     interType?: string;                // For GraphicImage  RECTANGLE  | Arm... Cir..
     childs?: Array<ElementConfig>;     // Used with ElementContainer
     viweport?:viwePort,                // Setting for scaling and position
@@ -89,9 +91,17 @@ export interface ElementConfig {
 }
 
 export type viwePort= {
-    sf?: number;                       // If this param will be used all size lick x, y will be calc from sf (used with ElementContainer)
+    sf?: number;                       // 'SizeFrom' If this param will be used all size lick x, y will be calc from sf (used with ElementContainer)
     cover?: boolean;                   // If used cover will be try cover screen 
-    angle?: boolean;                   // Depend from orientation rotation or not 
+    angle?: boolean;                   // Depend from orientation rotation or not    
+    fr?:number;                        // 'FromRight' site of screen in [px]
+    fb?:number;                        // 'FromBotton' site of screen in [px]
+    sch?:number;                       //  Scale from height of screen, calc scale for element base on Height of Screen 
+    scw?:number;                       //  Scale from width of screen, calc scale for element base on Width of Screen 
+    portret?:{
+        sch?:number;                      
+        scw?:number;                     
+    }
 }
 
 

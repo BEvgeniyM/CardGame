@@ -3,6 +3,8 @@ import * as PIXI from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
 import { BaseController } from './app/BaseController';
 import { BaseViwe } from './app/BaseViwe';
+import { TableViwe } from './app/TableViwe';
+import { TableController } from './app/TableController';
 import { UIViwe } from './app/UIViwe';
 import { UIController } from './app/UIController';
 import { Preloader } from './app/Preloader';
@@ -22,11 +24,13 @@ export class RootController extends Container {
     /** SETING */
 
 
-    private _preloader: Preloader = {} as Preloader
-    private _controller: BaseController = {} as BaseController;
-    private _viwe: BaseViwe = {} as BaseViwe;
-    private _UIviwe: UIViwe = {} as UIViwe;
-    private _UIcontroller: UIController = {} as UIController;
+    private _preloader: Preloader;
+    private _controller: BaseController;
+    private _viwe: BaseViwe;
+    private _table: TableViwe;
+    private _tableController: TableController;
+    private _UIviwe: UIViwe;
+    private _UIcontroller: UIController;
     private _cardsTexture: Array<[string, string]> = [];
     private _data: any;
     private _chengeWhoseMoveID: boolean = false;
@@ -35,6 +39,8 @@ export class RootController extends Container {
     constructor(private _app: Application) {
         super();
         this.name = this.constructor.name;
+        this.sortableChildren = true;
+        this.sortChildren();
         _app.stage.addChild(this);
 
         this.on(Event.PRELOADER_COMPLETE, this.gameStart);
@@ -46,6 +52,8 @@ export class RootController extends Container {
     init(): void {
         this._preloader = new Preloader(this).init();
         this.addChild(this._preloader);
+
+       
 
         this._viwe = new BaseViwe();
         this._controller = new BaseController(this._viwe).init();
@@ -113,6 +121,8 @@ export class RootController extends Container {
             delay: this._startDelay,
             callbackScope: this,
             onComplete: () => {
+                // this._table = new TableViwe(this,DataSetting.TableElementContaine).start(10, this._cardsTexture);
+                // this._tableController = new TableController(this._table)
                 this._UIviwe.start();
                 this._viwe.start(10, this._cardsTexture);
                 this.firastRound();
@@ -125,7 +135,8 @@ export class RootController extends Container {
         // debugger
         switch (actoin) {
             case Event.I_CLOSE_ROUND:
-                this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
+                this._controller && this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
+                this._tableController && this._tableController.emit(Event.ACTION, Event.I_CLOSE_ROUND);
                 break;
             case Event.MOB_CLOSE_ROUND:
                 this._UIcontroller.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);

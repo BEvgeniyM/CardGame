@@ -36,10 +36,13 @@ export class UIViwe extends Container {
     private _btnTackCard_Mob: Button;
     private _menu: Button;
 
+   
+
     constructor(){
         super()
         // this.interactiveChildren = true
-        this.sortableChildren = true
+        this.sortableChildren = true;
+        this.zIndex = 1000;
         this.sortChildren();
     }
 
@@ -73,8 +76,8 @@ export class UIViwe extends Container {
 
 
     creatHelp(){
-        // this._btnTackCard_I.animation.moveFromTo()
-        // this._btnTackCard_Mob.animation.moveFromTo()
+        // this._btnTackCard_I.animation.moveRigth_1()
+        // this._btnTackCard_Mob.animation.moveRigth_0()
         //@ts-ignore       
         this._menuMessage.element.childs[0].animation.animationMeth();
         //@ts-ignore
@@ -154,25 +157,6 @@ export class UIViwe extends Container {
 
 
     resizeCanvas(){
-        // CustomUtils.SetScaleOfProz(this._menu.element as PIXI.Sprite, DataSetting.Menu);
-        // CustomUtils.GoToProz(this._menu.element,DataSetting.Menu);
-
-        // CustomUtils.SetScaleOfProz(this._btnTackCard_I.element as PIXI.Sprite, DataSetting.HeroMy);
-        // CustomUtils.GoToProz(this._btnTackCard_I.element,DataSetting.HeroMy);
-
-        // CustomUtils.SetScaleOfProz(this._btnTackCard_Mob.element as PIXI.Sprite, DataSetting.HeroMob);
-        // CustomUtils.GoToProz(this._btnTackCard_Mob.element,DataSetting.HeroMob);
-
-        // CustomUtils.setPositionAndScaleFromParentOfProz(this._menuMessage);
-
-
-        // CustomUtils.SetTextureOfProz(this._helpPaper.element as PIXI.Sprite,DataSetting.HelpPaper);
-        // CustomUtils.SetScaleOfProz(this._helpPaper.element as PIXI.Sprite, DataSetting.HelpPaper);
-        // CustomUtils.GoToProz(this._helpPaper.element,DataSetting.HelpPaper);
-
-        // CustomUtils.SetScaleOfProz(this._helpClose.element as PIXI.Sprite, DataSetting.HelpClose);
-        // CustomUtils.GoToProz(this._helpClose.element,DataSetting.HelpClose);
-
     }
 
 }

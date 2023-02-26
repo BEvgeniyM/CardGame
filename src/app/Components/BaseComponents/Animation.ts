@@ -1,4 +1,4 @@
-import { Sprite, DisplayObject } from 'pixi.js';
+import { Sprite, DisplayObject, Container } from 'pixi.js';
 import { gsap } from "gsap";
 import { CustomUtils } from '../../../Utils/CustomUtils';
 import { ElementConfig, ElementType,Element } from '../Element';
@@ -73,6 +73,46 @@ export class Animation {
    })
    return this
   }
+
+  animaCartMove(t: Container, g?: any): void {
+    const gg = g ? g : gsap;
+    gg.to(this._element, {
+        angle: CustomUtils.GetRandomArbitrary(-7, 7),
+        x:t.getGlobalPosition().x - this._element.getGlobalPosition().x,
+        y:t.getGlobalPosition().y - this._element.getGlobalPosition().y + CustomUtils.GetRandomArbitrary(-5, 5),
+        delay:0,
+        direction: 0.1,
+        callbackScope: this,
+        onUpdate:()=>{},
+        onComplete: () => {
+            this._element.position.set(0, 0);
+            t.addChild(this._element);
+        }
+    })
+}
+
+  moveRigth_0():Animation{    
+    gsap.to(this._element,{
+     x:  window.innerWidth ,
+     delay:CustomUtils.GetRandomArbitrary(0,10),
+     duration: DataSetting.DefaultDuration*10,
+     repeat:10000,
+     yoyo:true,
+    })
+    return this
+   }
+
+   moveRigth_1():Animation{    
+    gsap.to(this._element,{
+     x:  window.innerWidth * 0.9,
+     y:  window.innerHeight * 0.9,
+     delay:CustomUtils.GetRandomArbitrary(0,10),
+     duration: DataSetting.DefaultDuration*10,
+     repeat:10000,
+     yoyo:true,
+    })
+    return this
+   }
 
   moveFromToZ():Animation{    
     gsap.to(this._element.scale,{

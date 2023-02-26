@@ -30,7 +30,7 @@ export class ViwePort {
     setPositionImmediately(): any {
         let c: any;
         const cnf = this._config;
-
+    
         if (cnf.viweport && cnf.viweport.sf) {
             if (CustomUtils.IsPortret() && cnf.portret) {
                 c = {
@@ -56,33 +56,66 @@ export class ViwePort {
                 }
             }
         }
-
-
+    
+        if (cnf.viweport?.fr !== undefined) {
+            c.x = window.innerWidth - cnf.viweport?.fr - this._element.width;
+          }
+          
+        if (cnf.viweport?.fb !== undefined) {
+            c.y = window.innerHeight - cnf.viweport?.fb - this._element.height;
+        }
+          
         this._element.position.set(c.x, c.y);
         return c
-
     }
+    
 
     setScaleImmediately(): void {
-        let c: any;
         const cnf = this._config;
-        this._element.scale.set(1)
-
+        this._element.scale.set(1);
+    
+        let c: { x: number, y: number } = { x: 1, y: 1 };
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+    
         if (CustomUtils.IsPortret() && cnf.portret && cnf.portret.scale) {
             c = {
-                x: cnf.portret.scale, // * cnf.sizeInPXfrom,
-                y: cnf.portret.scale // * cnf.sizeInPXfrom,
+                x: cnf.portret.scale,
+                y: cnf.portret.scale
             }
         } else if (cnf.scale) {
             c = {
-                x: cnf.scale,  //* cnf.sizeInPXfrom,
-                y: cnf.scale  //* cnf.sizeInPXfrom,
+                x: cnf.scale,
+                y: cnf.scale
             }
         }
-
-        this._element.scale.set(c.x, c.y)
-
+        if (CustomUtils.IsPortret() && cnf.viweport?.portret){
+            if (cnf.viweport.portret?.sch) {
+                const scaleFromHeight = cnf.viweport.portret.sch * window.innerHeight / this._element.height;
+                c.y = scaleFromHeight;
+                c.x = scaleFromHeight;
+            } else if (cnf.viweport.portret?.scw) {
+                const scaleFromWidth = cnf.viweport.portret.scw * window.innerWidth / this._element.width;
+                c.x = scaleFromWidth;
+                c.y = scaleFromWidth;
+            }
+        } else {
+            if (cnf.viweport?.sch) {
+                const scaleFromHeight = cnf.viweport.sch * window.innerHeight / this._element.height;
+                c.y = scaleFromHeight;
+                c.x = scaleFromHeight;
+            } else if (cnf.viweport?.scw) {
+                const scaleFromWidth = cnf.viweport.scw * window.innerWidth / this._element.width;
+                c.x = scaleFromWidth;
+                c.y = scaleFromWidth;
+            }
+        }
+       
+    
+        this._element.scale.set(c.x, c.y);
     }
+    
+    
 
     setAnchorImmediately(): void {
         let c: any;

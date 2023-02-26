@@ -40,77 +40,72 @@ export class BaseController extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     action(action: string) {
         // debugger
+        const isMyTurn = DataSetting.WhoseMoveID == DataSetting.My_ID;
+        const view = this._viwe;
         switch (action) {
             case Event.I_MOVE_CARD_ON_TABLE:
-                this.checkEction();
-                break;
             case Event.MOB_MOVE_CARD_ON_TABLE:
                 this.checkEction();
                 break;
 
             case Event.I_FITE_CARF_ON_TABLE:
-                this._viwe.lockUnLockMyCart(true);
+            case Event.MOB_FITE_CARF_ON_TABLE:
+                view.lockUnLockMyCart(true);
                 this.chackHowRun();
                 break;
-            case Event.MOB_FITE_CARF_ON_TABLE:
-                this._viwe.lockUnLockMyCart(true);
-                break;
-
-            case Event.I_PICKUP_CARD:
-                break;
-            case Event.MOB_PICKUP_CARD:
-                break;
-
 
             case Event.I_CLOSE_ROUND:
                 this.parent.emit(Event.ACTION, Event.LOCK_BTN);
-                if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
-                    this._viwe.i_PickUpCart();
+                if (isMyTurn) {
+                    view.i_PickUpCart();
                 } else {
-                    this._viwe.cartToEdge();
+                    view.cartToEdge();
                 }
                 this.chengeWhoseLosePreRoundID(2);
                 break;
+
             case Event.MOB_CLOSE_ROUND:
                 this.parent.emit(Event.ACTION, Event.LOCK_BTN);
                 this.parent.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
-                if (DataSetting.WhoseMoveID == DataSetting.My_ID) {
-                    this._viwe.cartToEdge();
+                if (isMyTurn) {
+                    view.cartToEdge();
                 } else {
-                    this._viwe.mobPickUpCart();
+                    view.mobPickUpCart();
                 }
                 this.chengeWhoseLosePreRoundID(1);
                 break;
 
-
             case Event.PICKUP_CARDS_END:
-                this._viwe.closeCartMob();
-                // this._viwe.openCartMy();
-                this._viwe.endRound();
+                view.closeCartMob();
+                // view.openCartMy();
+                view.endRound();
                 break;
+
             case Event.ROUND_END:
-                this._viwe.openCartMy();
+                view.openCartMy();
                 this.parent.emit(Event.ACTION, Event.ROUND_CLOSE);
                 this.emit(Event.ACTION, Event.ROUND_CLOSE);
                 break;
+
             case Event.ROUND_CLOSE:
-                this._viwe.lockUnLockMyCart(true);
-                this._viwe.checkWin();
+                view.lockUnLockMyCart(true);
+                view.checkWin();
                 this.chackHowRun();
                 break;
 
-
             case Event.YOU_WIN:
-                this._viwe.endMasege(DataSetting.YouWin);
+                view.endMasege(DataSetting.YouWin);
                 break;
+
             case Event.GAME_OVER:
-                this._viwe.endMasege(DataSetting.YouLose);
+                view.endMasege(DataSetting.YouLose);
                 break;
 
             default:
                 break;
         }
     }
+
 
     firastRound() {
         this._viwe.endRound();

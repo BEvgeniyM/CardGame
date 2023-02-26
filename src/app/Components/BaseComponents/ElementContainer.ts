@@ -9,15 +9,21 @@ export class  ElementContainer extends Container{
         super()
         if (config.childs) {
             for (let i = 0; i < config.childs.length; i++) {
-                this.childs.push(new Element(this,config.childs[i]));
+              this.childs.push(new Element(this, config.childs[i]));
             }
-          }
+        }
     }
 
-    addChildElement(s:Element){
-        this.childs.push(s);
-        this.addChild(s.element);
-    }
+    
+  addElement(elementConfig: ElementConfig): void {
+    const newElement = new Element(this, elementConfig);
+    this.addChild(newElement.element);
+    this.childs.push(newElement);
+  }
+
+  getElement(id:number): Element {
+    return this.childs[id];
+  }
 
 }
 

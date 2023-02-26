@@ -12,6 +12,7 @@ export class UIController extends Container {
         super();
         this.name = this.constructor.name;
         this.addChild(_viwe);
+        this.zIndex = 100
     }
 
     init(): UIController {

@@ -32,6 +32,30 @@ export class Cart extends Sprite {
 
 
         switch (id[1]) {
+            case '2':
+                this.value = 2 * w;
+                break;
+            case '3':
+                this.value = 3 * w;
+                break;
+            case '4':
+                this.value = 4 * w;
+                break;
+            case '5':
+                this.value = 5 * w;
+                break;
+            case '6':
+                this.value = 6 * w;
+                break;
+            case '7':
+                this.value = 7 * w;
+                break;
+            case '8':
+                this.value = 8 * w;
+                break;
+            case '9':
+                this.value = 9 * w;
+                break;
             case '10':
                 this.value = 10 * w;
                 break;

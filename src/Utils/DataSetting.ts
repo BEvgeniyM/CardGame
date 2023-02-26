@@ -117,6 +117,66 @@ export class DataSetting {
         childs:[DataSetting.SplashScreenBackGround,DataSetting.SplashScreen],       
     }
 
+    /*********************************************************************************************** */
+    /******** Conteiner for Cart **************************************************8**************** */
+    /*********************************************************************************************** */
+    static CartS = {
+        type: 'SpriteImage',
+        t:'skin_2', x: 0.0, y: 0.0, ax:0.5,ay:0.5, scale: 0.4, z: 1,
+        viweport:{sch:0.25, portret:{ scw:0.2}},
+    }
+
+    static TableBackground = {
+        type: 'SpriteImage',
+        t:'table_4', x: 0.5, y: 0.5, ax:0.5,ay:0.5, scale: 1, z: 0,
+    }
+
+    static StocElementContaine = {
+        type: 'ElementContainer',
+        name: 'StocElementContaine',
+        x: 0.9, y: 0.5, scale: 1, z: 10,
+        portret: {scale:1, x: 0.90, y: 0.5},
+        childs:[],
+        // viweport:{fr:50,fb:20}
+    }
+
+    static EdgeElementContaine = {
+        type: 'ElementContainer',
+        name: 'EdgeElementContaine',
+        x: 0.0, y: 0.5, scale: 1, z: 10,
+        portret: {scale:1, x: 0.0, y: 0.5},
+        childs:[]
+    }
+
+    static MobElementContaine = {
+        type: 'ElementContainer',
+        name: 'MobElementContaine',
+        x: 0.5, y: 0.12, scale: 1, z: 10, ft:200,
+        portret: {scale:1, x: 0.5, y: 0.12},
+        childs:[]
+    }
+
+    static PlayrElementContaine = {
+        type: 'ElementContainer',
+        name: 'PlayrElementContaine',
+        x: 0.5, y: 0.88, scale: 1, z: 10, 
+        portret: {scale:1, x: 0.5, y: 0.88},
+        childs:[]
+    }
+
+    static TableElementContaine = {
+        type: 'ElementContainer',
+        name: 'TableElementContaine',
+        x: 0.0, y: 0.0, scale: 1, z: 0,
+        portret: {scale:1, x: 0.0, y: 0.0},
+        childs:[
+            DataSetting.TableBackground,
+            DataSetting.StocElementContaine,
+            DataSetting.MobElementContaine,
+            DataSetting.PlayrElementContaine,
+            DataSetting.EdgeElementContaine
+        ]
+    }
 
     /*********************************************************************************************** */
     /******** Button Part *********************************************************8**************** */
@@ -124,14 +184,14 @@ export class DataSetting {
    
 
     static HeroMy = {
-        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'map_repeat',scale:2,ax:0.5,ay:0.5},
-        {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
+        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'map_repeat',scale:10,ax:0.5,ay:0.5},
+        {blurY:0.2,blurX:0.2,type:'BLURFILTER',quality:16}],
         type: 'SpriteImage',
         t: 'hero_1', tb: 'shift_1', x: 0.90, y: 0.90, ax: 0.5, ay: 0.5, scale: 0.2, duration: DataSetting.DefaultDuration
     }
     static HeroMob = {
-        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:2,ax:0.5,ay:0.5},
-        {blurY:0,blurX:0,type:'BLURFILTER',quality:8}],
+        filter:[{type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:10,ax:0.5,ay:0.5},
+        {blurY:0.2,blurX:0.2,type:'BLURFILTER',quality:8}],
         type: 'SpriteImage',
         t: 'hero_2', tb: 'shift_3', x: 0.90, y: 0.08, ax: 0.5, ay: 0.5, scale: 0.18, duration: DataSetting.DefaultDuration 
     }
@@ -297,28 +357,28 @@ export class DataSetting {
    
     static Btn_0_Containe = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.0, scale: 1, z: 0,
+        x: 0.0, y: 0.0, scale: 1, z: 1,
         viweport:{sf:0},   
         portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.Btn_0,DataSetting.Btn_0_Text]
     }
     static Btn_1_Containe = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.0, scale: 1, z: 0,
+        x: 0.0, y: 0.0, scale: 1, z: 2,
         viweport:{sf:0},   
         portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.Btn_1,DataSetting.Btn_1_Text]
     }
     static Btn_2_Containe = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.0, scale: 1, z: 0,
+        x: 0.0, y: 0.0, scale: 1, z: 3,
         viweport:{sf:0},   
         portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.Btn_2,DataSetting.Btn_2_Text]
     }
     static MenuElementContaine = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.2, scale: 0.5, z: 0,
+        x: 0.0, y: 0.2, scale: 0.5, z: 1000,
         portret: {scale: 0.7, x: 0.0, y: 0.2},
         childs:[DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
     }

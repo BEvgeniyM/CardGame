@@ -1,7 +1,7 @@
 import { Container, Application, Loader, Sprite, settings, ENV, GC_MODES } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { BaseViwe } from './app/BaseViwe';
-import { Cart } from './app/Cart';
+import { Cart } from './app/Card';
 import { DataSetting } from '../src/Utils/DataSetting'
 
 import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';

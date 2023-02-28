@@ -2,7 +2,7 @@ import { Container } from 'pixi.js'
 import { Event } from '../app/Event';
 import { BaseViwe } from '../app/BaseViwe';
 import * as PIXI from 'pixi.js'
-import { Cart } from '../app/Cart';
+import { Cart } from '../app/Card';
 
 
 
@@ -36,15 +36,6 @@ export class DataSetting {
         type: 'SpriteImage',
         t: 'table_4', x: 0.5, y: 0.5, ax: 0.5, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration
     }
-
-    // static Helpseal = {t:'seal',x:0.7,y:0.6,ax:0,ay:0,scale:0.1,duration:DataSetting.DefaultDuration, portret:{
-    //     x:0.6,
-    //     y:0.5,
-    //     scale:0.1
-    // }} 
-
-   
-
 
     static Stock = { x: 0.92, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration }
     static My_Pull = { x: 0.5, y: 1, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }

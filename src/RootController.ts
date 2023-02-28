@@ -3,8 +3,6 @@ import * as PIXI from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
 import { BaseController } from './app/BaseController';
 import { BaseViwe } from './app/BaseViwe';
-import { TableViwe } from './app/TableViwe';
-import { TableController } from './app/TableController';
 import { UIViwe } from './app/UIViwe';
 import { UIController } from './app/UIController';
 import { Preloader } from './app/Preloader';
@@ -28,8 +26,6 @@ export class RootController extends Container {
     private _preloader: Preloader;
     private _controller: BaseController;
     private _viwe: BaseViwe;
-    private _table: TableViwe;
-    private _tableController: TableController;
     private _UIviwe: UIViwe;
     private _UIcontroller: UIController;
     private _cardsTexture: Array<[string, string]> = [];
@@ -137,7 +133,6 @@ export class RootController extends Container {
         switch (actoin) {
             case Event.I_CLOSE_ROUND:
                 this._controller && this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
-                this._tableController && this._tableController.emit(Event.ACTION, Event.I_CLOSE_ROUND);
                 break;
             case Event.MOB_CLOSE_ROUND:
                 this._UIcontroller.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);

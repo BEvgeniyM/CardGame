@@ -1,7 +1,7 @@
 import { Container, DisplayObject, Sprite } from 'pixi.js'
 import { Event } from './Event';
 import { BaseViwe } from './BaseViwe';
-import { Cart } from './Cart';
+import { Cart } from './Card';
 import { CustomUtils } from '../Utils/CustomUtils'
 import { BaseController } from './BaseController';
 import { setDefaultResultOrder } from 'dns';
@@ -62,7 +62,7 @@ export class UIViwe extends Container {
 
         
         this._menuMessage = new Element(this,DataSetting.MenuElementContaine);
-        this._menuMessage.element.alpha = 1;
+        this._menuMessage.element.alpha = 0;
 
         // this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
         // this._helpElementConteiner.element.alpha = 1;
@@ -123,7 +123,9 @@ export class UIViwe extends Container {
    
 
     lockBtn(f:boolean):void{
-      this.interactiveChildren = f;
+    //   this.interactiveChildren = f;
+      this._btnTackCard_I.element.interactiveChildren = f;
+      this._btnTackCard_Mob.element.interactiveChildren = f;
     }
 
 

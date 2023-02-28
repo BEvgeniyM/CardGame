@@ -2,7 +2,7 @@ import { Container, Texture, Text, Graphics, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 
-import { Cart } from './Cart';
+import { Cart } from './Card';
 import { Event } from './Event';
 import { StageController } from '../StageController';
 import { CustomUtils } from '../Utils/CustomUtils'

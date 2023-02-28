@@ -12,6 +12,7 @@ import { Event } from './app/Event';
 import { gsap } from "gsap";
 import { type } from 'os';
 import { DataSetting } from './Utils/DataSetting';
+import { StageController } from './StageController';
 
 export class RootController extends Container {
 
@@ -187,6 +188,7 @@ export class RootController extends Container {
     firastRound() {
         this._UIcontroller.firastRound();
         this._controller.firastRound();
+        StageController.app.resize();
     }
 
 }

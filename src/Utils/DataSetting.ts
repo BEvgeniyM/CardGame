@@ -47,8 +47,8 @@ export class DataSetting {
 
 
     static Stock = { x: 0.92, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration }
-    static My_Pull = { x: 0.5, y: 0.92, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
-    static Mob_Pull = { x: 0.5, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
+    static My_Pull = { x: 0.5, y: 1, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
+    static Mob_Pull = { x: 0.5, y: 0.00, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
     static Table_Pull = { x: 0.5, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
 
 

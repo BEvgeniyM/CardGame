@@ -88,9 +88,10 @@ export class Cart extends Sprite {
     }
 
     openCart(): void {
-        // if (!this.isNeedOpen()) {
-        //     return
-        // }
+        debugger
+        if (!this.isNeedOpen()) {
+            return
+        }
 
         
         const cx = this.scale.x * 0.1;

@@ -98,17 +98,9 @@ export class BaseViwe extends Container {
 
     addbackground(): void {
         this._back = Cart.SpriteCreat(this, 'table_4', 1);
-        // const c = {
-        //     x: window.innerWidth * 0.5,
-        //     y: window.innerHeight *0.5
-        // }
-
         CustomUtils.SetPositionProz(this._back, DataSetting.BackGround);
         CustomUtils.GoToProz(this._back, DataSetting.BackGround);
         CustomUtils.ResizeBack(this._back);
-
-        // CustomUtils.GoTo(this._back, c);
-        // Cart.SpriteCreat(this, 'table_4', 0, 1).scale.set(10);
     }
 
 
@@ -262,8 +254,8 @@ export class BaseViwe extends Container {
 
             g.to(cart, {
                 angle: 0 + CustomUtils.GetRandomArbitrary(-120, 120),
-                x: CustomUtils.GetRandomArbitrary(0, window.screen.availWidth * 0.2),
-                y: CustomUtils.GetRandomArbitrary(window.screen.availHeight * 0.3, window.screen.availHeight * 0.7),
+                x: CustomUtils.GetRandomArbitrary(0, window.innerWidth * 0.2),
+                y: CustomUtils.GetRandomArbitrary(window.innerHeight * 0.3, window.screen.availHeight * 0.7),
                 delay: CustomUtils.GetRandomArbitrary(0, 0.25),
                 duration: DataSetting.DefaultDuration,
                 callbackScope: this,
@@ -280,20 +272,6 @@ export class BaseViwe extends Container {
     }
 
     resizeCanvas(): void {
-
-        // CustomUtils.SetScaleOfProz(this._cartStock as PIXI.Sprite, DataSetting.Stock);
-        // CustomUtils.GoToProz(this._cartStock,DataSetting.Stock);
-
-        // CustomUtils.SetScaleOfProz(this._cartPull as PIXI.Sprite, DataSetting.My_Pull);
-        // CustomUtils.GoToProz(this._cartPull,DataSetting.My_Pull);
-
-        // CustomUtils.SetScaleOfProz(this._mobPull as PIXI.Sprite, DataSetting.Mob_Pull);
-        // CustomUtils.GoToProz(this._mobPull,DataSetting.Mob_Pull);
-
-        // CustomUtils.SetScaleOfProz(this._table as PIXI.Sprite, DataSetting.Table_Pull);
-        // CustomUtils.GoToProz(this._table,DataSetting.Table_Pull);
-
-
         CustomUtils.ResizeStock(this._cartStock);
         CustomUtils.ResizeBack(this._back);
         CustomUtils.ResizePullMob(this._mobPull);
@@ -566,6 +544,10 @@ export class BaseViwe extends Container {
         return false
     }
 
+    r(){
+        this.rotetStock(this._mobPull);
+        this.rotetStock(this._cartPull);
+    }
     endRound(): void {
         if (this._cartStock.children.length == 0) {
             this.parent.emit(Event.ACTION, Event.ROUND_END);
@@ -611,7 +593,7 @@ export class BaseViwe extends Container {
     }
 
     closeCartMob(): void {
-        this.cartOpenOrClose(this._mobPull, false);
+        this._mobPull.children.length>6 && this.cartOpenOrClose(this._mobPull, false);
     }
 
     cartOpenOrClose(s: Container, f: boolean): void {

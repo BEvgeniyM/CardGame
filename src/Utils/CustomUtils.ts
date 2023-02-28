@@ -106,7 +106,7 @@ export class CustomUtils {
     }
 
     static GoTo(s:any,cnf: GoTo){
-        const c = Object.assign({duration:DataSetting.DefaultDeley, delay: DataSetting.DefaultDeley},cnf)
+        const c = Object.assign({duration:0, delay: 0},cnf)
         gsap.to(s,c)
         return s
     }

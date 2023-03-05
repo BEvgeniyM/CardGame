@@ -14,6 +14,16 @@ export class WebFont extends ElementContainer {
     fontSize: 90,
     fill: 'white',
     align: 'center',
+    // stroke: '#ffffff',
+    // strokeThickness: 5,
+    // dropShadow: true,
+    // dropShadowColor: '#000000',
+    // dropShadowBlur: 4,
+    // dropShadowAngle: Math.PI / 6,
+    // dropShadowDistance: 6,
+    // wordWrap: true,
+    // wordWrapWidth: 440,
+    // lineJoin: 'round', 
     fontFamily: 'Freehand-Regular',
   };
 
@@ -27,7 +37,7 @@ export class WebFont extends ElementContainer {
       this.zIndex = config.z ?? this.zIndex;
       this.alpha = config.alpha ?? this.alpha;
       config.scale ?? this.scale.set(config.scale);
-      config.style && this.createTilemap(config.t);
+      config.style && config.t && this.createTilemap(config.t);
     }
 
     this.createWebFont();
@@ -69,8 +79,8 @@ export class WebFont extends ElementContainer {
     StageController.app.ticker.add(() => {
       count += 0.02;
       if (this._maskSprite) {
-        this._maskSprite.x = -200 + Math.cos(count) * 40;
-        this._maskSprite.y = -200 + Math.sin(count) * 40;
+        this._maskSprite.x = -400 + Math.cos(count) * 100;
+        this._maskSprite.y = -400 + Math.sin(count) * 100;
       }
       if (this._maskSprite && this._maskSprite.x > this._maskSprite.width) {
         this._maskSprite.x = 0;

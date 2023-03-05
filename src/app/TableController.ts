@@ -1,79 +1,110 @@
-import { Container } from 'pixi.js'
 import { Event } from './Event';
 import { TableViwe } from './TableViwe';
-import * as PIXI from 'pixi.js'
+import { LogicGame } from './LogicGame';
 import { DataSetting } from '../Utils/DataSetting';
+import { Cart_ } from './Cart_';
+import { gsap } from "gsap";
+import { EE } from './Components/BaseComponents/EE';
 
 
-export class TableController extends Container {
+
+
+export class TableController {
+    private logicGame: LogicGame;
+    private myStap: boolean = true;
+
 
     constructor(private _viwe: TableViwe) {
-        super();
-        this.name = this.constructor.name;
-        this.on(Event.ACTION,this.action);
-        this.emit(Event.ACTION,Event.ROUND_END);
+        EE.Glob.on(Event.ACTION, this.action, this);
+        this.logicGame = new LogicGame()
     }
 
-    public roundLoasePlayrId: number = 0;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**                       SET VALUE                                                                        */
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
- 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**                       ECTION                                                                           */
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    action(action: string) {
-        // debugger
-        const isMyTurn = DataSetting.WhoseMoveID == DataSetting.My_ID;
+    action(action: string, cart: Cart_) {
         const view = this._viwe;
+        const logic = this.logicGame;
+        const tableContaine = view._map.get('TableContaine');
+        const playrElementContaine = view._map.get('PlayrElementContaine');
+        const mobElementContaine = view._map.get('MobElementContaine');
+        const topContaine = view._map.get('TopContaine');
+        // debugger
         switch (action) {
+            case Event.SELECTED_CART:                 
+                if(LogicGame.WhoFiteID == DataSetting.PlayrWinnerID){
+                    this.myStap = logic.canAddCardToTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
+                    this.myStap && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
+                }else{
+                    this.myStap = logic.playerCanBeatCardOnTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
+                    this.myStap && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
+                }             
+                break;
             case Event.I_MOVE_CARD_ON_TABLE:
-            case Event.MOB_MOVE_CARD_ON_TABLE:             
+                if(LogicGame.WhoFiteID == DataSetting.PlayrWinnerID){
+                    const t = logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
+                    t ? this.timer(Event.MOB_MOVE_CARD_ON_TABLE, cart) : this.timer(Event.MOB_PICKUP_CARD)
+                }else{
+                    const t =  logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
+                    !t && this.timer(Event.MOB_CLOSE_ROUND)
+                }                  
                 break;
-
+            case Event.MOB_MOVE_CARD_ON_TABLE:
+    debugger            
+                break;
             case Event.I_FITE_CARF_ON_TABLE:
-            case Event.MOB_FITE_CARF_ON_TABLE:            
                 break;
-
-            case Event.I_CLOSE_ROUND:             
+            case Event.MOB_FITE_CARF_ON_TABLE:
                 break;
-
-            case Event.MOB_CLOSE_ROUND:             
+            case Event.I_PICKUP_CARD:
+                LogicGame.WhoFiteID = DataSetting.MobWinnerID;
+                view.iPickUpCarts()
                 break;
-
+            case Event.MOB_PICKUP_CARD:
+                LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
+                view.mobPickUpCarts()
+                this.timer(Event.ROUND_CLOSE)
+                break;
+            case Event.I_CLOSE_ROUND:
+                LogicGame.WhoFiteID == DataSetting.PlayrWinnerID ? view.moveToEdge():view.PlayrPickUpCarts();
+                LogicGame.WhoFiteID = DataSetting.MobWinnerID;
+                this.timer(Event.ROUND_CLOSE);
+                break;
+            case Event.MOB_CLOSE_ROUND:
+                LogicGame.WhoFiteID == DataSetting.MobWinnerID ? view.moveToEdge():       view.mobPickUpCarts();
+                LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
+                this.timer(Event.ROUND_CLOSE);
+                break;
             case Event.PICKUP_CARDS_END:
                 break;
-
-            case Event.ROUND_END:     
-            view.cartsFomeStack();        
+            case Event.ROUND_END:
+                view.openMyCarts();
+                // view.openMobCarts(); //for debug
+                view.rotetStockMy();
+                view.rotetStockMob();
+                LogicGame.WhoFiteID == DataSetting.MobWinnerID && logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
                 break;
-
-            case Event.ROUND_CLOSE: 
-                view.cartsFomeStack()             
+            case Event.ROUND_CLOSE:
+                view.cartsFomeStack()
                 break;
-
             case Event.YOU_WIN:
-             
                 break;
-
             case Event.GAME_OVER:
-              
                 break;
-
+            case Event.START_GAME:
+                view.cartsFomeStack()
+                view.majorMastOpen()
+                break;
             default:
                 break;
         }
     }
 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**                       MESSEGE                                                                        */
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    
+    timer(e: any, p?: any) {
+        gsap.to(this, {
+            delay: 0.5,
+            callbackScope: this,
+            onComplete: () => {
+                EE.Glob.emit(Event.ACTION, e, p)
+            }
+        })
+    }
 }

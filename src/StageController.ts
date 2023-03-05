@@ -5,6 +5,7 @@ import { Cart } from './app/Cart';
 import { DataSetting } from '../src/Utils/DataSetting'
 
 import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';
+import { version } from 'os';
 
 export class StageController {
 
@@ -25,6 +26,7 @@ export class StageController {
             antialias:true,
             autoDensity:true
         });
+        console.log(`PIXI version: ${PIXI.VERSION}`);
         document.body.appendChild(StageController.app.view);
 
         window.addEventListener("resize", this.resizeCanvas);
@@ -81,6 +83,9 @@ export class StageController {
 
 
     registerPixiInspector() {
+        (globalThis as any).__PIXI_APP__ = StageController.app; // eslint-disable-line
+        
+        // old version used this....
         (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__ && (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
     }
 

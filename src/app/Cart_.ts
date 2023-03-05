@@ -18,17 +18,18 @@ export class Cart_ extends Element {
     public _lockEvent: boolean = false;
     public value: number = 0;
     public mastW: string = '';
+    public trumpSuit: string = '';
     protected _isOpen: boolean = false;
 
     constructor(parent: Container, public config: ElementConfig, public id: [string, string], f: [string, string]) {
         super(parent, config);
-        this.mastW = f[0][1];
+        this.trumpSuit = f[0][1];
+        this.mastW = id[0][1];
         let w: number = 1;
 
         if (f[0][1] == id[0][1]) {
             w = 10;
         }
-
 
         switch (id[1]) {
             case '2':

@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
 import { DataSetting } from '../Utils/DataSetting';
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
+import { EE } from './Components/BaseComponents/EE';
 
 //** Plugin Should be add befor start Loaders !!!*/
 PIXI.Loader.registerPlugin(WebfontLoaderPlugin);
@@ -47,6 +48,7 @@ export class Preloader extends Container {
 
 
             loader.add("map_repeat", "./assets/map_repeat.png");
+            loader.add("fire2", "./assets/fire2.png");
             loader.add("fire", "./assets/fire.png");
             loader.add("BtnS", "./assets/BtnS.png");
             loader.add("flag_3", "./assets/flag_3.png");
@@ -86,7 +88,7 @@ export class Preloader extends Container {
             });
 
             loader.onComplete.once(() => {
-                this._perent.emit(Event.LOAD_GAME_START)
+                EE.Glob.emit(Event.ACTION,Event.LOAD_GAME_START)
                 return this
             });
 
@@ -137,7 +139,7 @@ export class Preloader extends Container {
     }
 
     highPreLoader(): void {
-        this._perent.emit(Event.PRELOADER_COMPLETE);
+        EE.Glob.emit(Event.ACTION,Event.PRELOADER_COMPLETE);
 
         gsap.to(this.scale, {
             x: 1,

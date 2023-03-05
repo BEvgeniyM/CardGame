@@ -11,6 +11,7 @@ import { ViwePort } from './BaseComponents/ViwePort';
 import { Filters, FilterConfig } from './BaseComponents/Filters';
 
 import { CustomUtils } from '../../Utils/CustomUtils'
+import { throws } from 'assert';
 
 export class Element {
     public static readonly WebFont = 'WebFont';
@@ -19,18 +20,22 @@ export class Element {
     public static readonly SimpleRopeImage = 'SimpleRopeImage';
     public static readonly ElementContainer = 'ElementContainer';
 
-    public childs:Element[] = [];
+    public childs: ElementType[] | Element[] = [];
     public element: ElementType;
     public animation: Animation;
     public filters: Filters;
     public viweport: ViwePort;
+    public type: string;
+    public parent: ElementContainer | null = null;
 
     constructor(parent: Container, public config: ElementConfig) {
-
-        switch (config.type) {
+        this.type = config.type??'';
+        if( 'debug' in config){
+            debugger
+        }
+        switch (config.type) {            
             case Element.WebFont:
                 this.element = new WebFont(config);
-                debugger
                 break;
             case Element.SpriteImage:
                 this.element = new SpriteImage(config);
@@ -42,26 +47,34 @@ export class Element {
                 this.element = new SimpleRopeImage(config);
                 break;
             case Element.ElementContainer:
-                this.element = new ElementContainer(config);
+                this.element = new ElementContainer(config);  
                 break;
             default:
                 break;
         }
 
         if (this.element) {
-            parent.addChild(this.element);             
+            parent.addChild(this.element); 
+            if(parent instanceof ElementContainer){
+                this.parent = parent;
+                parent.childs?.push(this);
+                const r = this.element as ElementContainer
+                this.childs = r.childs; 
+            }
+            this.element.interactive = true
+            this.element.interactiveChildren = true;
+
             this.filters = new Filters(this);
             this.animation = new Animation(this);  
             this.viweport = new ViwePort(this);
-            this.viweport.resize();
+           
         } else{
             console.error("Element not Created !!!");
             debugger
-        }
-      
-    }
+        }      
 
-    
+        this.viweport.resize();
+    }    
 }
 
 
@@ -87,7 +100,8 @@ export interface ElementConfig {
     point?: IPoint[];                  // Array of IPiont only for SimpleRope
     xStap?:number;                     // SimpleRope divides lengthwise into xStap pieces
     filter?: Array<FilterConfig>,      // tow type of filters  BLURFILTER and DISPLACEMENTFILTER
-    portret?:ElementConfig             // Setting for portrait orientation
+    portret?:ElementConfig,            // Setting for portrait orientation
+    debug?:boolean                     // Stap if incluode in config
 }
 
 export type viwePort= {

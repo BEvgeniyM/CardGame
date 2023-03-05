@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 
 export class Event  {
+    public static readonly START_GAME = 'START_GAME';
     public static readonly GAME_OVER = 'GAME_OVER';
     public static readonly YOU_WIN = 'YOU_WIN';
 
@@ -27,6 +28,7 @@ export class Event  {
     public static readonly CHECK_CARD_AND ='CHECK_CARD_AND';
 
     public static readonly ACTION ='ACTION';
+    public static readonly SELECTED_CART ='SELECTED_CART';
     public static readonly LOCK_BTN ='LOCK_BTN';
 
     public static readonly UI_GETCART ='UI_GETCART';

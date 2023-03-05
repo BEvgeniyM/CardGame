@@ -1,17 +1,11 @@
 import { Container, DisplayObject, Sprite } from 'pixi.js'
 import { Event } from './Event';
-import { BaseViwe } from './BaseViwe';
-import { Cart } from './Cart';
-import { CustomUtils } from '../Utils/CustomUtils'
-import { BaseController } from './BaseController';
-import { setDefaultResultOrder } from 'dns';
 import { DataSetting } from '../Utils/DataSetting';
 
 import { Button } from './Components/Button';
-import {WebFont} from './Components/BaseComponents/WebFont';
-import * as PIXI from 'pixi.js'
-import gsap from 'gsap';
-import {Element, ElementConfig } from './Components/Element';
+import { EE } from './Components/BaseComponents/EE';
+import { WebFont } from './Components/BaseComponents/WebFont';
+import { Element, ElementConfig } from './Components/Element';
 
 
 
@@ -24,7 +18,7 @@ export class UIViwe extends Container {
     private _heroMy: Sprite;
     // private _heroMy: DisplayObject;
     private _heroMob: Sprite;
-   
+
     private _helpDataText: WebFont;
     private _helpseal: Sprite;
 
@@ -36,9 +30,9 @@ export class UIViwe extends Container {
     private _btnTackCard_Mob: Button;
     private _menu: Button;
 
-   
 
-    constructor(){
+
+    constructor() {
         super()
         // this.interactiveChildren = true
         this.sortableChildren = true;
@@ -47,22 +41,22 @@ export class UIViwe extends Container {
     }
 
     start(): void {
-        
-        this._helpClose =  new Button (this,DataSetting.HelpClose,['pointerdown'],[this.helpClick.bind(this)]);
-        this._helpPaper =  new Button (this,DataSetting.HelpPaper,['pointerdown'],[this.helpPaper.bind(this)]);
-        this._menu =  new Button (this,DataSetting.Menu,['pointerdown'],[this.clickOnMenu.bind(this)]);
+
+        this._helpClose = new Button(this, DataSetting.HelpClose, ['pointerdown'], [this.helpClick.bind(this)]);
+        this._helpPaper = new Button(this, DataSetting.HelpPaper, ['pointerdown'], [this.helpPaper.bind(this)]);
+        this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.clickOnMenu.bind(this)]);
 
 
-        this._btnTackCard_I =  new Button (this,DataSetting.HeroMy,['pointerdown'],[this.clickOnHeroMy.bind(this)]);
-        this._btnTackCard_Mob =  new Button (this,DataSetting.HeroMob,['pointerdown'],[this.clickOnHeroMob.bind(this)]);
+        this._btnTackCard_I = new Button(this, DataSetting.HeroMy, ['pointerdown'], [this.clickOnHeroMy.bind(this)]);
+        this._btnTackCard_Mob = new Button(this, DataSetting.HeroMob, ['pointerdown'], [this.clickOnHeroMob.bind(this)]);
 
-        const t = Object.assign({parent:this}, DataSetting.TextHelp);        
+        const t = Object.assign({ parent: this }, DataSetting.TextHelp);
         // this._helpDataText = new WebFont('_helpDataText',t);
 
 
-        
-        this._menuMessage = new Element(this,DataSetting.MenuElementContaine);
-        this._menuMessage.element.alpha = 1;
+
+        this._menuMessage = new Element(this, DataSetting.MenuElementContaine);
+        this._menuMessage.element.alpha = 0;
 
         // this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
         // this._helpElementConteiner.element.alpha = 1;
@@ -72,10 +66,10 @@ export class UIViwe extends Container {
         window.addEventListener("resize", this.resizeCanvas.bind(this));
         this.resizeCanvas();
     }
-    
 
 
-    creatHelp(){
+
+    creatHelp() {
         // this._btnTackCard_I.animation.moveRigth_1()
         // this._btnTackCard_Mob.animation.moveRigth_0()
         //@ts-ignore       
@@ -83,19 +77,19 @@ export class UIViwe extends Container {
         //@ts-ignore
 
         this._menuMessage.element.childs[0].animation.moveFromTo();
-          //@ts-ignore
+        //@ts-ignore
         for (let i = 1; i < this._menuMessage.element.childs.length; i++) {
-              //@ts-ignore
+            //@ts-ignore
             this._menuMessage.element.childs[i].animation.moveFromTo().moveFromToZ();
         }
 
-        const btn = new Element(this._helpData,DataSetting.HelpBackGround).element
+        const btn = new Element(this._helpData, DataSetting.HelpBackGround).element
 
         this._helpData.addChild(this._helpPaper.element);
         // this._helpData.addChild(this._helpDataText);
         this._helpData.addChild(this._helpClose.element);
-        this._helpData.visible =false
-        this.addChild(this._helpData);      
+        this._helpData.visible = false
+        this.addChild(this._helpData);
     }
 
 
@@ -103,46 +97,47 @@ export class UIViwe extends Container {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       ECTION                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    clickOnHeroMob(f:boolean = true){
+    clickOnHeroMob(f: boolean = true) {
     }
-    clickOnHeroMy(f:boolean = true){
-        this.parent.emit(Event.ACTION,Event.I_CLOSE_ROUND);
+    clickOnHeroMy(f: boolean = true) {
+        EE.Glob.emit(Event.ACTION, Event.I_CLOSE_ROUND);
     }
-    ectionOnHeroMy(f:boolean = true){
-        this.ectionOnHero(this._btnTackCard_I,f);
+    ectionOnHeroMy(f: boolean = true) {
+        this.ectionOnHero(this._btnTackCard_I, f);
     }
-    ectionOnHeroMob(f:boolean = true){
-        this.ectionOnHero(this._btnTackCard_Mob,f);
+    ectionOnHeroMob(f: boolean = true) {
+        this.ectionOnHero(this._btnTackCard_Mob, f);
     }
-    ectionOnHero(s:Button,f:boolean){
-        if(f == true){
+    ectionOnHero(s: Button, f: boolean) {
+        if (f == true) {
             s.animation.rotatingAndСhangingTexture(s.config.t);
         } else s.animation.rotatingAndСhangingTexture(s.config.tb);
     }
 
-   
 
-    lockBtn(f:boolean):void{
-      this.interactiveChildren = f;
+
+    lockBtn(f: boolean): void {
+        debugger
+        this.interactiveChildren = f;
     }
 
 
 
-    helpPaper(){
+    helpPaper() {
     }
 
-    helpseal(){
+    helpseal() {
     }
 
-    helpClick(){
+    helpClick() {
         this._helpData.visible = false;
     }
 
-    clickOnMenu(){        
+    clickOnMenu() {
         // this._menuMessage.element.visible = !this._menuMessage.element.visible;
         debugger
 
-        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha<1?true:false);
+        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);
         // for (let i = 0; i < this._menuMessage.child.length; i++) {
         //     this._menuMessage.child[i].animation.alphaAnimation(this._menuMessage.element.visible);
         // }
@@ -156,7 +151,7 @@ export class UIViwe extends Container {
 
 
 
-    resizeCanvas(){
+    resizeCanvas() {
     }
 
 }

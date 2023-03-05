@@ -1,4 +1,4 @@
-import { Sprite, Texture } from 'pixi.js';
+import { Sprite, Texture ,SCALE_MODES} from 'pixi.js';
 import { ElementConfig } from '../Element';
 
 export class SpriteImage extends Sprite {
@@ -18,9 +18,10 @@ export class SpriteImage extends Sprite {
     }
   }
 
-  setTexture(str: string): void {
+  setTexture(str: string): void {   
     this.textureID = str;
     this.texture = Texture.from(str);
+    // this.texture.scaleMode = SCALE_MODES.NEAREST;
   }
 
   static GetTexture(str: string | undefined): Texture {

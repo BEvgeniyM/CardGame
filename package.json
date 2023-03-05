@@ -27,6 +27,7 @@
     "dependencies": {
         "@pixi/tilemap": "^3.2.2",
         "core-js": "^3.26.0",
+        "eventemitter3": "^5.0.0",
         "gsap": "^3.11.4",
         "pixi-spine": "^3.0.16",
         "pixi-webfont-loader": "^1.0.2",

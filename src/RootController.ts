@@ -12,6 +12,10 @@ import { Event } from './app/Event';
 import { gsap } from "gsap";
 import { type } from 'os';
 import { DataSetting } from './Utils/DataSetting';
+import { EventEmitter } from 'eventemitter3'
+import { LogicGame } from './app/LogicGame';
+import { EE } from './app/Components/BaseComponents/EE';
+import { StageController } from './StageController';
 
 export class RootController extends Container {
 
@@ -25,8 +29,6 @@ export class RootController extends Container {
 
 
     private _preloader: Preloader;
-    private _controller: BaseController;
-    private _viwe: BaseViwe;
     private _table: TableViwe;
     private _tableController: TableController;
     private _UIviwe: UIViwe;
@@ -35,29 +37,20 @@ export class RootController extends Container {
     private _data: any;
     private _chengeWhoseMoveID: boolean = false;
 
-
     constructor(private _app: Application) {
         super();
         this.name = this.constructor.name;
         this.sortableChildren = true;
         this.sortChildren();
         _app.stage.addChild(this);
-
-        this.on(Event.PRELOADER_COMPLETE, this.gameStart);
-        this.on(Event.LOAD_GAME_START, this.loadGameStart);
-        this.on(Event.ACTION, this.anyEction);
+      
+        EE.Glob.on(Event.ACTION, this.action, this);       
     }
 
 
     init(): void {
         this._preloader = new Preloader(this).init();
-        this.addChild(this._preloader);
-
-       
-
-        this._viwe = new BaseViwe();
-        this._controller = new BaseController(this._viwe).init();
-        this.addChild(this._controller);
+        this.addChild(this._preloader);       
 
         this._UIviwe = new UIViwe();
         this._UIcontroller = new UIController(this._UIviwe).init();
@@ -121,22 +114,28 @@ export class RootController extends Container {
             delay: this._startDelay,
             callbackScope: this,
             onComplete: () => {
-                // this._table = new TableViwe(this,DataSetting.TableElementContaine).start(10, this._cardsTexture);
-                // this._tableController = new TableController(this._table)
+                this._table = new TableViwe(this,DataSetting.TableElementContaine).start(10, this._cardsTexture);
+                this._tableController = new TableController(this._table)
                 this._UIviwe.start();
-                this._viwe.start(10, this._cardsTexture);
-                this.firastRound();
+                EE.Glob.emit(Event.ACTION,Event.START_GAME,this);
+                const event = new UIEvent('resize', { 
+                    view: window,
+                    bubbles: false,
+                    cancelable: true 
+                  });
+                  LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
+                  window.dispatchEvent(event);
+                // this._viwe.start(10, this._cardsTexture);
+                // this.firastRound();
             }
         })
     }
 
 
-    anyEction(actoin: string) {
+    action(actoin: string) {
         // debugger
         switch (actoin) {
-            case Event.I_CLOSE_ROUND:
-                this._controller && this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
-                this._tableController && this._tableController.emit(Event.ACTION, Event.I_CLOSE_ROUND);
+            case Event.I_CLOSE_ROUND:           
                 break;
             case Event.MOB_CLOSE_ROUND:
                 this._UIcontroller.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
@@ -155,6 +154,16 @@ export class RootController extends Container {
                 break;
             case Event.I_MOVE_CARD_ON_TABLE:
                 break;
+
+
+            case Event.PRELOADER_COMPLETE:
+                this.gameStart();
+                break;
+            case Event.LOAD_GAME_START:
+                this.loadGameStart();
+                break;
+            case Event.I_MOVE_CARD_ON_TABLE:
+                break;
             default:
                 break;
         }
@@ -165,33 +174,28 @@ export class RootController extends Container {
 
 
     preperNewRound() {
-        if (this._chengeWhoseMoveID) {
-            this._UIcontroller.preperNewRound();
-        }
+        // if (this._chengeWhoseMoveID) {
+        //     this._UIcontroller.preperNewRound();
+        // }
 
-        this._controller.preperNewRound();
-        this._chengeWhoseMoveID = false;
+        // this._controller.preperNewRound();
+        // this._chengeWhoseMoveID = false;
     }
 
 
-    chengeWhoseMoveID(f: number): boolean {
-        if (f != DataSetting.WhoseMoveID) {
-            this._chengeWhoseMoveID = true;
-            DataSetting.WhoseMoveID = f;
-            return true
-        }
-        return false
-    }
+    // chengeWhoseMoveID(f: number): boolean {
+    //     if (f != DataSetting.WhoseMoveID) {
+    //         this._chengeWhoseMoveID = true;
+    //         DataSetting.WhoseMoveID = f;
+    //         return true
+    //     }
+    //     return false
+    // }
 
 
     firastRound() {
         this._UIcontroller.firastRound();
-        this._controller.firastRound();
+        // this._controller.firastRound();
     }
 
-}
-
-type CartType = {
-    texture: string,
-    id: string
 }

@@ -6,6 +6,7 @@ import { Button } from './Components/Button';
 import { EE } from './Components/BaseComponents/EE';
 import { WebFont } from './Components/BaseComponents/WebFont';
 import { Element, ElementConfig } from './Components/Element';
+import { ElementContainer } from './Components/BaseComponents/ElementContainer';
 
 
 
@@ -16,7 +17,6 @@ export class UIViwe extends Container {
     private _close: Sprite;
     private _winPanel: Sprite;
     private _heroMy: Sprite;
-    // private _heroMy: DisplayObject;
     private _heroMob: Sprite;
 
     private _helpDataText: WebFont;
@@ -34,7 +34,6 @@ export class UIViwe extends Container {
 
     constructor() {
         super()
-        // this.interactiveChildren = true
         this.sortableChildren = true;
         this.zIndex = 1000;
         this.sortChildren();
@@ -51,15 +50,18 @@ export class UIViwe extends Container {
         this._btnTackCard_Mob = new Button(this, DataSetting.HeroMob, ['pointerdown'], [this.clickOnHeroMob.bind(this)]);
 
         const t = Object.assign({ parent: this }, DataSetting.TextHelp);
-        // this._helpDataText = new WebFont('_helpDataText',t);
-
-
 
         this._menuMessage = new Element(this, DataSetting.MenuElementContaine);
         this._menuMessage.element.alpha = 0;
 
-        // this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
-        // this._helpElementConteiner.element.alpha = 1;
+        (this._menuMessage.element as ElementContainer).childs[2].element.interactive = true;
+        (this._menuMessage.element as ElementContainer).childs[2].element.interactiveChildren = true;
+        (this._menuMessage.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+            EE.Glob.emit(Event.ACTION, Event.UI_HELP)
+        });
+
+        this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
+        this._helpElementConteiner.element.alpha = 0;
 
         this.creatHelp();
 
@@ -69,18 +71,12 @@ export class UIViwe extends Container {
 
 
 
-    creatHelp() {
-        // this._btnTackCard_I.animation.moveRigth_1()
-        // this._btnTackCard_Mob.animation.moveRigth_0()
-        //@ts-ignore       
-        this._menuMessage.element.childs[0].animation.animationMeth();
-        //@ts-ignore
+    creatHelp() {          
+        (this._menuMessage.element as ElementContainer).childs[0].animation.animationMeth();
+        (this._menuMessage.element as ElementContainer).childs[0].animation.moveFromTo();
 
-        this._menuMessage.element.childs[0].animation.moveFromTo();
-        //@ts-ignore
-        for (let i = 1; i < this._menuMessage.element.childs.length; i++) {
-            //@ts-ignore
-            this._menuMessage.element.childs[i].animation.moveFromTo().moveFromToZ();
+        for (let i = 1; i < (this._menuMessage.element as ElementContainer).childs.length; i++) {
+            (this._menuMessage.element as ElementContainer).childs[i].animation.moveFromTo().moveFromToZ();
         }
 
         const btn = new Element(this._helpData, DataSetting.HelpBackGround).element
@@ -116,9 +112,10 @@ export class UIViwe extends Container {
 
 
 
-    lockBtn(f: boolean): void {
-        debugger
-        this.interactiveChildren = f;
+    lockBtn(f: boolean): void {        
+        // this._btnTackCard_I.element.interactiveChildren = f;
+        // this._btnTackCard_Mob.element.interactiveChildren = f; 
+        // this.interactiveChildren = f;
     }
 
 
@@ -130,18 +127,11 @@ export class UIViwe extends Container {
     }
 
     helpClick() {
-        this._helpData.visible = false;
+        this._helpElementConteiner.animation.alphaAnimation(this._helpElementConteiner.element.alpha < 1 ? true : false);
     }
 
     clickOnMenu() {
-        // this._menuMessage.element.visible = !this._menuMessage.element.visible;
-        debugger
-
-        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);
-        // for (let i = 0; i < this._menuMessage.child.length; i++) {
-        //     this._menuMessage.child[i].animation.alphaAnimation(this._menuMessage.element.visible);
-        // }
-        // this._helpData.visible = true;
+        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);      
     }
 
 

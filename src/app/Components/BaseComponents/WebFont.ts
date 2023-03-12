@@ -49,12 +49,12 @@ export class WebFont extends ElementContainer {
     const tilemap = new CompositeTilemap();
     const map = tilemap.tile(texture, 0, 0);
 
-    settings.TEXTURES_PER_TILEMAP = 8;
+    settings.TEXTURES_PER_TILEMAP = 16;
     settings.use32bitIndex = true;
 
     sprite.addChild(map);
-    for (let i = 0; i <= window.innerWidth / texture.width; i++) {
-      for (let j = 0; j <= window.innerHeight / texture.height; j++) {
+    for (let i = 0; i <= window.innerWidth*2 / texture.width; i++) {
+      for (let j = 0; j <= window.innerHeight*2 / texture.height; j++) {
         tilemap.addFrame(texture, i * texture.width, j * texture.height);
       }
     }
@@ -65,6 +65,8 @@ export class WebFont extends ElementContainer {
   protected setMask(): PIXI.Sprite | PIXI.Graphics {
     this._maskSprite = this.createTilemap(this.config.t);
     this._maskSprite.scale.set(this.config.ts);
+    this._maskSprite.anchor.set(0.5);
+    
     this.addChild(this._maskSprite);
 
     if (this.config.t) {
@@ -77,10 +79,11 @@ export class WebFont extends ElementContainer {
   protected moveMask(): void {
     let count = 0;
     StageController.app.ticker.add(() => {
-      count += 0.02;
+      count += 0.01;    
       if (this._maskSprite) {
         this._maskSprite.x = -400 + Math.cos(count) * 100;
         this._maskSprite.y = -400 + Math.sin(count) * 100;
+        // this._maskSprite.angle += count;
       }
       if (this._maskSprite && this._maskSprite.x > this._maskSprite.width) {
         this._maskSprite.x = 0;

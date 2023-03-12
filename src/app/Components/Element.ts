@@ -47,7 +47,7 @@ export class Element {
                 this.element = new SimpleRopeImage(config);
                 break;
             case Element.ElementContainer:
-                this.element = new ElementContainer(config);  
+                this.element = new ElementContainer(config).resizeElementContainer();
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ export class Element {
                 this.childs = r.childs; 
             }
             this.element.interactive = true
-            this.element.interactiveChildren = true;
+            // this.element.interactiveChildren = true;
 
             this.filters = new Filters(this);
             this.animation = new Animation(this);  
@@ -103,19 +103,21 @@ export interface ElementConfig {
     portret?:ElementConfig,            // Setting for portrait orientation
     debug?:boolean                     // Stap if incluode in config
 }
-
+//** Если мы используем контейне то все размеры x y бут строится относительно системы координат контейнера */
 export type viwePort= {
     sf?: number;                       // 'SizeFrom' If this param will be used all size lick x, y will be calc from sf (used with ElementContainer)
     cover?: boolean;                   // If used cover will be try cover screen 
     angle?: boolean;                   // Depend from orientation rotation or not    
     fr?:number;                        // 'FromRight' site of screen in [px]
     fb?:number;                        // 'FromBotton' site of screen in [px]
-    sch?:number;                       //  Scale from height of screen, calc scale for element base on Height of Screen 
-    scw?:number;                       //  Scale from width of screen, calc scale for element base on Width of Screen 
+    sch?:number;                       //  Scale in % from height!!! of screen, calc scale for element base on Height of Screen 
+    scw?:number;                       //  Scale in % from width!!! of screen, calc scale for element base on Width of Screen 
     portret?:{
         sch?:number;                      
         scw?:number;                     
     }
+
+
 }
 
 

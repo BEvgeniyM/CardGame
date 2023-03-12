@@ -11,9 +11,6 @@ export class GraphicImage extends Graphics {
   }
 
   private setup(): void {
-    this.position.set(this.config.x ?? 0, this.config.y ?? 0);
-    this.width = this.config.w ?? 100;
-    this.height = this.config.h ?? 100;
     this.zIndex = this.config.z ?? 0;
     this.alpha = this.config.alpha ?? 1;
     this.scale.set(this.config.scale ?? 1);
@@ -28,7 +25,8 @@ export class GraphicImage extends Graphics {
 
   private createRectangle(): void {
     this.beginFill(this.color);
-    this.drawRect(0, 0, this.width, this.height);
+    this.drawRect(0, 0, this.config.w ?? 100, this.config.h ?? 100);
+    this.position.set(this.config.x ?? 0, this.config.y ?? 0);
     this.endFill();
   }
 }

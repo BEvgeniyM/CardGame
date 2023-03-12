@@ -164,6 +164,9 @@ export class ViwePort {
     }
 
     resize(): void {
+        if('debug' in this._config){
+            debugger
+        }
         this.setScaleImmediately();
         this.setPositionImmediately();
         // this.setPositionGoTo();

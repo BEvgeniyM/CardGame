@@ -54,13 +54,12 @@ export class ElementContainer extends Container {
     return e
   }
 
-    // Set Position 
-    // const globalPos = this._element.getGlobalPosition();
-    // const elementContainer = tt.element as ElementContainer
-    // elementContainer.addElement(this._ELEMENT);
-    // const localPos = this._element.parent.toLocal(globalPos);
-    // this._element.position.set(localPos.x, localPos.y);
-    // Set Position
+  resizeElementContainer():ElementContainer{
+    this.childs.forEach((child: any) => {
+      child.viweport.resize()
+    });
+    return this
+  }
 
 }
 

@@ -42,6 +42,28 @@ export class TableViwe extends Element {
         return this;
     }
 
+    addEventToPlayrCard() {
+        console.log("addEventToPlayrCard");  
+        const pec = this._map.get('PlayrElementContaine').element.childs;
+        for (let i = 0; i < pec.length; i++) {
+            const cart = pec[i];
+            cart?.element.removeAllListeners();
+            console.log(i,cart);            
+            cart?.element.on('pointerup', () => {
+                console.log('click',cart, this);                
+                EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, cart)
+            }, this);
+        }
+    }
+    removeEventToPlayrCard() {
+        console.log('removeEventToPlayrCard');       
+        const pec = this._map.get('PlayrElementContaine').element.childs;
+        for (let i = 0; i < pec.length; i++) {
+            const cart = pec[i];
+            cart?.element.removeAllListeners();
+        }
+    }
+
 
     cartsFomeStack(m: number = 6, i: number = 6) {
         const elementContainer = this.element as ElementContainer;
@@ -52,7 +74,6 @@ export class TableViwe extends Element {
         const cm = mobElementContaine.element.childs.length
         const cp = playrElementContaine.element.childs.length
         const r = gsap.timeline({
-            // delay:6,
             onComplete: () => {
                 EE.Glob.emit(Event.ACTION, Event.ROUND_END)
             }
@@ -60,13 +81,11 @@ export class TableViwe extends Element {
 
         for (let i = cm; i < 6; i++) {
             this._stock.pop()?.animation.animaCartMove(mobElementContaine, r)
-            // this._stock.pop()?.animation.animaCartMover(mobElementContaine,null, i* 0.5)            
         }
 
         for (let i = cp; i < 6; i++) {
             const cart = this._stock.pop();
-            cart?.element.on('pointerdown', () => { EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, cart) }, this);
-            // cart?.animation.animaCartMover(playrElementContaine,null, i* 0.5);            
+            // cart?.element.on('pointerup', () => { EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, cart) }, this);
             cart?.animation.animaCartMove(playrElementContaine, r);
         }
     }
@@ -87,17 +106,11 @@ export class TableViwe extends Element {
     }
 
     PlayrPickUpCarts() {
-        debugger
         const elementContainer = this._map.get('PlayrElementContaine');
         const TableContaine = this._map.get('TableContaine');
 
         
-        while (TableContaine.childs.length != 0) {            
-            // TableContaine.childs[0].element.on('pointerdown', () => {
-            //     EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, TableContaine.childs[0])
-            // },  TableContaine.childs[0]);
-            // TableContaine.childs[0].animation.rotatingAndСhangingTexture(elementContainer.childs[0].config.t);          
-            // TableContaine.childs[0].animation.animaCartMover(elementContainer);
+        while (TableContaine.childs.length != 0) {     
             elementContainer.element.moveElement(TableContaine.childs[0]).animation.cartMoveToCenter();
         }
     }
@@ -112,7 +125,6 @@ export class TableViwe extends Element {
     }
 
     iPickUpCarts() {
-        debugger
         const elementContainer = this._map.get('PlayrElementContaine');
         const TableContaine = this._map.get('TableContaine');
 
@@ -125,9 +137,6 @@ export class TableViwe extends Element {
         const elementContainer = this._map.get('MobElementContaine').element as ElementContainer;
         for (let i = 0; i < elementContainer.childs.length; i++) {
             elementContainer.childs[i].animation.rotatingAndСhangingTexture(elementContainer.childs[i].config.tb);
-            // elementContainer.childs[0].element.on('pointerdown', () => {
-            //     EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, elementContainer.childs[0])
-            // }, elementContainer.childs[0].element);
         }
     }
     openMyCarts() {

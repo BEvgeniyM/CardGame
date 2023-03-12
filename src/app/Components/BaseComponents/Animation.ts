@@ -103,12 +103,22 @@ export class Animation {
     return this
   }
 
+  fan(a:number,c: number): Animation {
+
+    gsap.timeline()
+    .to(this._element, {
+        angle:a,
+        duration: DataSetting.DefaultDuration
+    })  
+    return this
+  }
+
   animaLittleMove(): void {
     const cart = this._element
     const p = cart.y;
     const z = cart.zIndex;
     cart.zIndex = 1000;
-    // this._element.parent.interactiveChildren = false
+    this._element.interactive = false
     gsap.to(cart, {
       y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
       direction: DataSetting.DefaultDuration,
@@ -119,7 +129,7 @@ export class Animation {
           direction: DataSetting.DefaultDuration,
           onComplete: () => {
             cart.zIndex = z;
-            // this._element.parent.interactiveChildren = true
+            this._element.interactive = true
           }
         })
       }
@@ -145,7 +155,7 @@ export class Animation {
 
   }
 
-  animaCartMover(tt: Element, g?: gsap.core.Timeline | null,d?:number): any {
+  animaCartMover(tt: Element, g?: gsap.core.Timeline | null, d?: number): any {
     const rr = this._element as SpriteImage
     rr.angle = 0;
     rr.anchor.set(0.5);
@@ -156,7 +166,7 @@ export class Animation {
     const localPos = this._element.parent.toLocal(globalPos);
     this._element.position.set(localPos.x, localPos.y);
     // Set Position
-  
+
     const gg = g ? g : gsap;
     return gg.to(this._element, {
       angle: CustomUtils.GetRandomArbitrary(-7, 7),
@@ -165,9 +175,9 @@ export class Animation {
       delay: d,
       direction: 20,
       callbackScope: this,
-      onStartParams:[this],
-      onStart:()=>{
-        
+      onStartParams: [this],
+      onStart: () => {
+
       },
       onComplete: () => {
         this._element.position.set(0, 0);
@@ -175,25 +185,25 @@ export class Animation {
     })
   }
 
-  cartMoveToCenter(g?: gsap.core.Timeline | null,d?:number): Animation {
+  cartMoveToCenter(g?: gsap.core.Timeline | null, d?: number): Animation {
     const rr = this._element as SpriteImage
     rr.angle = 0;
-    rr.anchor.set(0.5); 
-  
+    rr.anchor.set(0.5);
+
     const gg = g ? g : gsap;
     gg.to(this._element, {
       angle: CustomUtils.GetRandomArbitrary(-7, 7),
       x: CustomUtils.GetRandomArbitrary(-5, 5),
       y: CustomUtils.GetRandomArbitrary(-5, 5),
       delay: d,
-      direction: 20,
+      direction: 0.5,
       callbackScope: this,
-      onStartParams:[this],
-      onStart:()=>{
-        
+      onStartParams: [this],
+      onStart: () => {
+
       },
       onComplete: () => {
-        this._element.position.set(0, 0);      
+        this._element.position.set(0, 0);
       }
     })
     return this

@@ -39,15 +39,6 @@ export class DataSetting {
         t: 'table_4', x: 0.5, y: 0.5, ax: 0.5, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration
     }
 
-    // static Helpseal = {t:'seal',x:0.7,y:0.6,ax:0,ay:0,scale:0.1,duration:DataSetting.DefaultDuration, portret:{
-    //     x:0.6,
-    //     y:0.5,
-    //     scale:0.1
-    // }} 
-
-   
-
-
     static Stock = { x: 0.92, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.1, duration: DataSetting.DefaultDuration }
     static My_Pull = { x: 0.5, y: 0.92, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
     static Mob_Pull = { x: 0.5, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.15, duration: DataSetting.DefaultDuration }
@@ -234,52 +225,91 @@ export class DataSetting {
 
     static HelpClose = {
         type: 'SpriteImage',
-        t: 'round_close', x: 0.9, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.08, duration: DataSetting.DefaultDuration }
-    static HelpPaper = {
-        type: 'SpriteImage',
-        t: 'papir', x: 0.5, y: 0.5, ax: 0.5, ay: 0.5, scale: 0.4, duration: DataSetting.DefaultDuration, portret: {
-            t: 'papir_2',
-            x: 0.5,
-            y: 0.5,
-            scale: 0.7
-        }
+        //   viweport:{sf:920}, 5
+        t: 'round_close', x: 0.9, y: 0.1, ax: 0.5, ay: 0.5, scale: 0.4, duration: DataSetting.DefaultDuration 
     }
-    static HelpBackGround = {
+
+    static HelpPaper = {
+        // debug:true,
+        type: 'SpriteImage',
+        t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.45, duration: DataSetting.DefaultDuration, 
+        // viweport:{sf:300},  
+        // portret: {
+        //     t: 'papir_2',
+        //     x: 0.5,
+        //     y: 0.5,
+        //     scale: 0.4
+        // }
+    }
+    
+    static HelpBackGround = {        
+        // debug:true,
         type: 'GraphicImage',
-        interType: 'Rectangle',
-        color: 0x000000,
+        interType: 'RECTANGLE',
+        color: '0x000000',
         x: 0,
         y: 0,
         w: 10,
         h: 10,
         z: 1001,
-        scale:1,
+        scale:4,
         alpha: 0.5
     }
 
     static TextHelp = {
+        debug:true,
         type: 'WebFont',
-        text: 'Help Data',
+        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
         filter:[
-            {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            {blurY:0,blurX:0,type:'BLURFILTER',quality:8}
             ],   
-        t: 'flag_3', ts: 2, x: 0.5, y: 0.5, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.5, y: 0.5},
+        viweport:{sf:200},    
+        t: 'fire2', ts: 2, x: 0.1, y: 0.18, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
-            fontSize: 20,
+            fontSize: 40,
             fill: 'white',
             align: 'center',
             color: '0x00000',
-            fontFamily: 'Freehand-Regular'
+            fontFamily: 'Freehand-Regular',
+            // wordWrap: true,
+            // wordWrapWidth: 440,
+        }
+    }
+    static TextHelp_00 = {
+        type: 'WebFont',
+        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
+        filter:[          
+            ],   
+        viweport:{sf:200},    
+        // viweport:{'debug':true},    
+        ts: 2, x: 0.1, y: 0.18, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.1, y: 0.18},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 1,           
+            // wordWrap: true,
+            // wordWrapWidth: 440,
+             dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 1,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 5,
         }
     }
 
-    // static HelpElementConteiner = {
-    //     type: 'ElementContainer',
-    //     x: 0.0, y: 0.2, scale: 0.5, z: 0,
-    //     portret: {scale: 0.7, x: 0.0, y: 0.2},
-    //     childs:[DataSetting.HelpBackGround,DataSetting.HelpPaper,DataSetting.TextHelp,DataSetting.HelpClose]
-    // }
+    static HelpElementConteiner = {
+        type: 'ElementContainer',
+        x: 0.2, y: 0.1, scale: 0.7, z: 0,
+        portret: { x: 0.05, y: 0.4},
+        viweport:{scw:0.7, portret:{ scw:1}},
+        childs:[DataSetting.HelpBackGround,DataSetting.HelpPaper, DataSetting.TextHelp_00,DataSetting.TextHelp,DataSetting.HelpClose]
+    }
     /*********************************************************************************************** */
     /******** ElementContainer Menu *********************************************************8**************** */
     /*********************************************************************************************** */
@@ -472,27 +502,5 @@ export class DataSetting {
         childs:[DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
     }
 
-    static MenuElementTextHelp = {
-        name:'MenuElementTextHelp',
-        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
-        x: 0.2, y: 0.3, ax: 0.5, ay: 0.5, duration: DataSetting.DefaultDuration,
-        displacementFilterTexture: 'splash_screen_1',
-        scaleX: 10,
-        scaleY: 10,
-        mask: 'shift_1',
-        mask_scale: 2,
-        moveMask: true,
-        portret: {
-            x: 0.2,
-            y: 0.2,
-            duration: DataSetting.DefaultDuration
-        },
-        style: {
-            fontSize: 20,
-            fill: 'white',
-            align: 'center',
-            color: '0x00000',
-            fontFamily: 'Freehand-Regular'
-        }
-    }
+  
 }   

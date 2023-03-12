@@ -30,33 +30,37 @@ export class UIController extends Container {
 
     action(action: string) {
         // debugger
+        const viwe = this._viwe;
         switch (action) {
             case Event.I_CLOSE_ROUND:              
-                this._viwe.lockBtn(false);
-                this._viwe.ectionOnHeroMy(false);
-                this._viwe.ectionOnHeroMob(true);
+                viwe.lockBtn(false);
+                viwe.ectionOnHeroMy(false);
+                viwe.ectionOnHeroMob(true);
                 break;
             case Event.MOB_CLOSE_ROUND:  
-                this._viwe.lockBtn(false);
-                this._viwe.ectionOnHeroMy(true);
-                this._viwe.ectionOnHeroMob(false);
+                viwe.lockBtn(false);
+                viwe.ectionOnHeroMy(true);
+                viwe.ectionOnHeroMob(false);
                 break;
             case Event.ROUND_END:
-                this._viwe.lockBtn(true);
+                viwe.lockBtn(true);
                 break;
             case Event.ROUND_CLOSE:
-                this._viwe.lockBtn(true);
+                viwe.lockBtn(true);
                 break;
             case Event.MOB_PICKUP_CARD:
                 debugger
-                this._viwe.lockBtn(true);
+                viwe.lockBtn(true);
                 break;
             case Event.I_PICKUP_CARD:
-                this._viwe.lockBtn(true);
+                viwe.lockBtn(true);
                 break;
             case Event.START_GAME:
-                this._viwe.lockBtn(false);
+                viwe.lockBtn(false);
                 this.firastRound();
+                break;
+            case Event.UI_HELP:
+                viwe.helpClick()
                 break;
         }
     }

@@ -29,65 +29,82 @@ export class TableController {
         const topContaine = view._map.get('TopContaine');
         // debugger
         switch (action) {
-            case Event.SELECTED_CART:                 
-                if(LogicGame.WhoFiteID == DataSetting.PlayrWinnerID){
-                    this.myStap = logic.canAddCardToTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
-                    this.myStap && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
-                }else{
-                    this.myStap = logic.playerCanBeatCardOnTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
-                    this.myStap && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
-                }             
+            case Event.SELECTED_CART:
+                if (LogicGame.WhoFiteID == DataSetting.PlayrWinnerID) {
+                    const t = logic.canAddCardToTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
+                    t && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
+                    t && view.removeEventToPlayrCard();
+                } else {
+                    const t = logic.playerCanBeatCardOnTable(cart, tableContaine, playrElementContaine.element.childs, topContaine);
+                    t && this.timer(Event.I_MOVE_CARD_ON_TABLE, cart);
+                    t && view.removeEventToPlayrCard();
+                }
                 break;
             case Event.I_MOVE_CARD_ON_TABLE:
-                if(LogicGame.WhoFiteID == DataSetting.PlayrWinnerID){
+                if (LogicGame.WhoFiteID == DataSetting.PlayrWinnerID) {
                     const t = logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
-                    t ? this.timer(Event.MOB_MOVE_CARD_ON_TABLE, cart) : this.timer(Event.MOB_PICKUP_CARD)
-                }else{
-                    const t =  logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
-                    !t && this.timer(Event.MOB_CLOSE_ROUND)
-                }                  
+                    t ? this.timer(Event.MOB_MOVE_CARD_ON_TABLE, cart) : this.timer(Event.MOB_PICKUP_CARD);
+                    t && view.removeEventToPlayrCard();
+                } else {
+                    const t = logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
+                    t ? this.timer(Event.MOB_MOVE_CARD_ON_TABLE, cart) : this.timer(Event.MOB_CLOSE_ROUND);
+                }
                 break;
             case Event.MOB_MOVE_CARD_ON_TABLE:
-    debugger            
+                view.addEventToPlayrCard();
                 break;
             case Event.I_FITE_CARF_ON_TABLE:
                 break;
             case Event.MOB_FITE_CARF_ON_TABLE:
+                view.addEventToPlayrCard();
                 break;
             case Event.I_PICKUP_CARD:
                 LogicGame.WhoFiteID = DataSetting.MobWinnerID;
-                view.iPickUpCarts()
+                view.iPickUpCarts();
                 break;
             case Event.MOB_PICKUP_CARD:
                 LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
-                view.mobPickUpCarts()
-                this.timer(Event.ROUND_CLOSE)
+                view.mobPickUpCarts();
+                view.removeEventToPlayrCard();
+                this.timer(Event.ROUND_CLOSE);
                 break;
             case Event.I_CLOSE_ROUND:
-                LogicGame.WhoFiteID == DataSetting.PlayrWinnerID ? view.moveToEdge():view.PlayrPickUpCarts();
+                LogicGame.WhoFiteID == DataSetting.PlayrWinnerID ? view.moveToEdge() : view.PlayrPickUpCarts();
                 LogicGame.WhoFiteID = DataSetting.MobWinnerID;
+                view.removeEventToPlayrCard();
                 this.timer(Event.ROUND_CLOSE);
                 break;
             case Event.MOB_CLOSE_ROUND:
-                LogicGame.WhoFiteID == DataSetting.MobWinnerID ? view.moveToEdge():       view.mobPickUpCarts();
+                LogicGame.WhoFiteID == DataSetting.MobWinnerID ? view.moveToEdge() : view.mobPickUpCarts();
                 LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
+                view.removeEventToPlayrCard();
                 this.timer(Event.ROUND_CLOSE);
                 break;
             case Event.PICKUP_CARDS_END:
                 break;
+            case Event.ROUND_CLOSE:
+                view.cartsFomeStack();
+                break;
             case Event.ROUND_END:
+                LogicGame.WhoFiteID == DataSetting.MobWinnerID && logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
                 view.openMyCarts();
                 // view.openMobCarts(); //for debug
                 view.rotetStockMy();
                 view.rotetStockMob();
-                LogicGame.WhoFiteID == DataSetting.MobWinnerID && logic.mobTrueFoundCart(tableContaine, mobElementContaine.element.childs, topContaine);
+                view.addEventToPlayrCard();
+
+                if(logic.getRoundWinnerID(playrElementContaine)){
+                    this.timer(Event.YOU_WIN, cart) 
+                }else{
+                    this.timer(Event.GAME_OVER, cart) 
+                }
                 break;
-            case Event.ROUND_CLOSE:
-                view.cartsFomeStack()
-                break;
+
             case Event.YOU_WIN:
+                debugger
                 break;
             case Event.GAME_OVER:
+                debugger
                 break;
             case Event.START_GAME:
                 view.cartsFomeStack()

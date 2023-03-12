@@ -5,13 +5,13 @@ import { CustomUtils } from '../Utils/CustomUtils'
 import { Element, ElementConfig } from './Components/Element'
 import { DataSetting } from '../Utils/DataSetting';
 
-export class Cart_ extends Element {
+export class Card extends Element {
 
     /** SETING */
     private _openDur: number = 0.5 //s
     /** SETING */
 
-    protected _back = Texture.from(DataSetting.Cart.skin);
+    protected _back = Texture.from(DataSetting.Card.skin);
     public _timeLine!: gsap.core.Timeline;
 
     public _gsap: gsap.core.Tween | null = null;

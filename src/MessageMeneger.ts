@@ -7,7 +7,7 @@ export class MessageMeneger {
   constructor(private _parent: RootController) {
   }
 
-  getCarts(): void {
+  getCards(): void {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "https://www.deckofcardsapi.com/api/deck/" + this._deckID + "/draw/?count=36");
     xhr.send();
@@ -29,7 +29,7 @@ export class MessageMeneger {
     xhr.onload = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
         this._deckID = xhr.response.deck_id;
-        this.getCarts();
+        this.getCards();
       } else {
         console.log(`Error: ${xhr.status}`);
       }

@@ -1,23 +1,38 @@
 import { gsap } from "gsap";
 import { DataSetting } from '../../../Utils/DataSetting';
 import { EE } from './EE'
-import { Event } from '../../Event';
+import { EventGame } from '../../EventGame';
 
 
 export class Timer {
 
- constructor(e: string, p:string, private delay:number = DataSetting.DefaultDeley){
-    this.timer(e, p);
- }
-
-
-private timer(e: any, p?: any) {
-    gsap.to(this, {
-        delay: this.delay,
-        callbackScope: this,
-        onComplete: () => {
-            EE.Glob.emit(Event.ACTION, e, p)
+    constructor(e: string | Function, content?: any, private delay?: number) {
+        if(e === "string"){
+            this.timer(e, content);
         }
-    })
-}
+        if(e instanceof Function ){
+            this.timerFuntion(e, content);
+        }
+      
+    }
+
+    private timer(e: any, content?: any) {
+        gsap.to(this, {
+            delay: this.delay ?? DataSetting.DefaultDeley,
+            callbackScope: this,
+            onComplete: () => {
+                EE.Glob.emit(EventGame.ACTION, e, content)
+            }
+        })
+    }
+
+    private timerFuntion(e: Function, content?: any) {
+        gsap.to(this, {
+            delay: this.delay ?? DataSetting.DefaultDeley,
+            callbackScope: this,
+            onComplete: () => {
+               e()
+            }
+        })
+    }
 }

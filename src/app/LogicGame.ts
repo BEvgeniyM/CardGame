@@ -1,11 +1,11 @@
-import { Cart_ } from "./Cart_";
+import { Card } from "./Card";
 import { Element } from "./Components/Element";
-import { Event } from "../app/Event";
+import { EventGame } from "./EventGame";
 import { ElementContainer } from "./Components/BaseComponents/ElementContainer";
 import { DataSetting } from "../Utils/DataSetting";
 
 export class LogicGame {
-  private _cards: Cart_[] = [];
+  private _cards: Card[] = [];
   private _trumpSuit: string = "";
 
   static WinnerID: number | null = null
@@ -15,7 +15,7 @@ export class LogicGame {
 
   }
 
-  public getCards(): Cart_[] {
+  public getCards(): Card[] {
     return this._cards;
   }
 
@@ -23,14 +23,14 @@ export class LogicGame {
     return this._trumpSuit;
   }
 
-  public canAddCardToTable(card: Cart_, tableContaine: Element, playerCards: Cart_[], ts: ElementContainer): boolean {
+  public canAddCardToTable(card: Card, tableContaine: Element, playerCards: Card[], ts: ElementContainer): boolean {
     // Получаем карты, которые уже лежат на столе
-    const tableCards = (tableContaine.element as ElementContainer).childs as Cart_[];
+    const tableCards = (tableContaine.element as ElementContainer).childs as Card[];
     const c = tableContaine.element as ElementContainer;
 
     // Если на столе еще нет карт, то игрок может положить любую карту
     if (tableCards.length === 0) {
-      c.moveElement(card).animation.cartMoveToCenter();
+      c.moveElement(card).animation.cardMoveToCenter();
       return true;
     }
 
@@ -40,7 +40,7 @@ export class LogicGame {
     // Проверяем, есть ли на столе карты с такой же мастью
     for (const tableCard of tableCards) {
       if (tableCard.mastW === cardSuit) {
-        c.moveElement(card).animation.cartMoveToCenter();
+        c.moveElement(card).animation.cardMoveToCenter();
         return true;
       }
     }
@@ -50,7 +50,7 @@ export class LogicGame {
     return false;
   }
 
-  setZindex(s: Cart_[]): number {
+  setZindex(s: Card[]): number {
     for (let i = 0; i < s.length; i++) {
       s[i].element.zIndex = i;
     }
@@ -64,14 +64,14 @@ export class LogicGame {
   //  * @param isFirstMove Является ли ход первым
   //  * @returns true, если карта можно положить, false - в противном случае
   //  */
-  public canPutCardOnTable(card: Cart_, tableContaine: Element, playerCards: Cart_[], ts: ElementContainer, isFirstMove: boolean): boolean {
+  public canPutCardOnTable(card: Card, tableContaine: Element, playerCards: Card[], ts: ElementContainer, isFirstMove: boolean): boolean {
     // Если это первый ход, то можно положить любую карту
     let c = tableContaine.element as ElementContainer;
-    let tableCards = c.childs as Cart_[];
+    let tableCards = c.childs as Card[];
     this._trumpSuit = card.trumpSuit;
 
     if (isFirstMove) {
-      c.moveElement(card).animation.cartMoveToCenter().changingTexture();
+      c.moveElement(card).animation.cardMoveToCenter().changingTexture();
       return true;
     }
 
@@ -84,7 +84,7 @@ export class LogicGame {
         }
       }
       card.element.zIndex = this.setZindex(tableCards);
-      c.moveElement(card).animation.cartMoveToCenter().changingTexture();
+      c.moveElement(card).animation.cardMoveToCenter().changingTexture();
       return true;
     }
 
@@ -96,23 +96,23 @@ export class LogicGame {
       }
     }
     card.element.zIndex = this.setZindex(tableCards);
-    c.moveElement(card).animation.cartMoveToCenter().changingTexture();
+    c.moveElement(card).animation.cardMoveToCenter().changingTexture();
     return true;
   }
 
-  public mobTrueFoundCart(tableContaine: Element, mobCards: Cart_[], ts: ElementContainer): boolean {
+  public mobTrueFoundCard(tableContaine: Element, mobCards: Card[], ts: ElementContainer): boolean {
     return this.canBeatCardOnTable(tableContaine, mobCards, ts)
   }
 
 
-  public canBeatCardOnTable(tableContaine: Element, playerCards: Cart_[], ts: ElementContainer): boolean {
+  public canBeatCardOnTable(tableContaine: Element, playerCards: Card[], ts: ElementContainer): boolean {
 
     const s = tableContaine.element as ElementContainer;
-    const tableCards = s.childs as Cart_[];
+    const tableCards = s.childs as Card[];
 
     // Если на столе нет карт, то побить нельзя  но можно бросить карту
     if (tableCards.length === 0) {
-      s.moveElement(playerCards[0]).animation.cartMoveToCenter().changingTexture();
+      s.moveElement(playerCards[0]).animation.cardMoveToCenter().changingTexture();
       return true;
     }
 
@@ -125,7 +125,7 @@ export class LogicGame {
         const playerCard = playerCards[i];
         if (playerCard.mastW === trumpSuit && playerCard.value > lastCardOnTable.value) {
           playerCard.element.zIndex = this.setZindex(tableCards);
-          s.moveElement(playerCard).animation.cartMoveToCenter().changingTexture();
+          s.moveElement(playerCard).animation.cardMoveToCenter().changingTexture();
           return true;
         }
       }
@@ -136,7 +136,7 @@ export class LogicGame {
         if ((playerCard.mastW === lastCardOnTable.mastW && playerCard.value > lastCardOnTable.value) ||
           (playerCard.mastW === trumpSuit)) {
           playerCard.element.zIndex = this.setZindex(tableCards);
-          s.moveElement(playerCard).animation.cartMoveToCenter().changingTexture();
+          s.moveElement(playerCard).animation.cardMoveToCenter().changingTexture();
           return true;
         }
       }
@@ -144,14 +144,14 @@ export class LogicGame {
     return false;
   }
 
-  public playerCanBeatCardOnTable(card: Cart_, tableContaine: Element, playerCards: Cart_[], ts: ElementContainer): boolean {
+  public playerCanBeatCardOnTable(card: Card, tableContaine: Element, playerCards: Card[], ts: ElementContainer): boolean {
 
     const s = tableContaine.element as ElementContainer;
-    const tableCards = s.childs as Cart_[];
+    const tableCards = s.childs as Card[];
 
     // Если на столе нет карт, то побить нельзя  но можно бросить карту
     if (tableCards.length === 0) {
-      s.moveElement(playerCards[0]).animation.cartMoveToCenter();
+      s.moveElement(playerCards[0]).animation.cardMoveToCenter();
       return true;
     }
 
@@ -164,7 +164,7 @@ export class LogicGame {
         const playerCard = card;
         if (playerCard.mastW === trumpSuit && playerCard.value > lastCardOnTable.value) {
           playerCard.element.zIndex = this.setZindex(tableCards);
-          s.moveElement(playerCard).animation.cartMoveToCenter();
+          s.moveElement(playerCard).animation.cardMoveToCenter();
           return true;
         }
       }
@@ -175,7 +175,7 @@ export class LogicGame {
         if ((playerCard.mastW === lastCardOnTable.mastW && playerCard.value > lastCardOnTable.value) ||
           (playerCard.mastW === trumpSuit)) {
           playerCard.element.zIndex = this.setZindex(tableCards);
-          s.moveElement(playerCard).animation.cartMoveToCenter();
+          s.moveElement(playerCard).animation.cardMoveToCenter();
           return true;
         }
       }

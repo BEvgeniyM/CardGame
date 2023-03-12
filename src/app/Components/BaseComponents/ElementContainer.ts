@@ -54,12 +54,12 @@ export class ElementContainer extends Container {
     return e
   }
 
-  resizeElementContainer():ElementContainer{
-    this.childs.forEach((child: any) => {
-      child.viweport.resize()
-    });
-    return this
-  }
+  // resizeElementContainer():ElementContainer{
+  //   this.childs.forEach((child: any) => {
+  //     child.viweport.resize()
+  //   });
+  //   return this
+  // }
 
 }
 

@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js'
-import { Event } from './Event';
+import { EventGame } from './EventGame';
 import { UIViwe } from './UIViwe';
 import { DataSetting } from '../Utils/DataSetting';
 import { EE } from './Components/BaseComponents/EE';
@@ -18,12 +18,12 @@ export class UIController extends Container {
     }
 
     init(): UIController {
-        // this.on(Event.UI_GETCART, this.getCart);
-        // this.on(Event.UI_HELP, this.helpOpen);
-        // this.on(Event.UI_MENU_OPEN, this.menuOpen);
-        // this.on(Event.UI_MENU_CLOSE, this.menuClose);
-        // this.on(Event.UI_RESET, this.reset);
-        EE.Glob.on(Event.ACTION, this.action,this);
+        // this.on(EventGame.UI_GETCART, this.getCard);
+        // this.on(EventGame.UI_HELP, this.helpOpen);
+        // this.on(EventGame.UI_MENU_OPEN, this.menuOpen);
+        // this.on(EventGame.UI_MENU_CLOSE, this.menuClose);
+        // this.on(EventGame.UI_RESET, this.reset);
+        EE.Glob.on(EventGame.ACTION, this.action,this);
         return this;
     }
 
@@ -32,34 +32,34 @@ export class UIController extends Container {
         // debugger
         const viwe = this._viwe;
         switch (action) {
-            case Event.I_CLOSE_ROUND:              
+            case EventGame.I_CLOSE_ROUND:              
                 viwe.lockBtn(false);
                 viwe.ectionOnHeroMy(false);
                 viwe.ectionOnHeroMob(true);
                 break;
-            case Event.MOB_CLOSE_ROUND:  
+            case EventGame.MOB_CLOSE_ROUND:  
                 viwe.lockBtn(false);
                 viwe.ectionOnHeroMy(true);
                 viwe.ectionOnHeroMob(false);
                 break;
-            case Event.ROUND_END:
+            case EventGame.ROUND_END:
                 viwe.lockBtn(true);
                 break;
-            case Event.ROUND_CLOSE:
+            case EventGame.ROUND_CLOSE:
                 viwe.lockBtn(true);
                 break;
-            case Event.MOB_PICKUP_CARD:
+            case EventGame.MOB_PICKUP_CARD:
                 debugger
                 viwe.lockBtn(true);
                 break;
-            case Event.I_PICKUP_CARD:
+            case EventGame.I_PICKUP_CARD:
                 viwe.lockBtn(true);
                 break;
-            case Event.START_GAME:
+            case EventGame.START_GAME:
                 viwe.lockBtn(false);
                 this.firastRound();
                 break;
-            case Event.UI_HELP:
+            case EventGame.UI_HELP:
                 viwe.helpClick()
                 break;
         }

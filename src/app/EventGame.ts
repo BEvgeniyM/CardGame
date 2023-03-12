@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-export class Event  {
+export class EventGame  {
     public static readonly START_GAME = 'START_GAME';
     public static readonly GAME_OVER = 'GAME_OVER';
     public static readonly YOU_WIN = 'YOU_WIN';
@@ -41,12 +41,12 @@ export class Event  {
     
     public static InitEmiter(s:PIXI.DisplayObject,e:string,f:Function):void{
         s.on(e,f as any);
-        Event.ArrayOfListeners.push(s);
+        EventGame.ArrayOfListeners.push(s);
     }
 
     public static DispachEvent(e:string,a?:string):void{
-        for (let i = 0; i < Event.ArrayOfListeners.length; i++) {
-             Event.ArrayOfListeners[i].emit(e,a);
+        for (let i = 0; i < EventGame.ArrayOfListeners.length; i++) {
+             EventGame.ArrayOfListeners[i].emit(e,a);
         }
     }
 }

@@ -2,15 +2,13 @@ import { Container, Texture, Text, Graphics, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 
-import { Cart } from './Cart';
-import { Event } from './Event';
+import { EventGame } from './EventGame';
 import { StageController } from '../StageController';
 import { Element, ElementConfig } from './Components/Element';
 import { ElementContainer } from './Components/BaseComponents/ElementContainer';
 import { CustomUtils } from '../Utils/CustomUtils'
-import { BaseController } from './BaseController';
 import { DataSetting } from '../Utils/DataSetting';
-import { Cart_ } from './Cart_';
+import { Card } from './Card';
 import { EventEmitter } from 'eventemitter3'
 import { EE } from './Components/BaseComponents/EE';
 
@@ -32,12 +30,12 @@ export class TableViwe extends Element {
         }
     }
 
-    start(cartCount: number = 1, _cardsTexture: Array<[string, string]>): TableViwe {
+    start(cardCount: number = 1, _cardsTexture: Array<[string, string]>): TableViwe {
         const stocElementContaine = this._map.get('StocElementContaine').element as ElementContainer;
 
         for (let i = 0; i < _cardsTexture.length; i++) {
-            const cnf = Object.assign({ tb: _cardsTexture[i][0], z: i }, DataSetting.CartS);
-            this._stock.push(new Cart_(stocElementContaine, cnf, _cardsTexture[i], _cardsTexture[0]));
+            const cnf = Object.assign({ tb: _cardsTexture[i][0], z: i }, DataSetting.CardS);
+            this._stock.push(new Card(stocElementContaine, cnf, _cardsTexture[i], _cardsTexture[0]));
         }
         return this;
     }
@@ -46,12 +44,12 @@ export class TableViwe extends Element {
         console.log("addEventToPlayrCard");  
         const pec = this._map.get('PlayrElementContaine').element.childs;
         for (let i = 0; i < pec.length; i++) {
-            const cart = pec[i];
-            cart?.element.removeAllListeners();
-            console.log(i,cart);            
-            cart?.element.on('pointerup', () => {
-                console.log('click',cart, this);                
-                EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, cart)
+            const card = pec[i];
+            card?.element.removeAllListeners();
+            console.log(i,card);            
+            card?.element.on('touchend', () => {
+                console.log('click',card, this);                
+                EE.Glob.emit(EventGame.ACTION, EventGame.SELECTED_CART, card)
             }, this);
         }
     }
@@ -59,13 +57,13 @@ export class TableViwe extends Element {
         console.log('removeEventToPlayrCard');       
         const pec = this._map.get('PlayrElementContaine').element.childs;
         for (let i = 0; i < pec.length; i++) {
-            const cart = pec[i];
-            cart?.element.removeAllListeners();
+            const card = pec[i];
+            card?.element.removeAllListeners();
         }
     }
 
 
-    cartsFomeStack(m: number = 6, i: number = 6) {
+    cardsFomeStack(m: number = 6, i: number = 6) {
         const elementContainer = this.element as ElementContainer;
         const playrElementContaine = this._map.get('PlayrElementContaine');
         const mobElementContaine = this._map.get('MobElementContaine');
@@ -75,18 +73,18 @@ export class TableViwe extends Element {
         const cp = playrElementContaine.element.childs.length
         const r = gsap.timeline({
             onComplete: () => {
-                EE.Glob.emit(Event.ACTION, Event.ROUND_END)
+                EE.Glob.emit(EventGame.ACTION, EventGame.ROUND_END)
             }
         })
 
         for (let i = cm; i < 6; i++) {
-            this._stock.pop()?.animation.animaCartMove(mobElementContaine, r)
+            this._stock.pop()?.animation.animaCardMove(mobElementContaine, r)
         }
 
         for (let i = cp; i < 6; i++) {
-            const cart = this._stock.pop();
-            // cart?.element.on('pointerup', () => { EE.Glob.emit(Event.ACTION, Event.SELECTED_CART, cart) }, this);
-            cart?.animation.animaCartMove(playrElementContaine, r);
+            const card = this._stock.pop();
+            // card?.element.on('pointerup', () => { EE.Glob.emit(EventGame.ACTION, EventGame.SELECTED_CART, card) }, this);
+            card?.animation.animaCardMove(playrElementContaine, r);
         }
     }
 
@@ -94,24 +92,24 @@ export class TableViwe extends Element {
         this._stock[0].animation.majorMastOpen();
     }
 
-    mobPickUpCarts() {
+    mobPickUpCards() {
         const elementContainer = this._map.get('MobElementContaine');
         const TableContaine = this._map.get('TableContaine');
 
         while (TableContaine.childs.length != 0) {
             TableContaine.childs[0].animation.rotatingAndСhangingTexture(elementContainer.childs[0].config.t);
             TableContaine.childs[0].element.removeAllListeners();
-            TableContaine.childs[0].animation.animaCartMover(elementContainer);
+            TableContaine.childs[0].animation.animaCardMover(elementContainer);
         }
     }
 
-    PlayrPickUpCarts() {
+    PlayrPickUpCards() {
         const elementContainer = this._map.get('PlayrElementContaine');
         const TableContaine = this._map.get('TableContaine');
 
         
         while (TableContaine.childs.length != 0) {     
-            elementContainer.element.moveElement(TableContaine.childs[0]).animation.cartMoveToCenter();
+            elementContainer.element.moveElement(TableContaine.childs[0]).animation.cardMoveToCenter();
         }
     }
 
@@ -120,26 +118,26 @@ export class TableViwe extends Element {
         const TableContaine = this._map.get('TableContaine');
 
         while (TableContaine.childs.length != 0) {
-            TableContaine.childs[0].animation.animaCartMover(elementContainer);
+            TableContaine.childs[0].animation.animaCardMover(elementContainer);
         }
     }
 
-    iPickUpCarts() {
+    iPickUpCards() {
         const elementContainer = this._map.get('PlayrElementContaine');
         const TableContaine = this._map.get('TableContaine');
 
         while (TableContaine.childs.length != 0) {
             TableContaine.childs[0].animation.rotatingAndСhangingTexture(elementContainer.childs[0].config.t);
-            TableContaine.childs[0].animation.animaCartMover(elementContainer);
+            TableContaine.childs[0].animation.animaCardMover(elementContainer);
         }
     }
-    openMobCarts() {
+    openMobCards() {
         const elementContainer = this._map.get('MobElementContaine').element as ElementContainer;
         for (let i = 0; i < elementContainer.childs.length; i++) {
             elementContainer.childs[i].animation.rotatingAndСhangingTexture(elementContainer.childs[i].config.tb);
         }
     }
-    openMyCarts() {
+    openMyCards() {
         const elementContainer = this._map.get('PlayrElementContaine').element as ElementContainer;
         for (let i = 0; i < elementContainer.childs.length; i++) {
             elementContainer.childs[i].animation.rotatingAndСhangingTexture(elementContainer.childs[i].config.tb);

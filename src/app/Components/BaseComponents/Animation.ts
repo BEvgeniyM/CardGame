@@ -61,7 +61,7 @@ export class Animation {
     });
   }
 
-  setPositionCarts(x: any, y: number) {
+  setPositionCards(x: any, y: number) {
     CustomUtils.GoTo(this._element, {
       x: x,
       y: y,
@@ -114,21 +114,21 @@ export class Animation {
   }
 
   animaLittleMove(): void {
-    const cart = this._element
-    const p = cart.y;
-    const z = cart.zIndex;
-    cart.zIndex = 1000;
+    const card = this._element
+    const p = card.y;
+    const z = card.zIndex;
+    card.zIndex = 1000;
     this._element.interactive = false
-    gsap.to(cart, {
-      y: cart.y + CustomUtils.GetRandomArbitrary(0, -30),
+    gsap.to(card, {
+      y: card.y + CustomUtils.GetRandomArbitrary(0, -30),
       direction: DataSetting.DefaultDuration,
       callbackScope: this,
       onComplete: () => {
-        gsap.to(cart, {
+        gsap.to(card, {
           y: p,
           direction: DataSetting.DefaultDuration,
           onComplete: () => {
-            cart.zIndex = z;
+            card.zIndex = z;
             this._element.interactive = true
           }
         })
@@ -136,7 +136,7 @@ export class Animation {
     })
   }
 
-  animaCartMove(tt: Element, g?: any): any {
+  animaCardMove(tt: Element, g?: any): any {
     const gg = g ? g : gsap;
     return gg.to(this._element, {
       angle: CustomUtils.GetRandomArbitrary(-7, 7),
@@ -155,7 +155,7 @@ export class Animation {
 
   }
 
-  animaCartMover(tt: Element, g?: gsap.core.Timeline | null, d?: number): any {
+  animaCardMover(tt: Element, g?: gsap.core.Timeline | null, d?: number): any {
     const rr = this._element as SpriteImage
     rr.angle = 0;
     rr.anchor.set(0.5);
@@ -185,7 +185,7 @@ export class Animation {
     })
   }
 
-  cartMoveToCenter(g?: gsap.core.Timeline | null, d?: number): Animation {
+  cardMoveToCenter(g?: gsap.core.Timeline | null, d?: number): Animation {
     const rr = this._element as SpriteImage
     rr.angle = 0;
     rr.anchor.set(0.5);

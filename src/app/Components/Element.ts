@@ -47,7 +47,7 @@ export class Element {
                 this.element = new SimpleRopeImage(config);
                 break;
             case Element.ElementContainer:
-                this.element = new ElementContainer(config).resizeElementContainer();
+                this.element = new ElementContainer(config);  
                 break;
             default:
                 break;

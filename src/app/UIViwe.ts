@@ -1,5 +1,5 @@
 import { Container, DisplayObject, Sprite } from 'pixi.js'
-import { Event } from './Event';
+import { EventGame } from './EventGame';
 import { DataSetting } from '../Utils/DataSetting';
 
 import { Button } from './Components/Button';
@@ -57,7 +57,7 @@ export class UIViwe extends Container {
         (this._menuMessage.element as ElementContainer).childs[2].element.interactive = true;
         (this._menuMessage.element as ElementContainer).childs[2].element.interactiveChildren = true;
         (this._menuMessage.element as ElementContainer).childs[2].element.on('pointerdown', () => {
-            EE.Glob.emit(Event.ACTION, Event.UI_HELP)
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
         });
 
         this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
@@ -96,7 +96,7 @@ export class UIViwe extends Container {
     clickOnHeroMob(f: boolean = true) {
     }
     clickOnHeroMy(f: boolean = true) {
-        EE.Glob.emit(Event.ACTION, Event.I_CLOSE_ROUND);
+        EE.Glob.emit(EventGame.ACTION, EventGame.I_CLOSE_ROUND);
     }
     ectionOnHeroMy(f: boolean = true) {
         this.ectionOnHero(this._btnTackCard_I, f);

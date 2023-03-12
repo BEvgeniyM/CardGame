@@ -1,7 +1,7 @@
 import { Container, DisplayObject, Loader, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { Element } from '../app/Components/Element';
-import { Event } from './Event';
+import { EventGame } from './EventGame';
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
 import { DataSetting } from '../Utils/DataSetting';
@@ -15,7 +15,7 @@ export class Preloader extends Container {
 
     /** SETING */
     private _skale: number = 1 //s
-    private _cartCount: number = 100;
+    private _cardCount: number = 100;
     private _sleshScren: Element;
     private _pregress: Element;
 
@@ -88,7 +88,7 @@ export class Preloader extends Container {
             });
 
             loader.onComplete.once(() => {
-                EE.Glob.emit(Event.ACTION,Event.LOAD_GAME_START)
+                EE.Glob.emit(EventGame.ACTION,EventGame.LOAD_GAME_START)
                 return this
             });
 
@@ -139,7 +139,7 @@ export class Preloader extends Container {
     }
 
     highPreLoader(): void {
-        EE.Glob.emit(Event.ACTION,Event.PRELOADER_COMPLETE);
+        EE.Glob.emit(EventGame.ACTION,EventGame.PRELOADER_COMPLETE);
 
         gsap.to(this.scale, {
             x: 1,

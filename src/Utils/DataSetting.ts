@@ -1,12 +1,4 @@
-import { Container } from 'pixi.js'
-import { Event } from '../app/Event';
-import { BaseViwe } from '../app/BaseViwe';
-import * as PIXI from 'pixi.js'
-import { Cart } from '../app/Cart';
-
-
-
-
+import { Card } from '../app/Card';
 
 export class DataSetting {
 
@@ -23,11 +15,11 @@ export class DataSetting {
     // static WhoseFiteID: number = 1;
 
     static My_ID: number = 2;
-    static MylastCart: Cart = {} as Cart;
-    static MoBlastCart: Cart = {} as Cart;
+    static MylastCard: Card;
+    static MoBlastCard: Card;
 
 
-    static Cart = {
+    static Card = {
         skin: 'skin_2'
     }
 
@@ -111,9 +103,9 @@ export class DataSetting {
     }
 
     /*********************************************************************************************** */
-    /******** Conteiner for Cart **************************************************8**************** */
+    /******** Conteiner for Card **************************************************8**************** */
     /*********************************************************************************************** */
-    static CartS = {
+    static CardS = {
         type: 'SpriteImage',
         t:'skin_2', x: 0.0, y: 0.0, ax:0.5,ay:0.5, scale: 0.4, z: 1,
         viweport:{sch:0.25, portret:{ scw:0.2}},

@@ -5,14 +5,14 @@ import { DataSetting } from "./DataSetting";
 
 
 export class CustomUtils {
-    static CartHeight: number = 0;
+    static CardHeight: number = 0;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       SET VALUE                                                                        */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    static SetCartSize(s:PIXI.Sprite){
-        CustomUtils.CartHeight = s.height;
+    static SetCardSize(s:PIXI.Sprite){
+        CustomUtils.CardHeight = s.height;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,8 +23,8 @@ export class CustomUtils {
         return Math.random() * (max - min) + min;
     }
 
-    static GetScaleCart():number{
-        return   CustomUtils.CartHeight/(window.innerHeight - CustomUtils.CartHeight)
+    static GetScaleCard():number{
+        return   CustomUtils.CardHeight/(window.innerHeight - CustomUtils.CardHeight)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

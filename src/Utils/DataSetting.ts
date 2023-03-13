@@ -1,4 +1,4 @@
-import { Card } from '../app/Card';
+import { Card } from '../app/modules/cartGame/Card';
 
 export class DataSetting {
 
@@ -128,8 +128,8 @@ export class DataSetting {
     static EdgeElementContaine = {
         type: 'ElementContainer',
         name: 'EdgeElementContaine',
-        x: 0.0, y: 0.5, scale: 1, z: 10,
-        portret: {scale:1, x: 0.0, y: 0.5},
+        x: 0.1, y: 0.5, scale: 1, z: 10,
+        portret: {scale:1, x: 0.1, y: 0.5},
         childs:[]
     }
 
@@ -249,7 +249,7 @@ export class DataSetting {
     }
 
     static TextHelp = {
-        debug:true,
+        // debug:true,
         type: 'WebFont',
         text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
         filter:[
@@ -341,6 +341,7 @@ export class DataSetting {
     }
 
     static Btn_0_Text = {
+        debug:true,
         type: 'WebFont',
         text: 'Setting',
         filter:[

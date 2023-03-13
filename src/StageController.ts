@@ -12,7 +12,7 @@ export class StageController {
     gameHeight: number = DataSetting.GameHeight;
 
     static dragTarget: PIXI.DisplayObject | null = null;
-    static app: Application
+    static app: Application;
 
     constructor() {
 
@@ -21,18 +21,33 @@ export class StageController {
             width: this.gameWidth,
             height: this.gameHeight,
             resizeTo: window,
-            antialias:true,
-            autoDensity:true
+            antialias: true,
+            autoDensity: true
         });
         console.log(`PIXI version: ${PIXI.VERSION}`);
         document.body.appendChild(StageController.app.view);
 
         window.addEventListener("resize", this.resizeCanvas);
-        document.addEventListener("touchend", () => { !isFullScreen() && deviceDetect() && requestFullScreen(document.documentElement) });
+
+        document.addEventListener("touchend", () => {
+            !isFullScreen() && deviceDetect() && requestFullScreen(document.documentElement);
+        });
+
+       
+
+        // StageController.app.renderer.on('postrender', () => {
+        //    console.log('////////');
+           
+        // });
+        
 
         this.registerPixiInspector();
         this.resizeCanvas();
         this.init();
+    }
+
+    resize():void{
+        window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
     }
 
     init(): Application {
@@ -42,7 +57,7 @@ export class StageController {
         // PIXI.settings.RESOLUTION = 2
         PIXI.settings.GC_MODE = GC_MODES.AUTO;
         PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.LINEAR
-        PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT =false
+        PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false
         PIXI.settings.PREFER_ENV = PIXI.ENV.WEBGL2
         PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH;
 
@@ -82,7 +97,7 @@ export class StageController {
 
     registerPixiInspector() {
         (globalThis as any).__PIXI_APP__ = StageController.app; // eslint-disable-line
-        
+
         // old version used this....
         (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__ && (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
     }

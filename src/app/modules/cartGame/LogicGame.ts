@@ -1,8 +1,8 @@
 import { Card } from "./Card";
-import { Element } from "./Components/Element";
-import { EventGame } from "./EventGame";
-import { ElementContainer } from "./Components/BaseComponents/ElementContainer";
-import { DataSetting } from "../Utils/DataSetting";
+import { Element } from "../../components/Element";
+import { EventGame } from "../../components/EventGame";
+import { ElementContainer } from "../../components/baseComponents/ElementContainer";
+import { DataSetting } from "../../../Utils/DataSetting";
 
 export class LogicGame {
   private _cards: Card[] = [];

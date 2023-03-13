@@ -1,12 +1,12 @@
 import { Container, DisplayObject, Sprite } from 'pixi.js'
-import { EventGame } from './EventGame';
-import { DataSetting } from '../Utils/DataSetting';
+import { EventGame } from '../../components/EventGame';
+import { DataSetting } from '../../../Utils/DataSetting';
 
-import { Button } from './Components/Button';
-import { EE } from './Components/BaseComponents/EE';
-import { WebFont } from './Components/BaseComponents/WebFont';
-import { Element, ElementConfig } from './Components/Element';
-import { ElementContainer } from './Components/BaseComponents/ElementContainer';
+import { Button } from '../../components/Button';
+import { EE } from '../../components/baseComponents/EE';
+import { WebFont } from '../../components/baseComponents/WebFont';
+import { Element, ElementConfig } from '../../components/Element';
+import { ElementContainer } from '../../components/baseComponents/ElementContainer';
 
 
 

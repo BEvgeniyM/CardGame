@@ -3,7 +3,6 @@ import * as PIXI from 'pixi.js';
 import { CompositeTilemap, CompositeRectTileLayer } from '@pixi/tilemap';
 import { ElementContainer } from './ElementContainer';
 import { settings } from '@pixi/tilemap';
-import gsap from 'gsap';
 import { StageController } from '../../../StageController';
 import { CustomUtils } from '../../../Utils/CustomUtils';
 
@@ -32,8 +31,8 @@ export class WebFont extends ElementContainer {
     this.interactiveChildren = false;
 
     if (config) {
-      this.x = config.x ?? this.x;
-      this.y = config.y ?? this.y;
+      // this.x = config.x ?? this.x;
+      // this.y = config.y ?? this.y;
       this.zIndex = config.z ?? this.zIndex;
       this.alpha = config.alpha ?? this.alpha;
       config.scale ?? this.scale.set(config.scale);

@@ -1,8 +1,8 @@
 import { Container } from 'pixi.js'
-import { EventGame } from './EventGame';
+import { EventGame } from '../../components/EventGame';
 import { UIViwe } from './UIViwe';
-import { DataSetting } from '../Utils/DataSetting';
-import { EE } from './Components/BaseComponents/EE';
+import { DataSetting } from '../../../Utils/DataSetting';
+import { EE } from '../../components/baseComponents/EE';
 
 import gsap from 'gsap';
 

@@ -1,8 +1,8 @@
 import { Sprite, DisplayObject } from 'pixi.js';
 import { gsap } from "gsap";
-import { CustomUtils } from '../../../Utils/CustomUtils';
-import { ElementConfig, ElementType, Element } from '../Element';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { CustomUtils } from '../../Utils/CustomUtils';
+import { ElementConfig, ElementType, Element } from '../components/Element';
+import { DataSetting } from '../../Utils/DataSetting';
 
 export class ViwePort {
     private _timeLine: gsap.core.Timeline;
@@ -16,16 +16,16 @@ export class ViwePort {
 
         window.addEventListener("resize", this.resize.bind(this));
 
-        setTimeout(() => {
-            this.resize.bind(this) 
-        }, 300);
+        // setTimeout(() => {
+        //     this.resize.bind(this) 
+        // }, 300);
         
         this.resize();
     }
 
-    setPositionGoTo(): void {        
-        gsap.to(this._element, this.setPositionImmediately());
-    }
+    // setPositionGoTo(): void {        
+    //     gsap.to(this._element, this.setPositionImmediately());
+    // }
 
     setPositionImmediately(): any {
         let c: any;
@@ -147,8 +147,6 @@ export class ViwePort {
     caverViwePort(): void {
         if (this._element.config && this._element.config.viweport && this._element.config.viweport.cover === true) {
             this._element.scale.set(1);
-            // this._element.anchor.set(0.5);
-            // CustomUtils.SetAngle(this._element);
 
             if (this._element.width == this._element.height) {
                 if (window.innerHeight > window.innerWidth) {
@@ -166,13 +164,18 @@ export class ViwePort {
     resize(): void {
         if('debug' in this._config){
             debugger
+            console.log("befor.... x:",this._element.x," y:",this._element.y);
         }
+        
         this.setScaleImmediately();
         this.setPositionImmediately();
-        // this.setPositionGoTo();
         this.setAngle();
         this.caverViwePort();
         // this.setAnchorImmediately();
+       
+        if('debug' in this._config){
+            console.log("after.... x:",this._element.x," y:",this._element.y);
+        }       
 
     }
 

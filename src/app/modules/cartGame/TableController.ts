@@ -1,10 +1,10 @@
-import { EventGame } from './EventGame';
+import { EventGame } from '../../components/EventGame';
 import { TableViwe } from './TableViwe';
 import { LogicGame } from './LogicGame';
-import { DataSetting } from '../Utils/DataSetting';
+import { DataSetting } from '../../../Utils/DataSetting';
 import { Card } from './Card';
 import { gsap } from "gsap";
-import { EE } from './Components/BaseComponents/EE';
+import { EE } from '../../components/baseComponents/EE';
 
 
 
@@ -101,10 +101,10 @@ export class TableController {
                 break;
 
             case EventGame.YOU_WIN:
-                debugger
+                // debugger
                 break;
             case EventGame.GAME_OVER:
-                debugger
+                // debugger
                 break;
             case EventGame.START_GAME:
                 view.cardsFomeStack()

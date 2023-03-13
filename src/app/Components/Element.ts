@@ -1,14 +1,14 @@
 import { Container, IPoint } from 'pixi.js';
 
-import { WebFont} from './BaseComponents/WebFont';
-import { SpriteImage } from './BaseComponents/SpriteImage';
-import { GraphicImage } from './BaseComponents/GraphicImage';
-import { SimpleRopeImage } from './BaseComponents/SimpleRopeImage';
-import { ElementContainer} from './BaseComponents/ElementContainer';
+import { WebFont} from './baseComponents/WebFont';
+import { SpriteImage } from './baseComponents/SpriteImage';
+import { GraphicImage } from './baseComponents/GraphicImage';
+import { SimpleRopeImage } from './baseComponents/SimpleRopeImage';
+import { ElementContainer} from './baseComponents/ElementContainer';
 
-import { Animation } from './BaseComponents/Animation';
-import { ViwePort } from './BaseComponents/ViwePort';
-import { Filters, FilterConfig } from './BaseComponents/Filters';
+import { Animation } from '../decorators/Animation';
+import { ViwePort } from '../decorators/ViwePort';
+import { Filters, FilterConfig } from '../decorators/Filters';
 
 import { CustomUtils } from '../../Utils/CustomUtils'
 import { throws } from 'assert';
@@ -93,7 +93,7 @@ export interface ElementConfig {
     ay?: number;                       // Anchor only for Sprite and WebText  
     alpha?: number;
     scale?: number;
-    color?: number;
+    color?: number | string;
     w?: number;                        // For GraphicImage     
     h?: number;                        // For GraphicImage 
     ts?: number;                       // Scale of texture for WebText masck

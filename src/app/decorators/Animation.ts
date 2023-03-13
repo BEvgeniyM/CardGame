@@ -1,13 +1,13 @@
 import { Sprite, DisplayObject, Container } from 'pixi.js';
 import { gsap } from "gsap";
-import { CustomUtils } from '../../../Utils/CustomUtils';
-import { ElementConfig, ElementType, Element } from '../Element';
-import { ElementContainer } from '../BaseComponents/ElementContainer';
-import { SimpleRopeImage } from './SimpleRopeImage';
-import { SpriteImage } from './SpriteImage';
-import { Filters } from './Filters';
-import { StageController } from '../../../StageController';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { CustomUtils } from '../../Utils/CustomUtils';
+import { ElementConfig, ElementType, Element } from '../components/Element';
+import { ElementContainer } from '../components/baseComponents/ElementContainer';
+import { SimpleRopeImage } from '../components/baseComponents/SimpleRopeImage';
+import { SpriteImage } from '../components/baseComponents/SpriteImage';
+import { Filters } from '../decorators/Filters';
+import { StageController } from '../../StageController';
+import { DataSetting } from '../../Utils/DataSetting';
 
 export class Animation {
   private _timeLine: gsap.core.Timeline;
@@ -22,13 +22,13 @@ export class Animation {
     this._element = ELEMENT.element;
     this._config = ELEMENT.config;
     this._filters = ELEMENT.filters;
-    this.setPosition();
-  }
+  }  
 
-  setPosition(): void {
-    CustomUtils.SetScaleOfProz(this._element as Sprite, this._config);
-    CustomUtils.GoToProz(this._element, this._config);
-  }
+  static GoTo(s:any,cnf: GoTo){
+    const c = Object.assign({duration:DataSetting.DefaultDeley, delay: DataSetting.DefaultDeley},cnf)
+    gsap.to(s,c)
+    return s
+}
 
   rotatingAndСhangingTexture(t: string | null = null): void {
     const sprite = this._element as SpriteImage;
@@ -38,7 +38,7 @@ export class Animation {
     const scaleX = this._element.scale.x
     // const scaleX = CustomUtils.SetScaleOfProz(this._element as Sprite, this._config);
 
-    CustomUtils.GoTo(this._element.scale, {
+    Animation.GoTo(this._element.scale, {
       x: scaleX * 0.1,
       delay: 0,
       callbackScope: this._element,
@@ -51,7 +51,7 @@ export class Animation {
           sprite.setTexture(this._config.tb);
         }
 
-        CustomUtils.GoTo(this._element.scale, {
+        Animation.GoTo(this._element.scale, {
           x: scaleX,
           delay: 0,
           callbackScope: this._element,
@@ -62,7 +62,7 @@ export class Animation {
   }
 
   setPositionCards(x: any, y: number) {
-    CustomUtils.GoTo(this._element, {
+    Animation.GoTo(this._element, {
       x: x,
       y: y,
       angle: 0,
@@ -81,7 +81,7 @@ export class Animation {
     const e = this._element as SpriteImage
     e.anchor.set(0.5, 1);
     this.rotatingAndСhangingTexture()
-    CustomUtils.GoTo(this._element, c)
+    Animation.GoTo(this._element, c)
   }
 
 
@@ -215,7 +215,7 @@ export class Animation {
     }
     const scaleX = this._element.scale.x;
 
-    CustomUtils.GoTo(this._element.scale, {
+    Animation.GoTo(this._element.scale, {
       x: scaleX * 0.1,
       delay: 0,
       callbackScope: this._element,
@@ -228,7 +228,7 @@ export class Animation {
           sprite.setTexture(this._config.tb);
         }
 
-        CustomUtils.GoTo(this._element.scale, {
+        Animation.GoTo(this._element.scale, {
           x: scaleX,
           delay: 0,
           callbackScope: this._element,
@@ -330,4 +330,15 @@ export class Animation {
       }
     });
   }
+}
+
+type GoTo = {
+  x?:number,
+  y?:number,
+  angle?:number,
+  alpha?:number,
+  delay?:number,
+  duration?:number,
+  callbackScope?:Container | Sprite,
+  onComplete?: gsap.Callback
 }

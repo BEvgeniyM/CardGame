@@ -1,12 +1,12 @@
 import { Container, DisplayObject, Loader, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
-import { Element } from '../app/Components/Element';
-import { EventGame } from './EventGame';
+import { Element } from './components/Element';
+import { EventGame } from './components/EventGame';
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
 import { DataSetting } from '../Utils/DataSetting';
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
-import { EE } from './Components/BaseComponents/EE';
+import { EE } from './components/baseComponents/EE';
 
 //** Plugin Should be add befor start Loaders !!!*/
 PIXI.Loader.registerPlugin(WebfontLoaderPlugin);

@@ -1,16 +1,16 @@
 import { Container, Application, Loader } from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
-import { TableViwe } from './app/TableViwe';
-import { TableController } from './app/TableController';
-import { UIViwe } from './app/UIViwe';
-import { UIController } from './app/UIController';
+import { TableViwe } from './app/modules/cartGame/TableViwe';
+import { TableController } from './app/modules/cartGame/TableController';
+import { UIViwe } from './app/modules/cartGame/UIViwe';
+import { UIController } from './app/modules/cartGame/UIController';
 import { Preloader } from './app/Preloader';
-import { EventGame } from './app/EventGame';
+import { EventGame } from './app/components/EventGame';
 import { gsap } from "gsap";
 import { type } from 'os';
 import { DataSetting } from './Utils/DataSetting';
-import { LogicGame } from './app/LogicGame';
-import { EE } from './app/Components/BaseComponents/EE';
+import { LogicGame } from './app/modules/cartGame/LogicGame';
+import { EE } from './app/components/baseComponents/EE';
 import { StageController } from './StageController';
 
 export class RootController extends Container {
@@ -101,7 +101,8 @@ export class RootController extends Container {
     //*********************************************************/
 
 
-    gameStart() {     
+    gameStart() {    
+
         gsap.to(this, {
             delay: this._startDelay,
             callbackScope: this,
@@ -110,11 +111,13 @@ export class RootController extends Container {
                 this._tableController = new TableController(this._table)
                 this._UIviwe.start();
                 EE.Glob.emit(EventGame.ACTION,EventGame.START_GAME,this);
-                LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;
-                window.dispatchEvent(new Event('resize'));
-
+                LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;               
             }
         })
+
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
+        }, 1000);
     }
 
 

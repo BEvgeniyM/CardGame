@@ -1,9 +1,9 @@
 import { Sprite, Texture, Container } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
-import { CustomUtils } from '../Utils/CustomUtils'
-import { Element, ElementConfig } from './Components/Element'
-import { DataSetting } from '../Utils/DataSetting';
+import { CustomUtils } from '../../../Utils/CustomUtils'
+import { Element, ElementConfig } from '../../components/Element'
+import { DataSetting } from '../../../Utils/DataSetting';
 
 export class Card extends Element {
 

@@ -2,15 +2,15 @@ import { Container, Texture, Text, Graphics, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 
-import { EventGame } from './EventGame';
-import { StageController } from '../StageController';
-import { Element, ElementConfig } from './Components/Element';
-import { ElementContainer } from './Components/BaseComponents/ElementContainer';
-import { CustomUtils } from '../Utils/CustomUtils'
-import { DataSetting } from '../Utils/DataSetting';
+import { EventGame } from '../../components/EventGame';
+import { StageController } from '../../../StageController';
+import { Element, ElementConfig } from '../../components/Element';
+import { ElementContainer } from '../../components/baseComponents/ElementContainer';
+import { CustomUtils } from '../../../Utils/CustomUtils'
+import { DataSetting } from '../../../Utils/DataSetting';
 import { Card } from './Card';
 import { EventEmitter } from 'eventemitter3'
-import { EE } from './Components/BaseComponents/EE';
+import { EE } from '../../components/baseComponents/EE';
 
 
 export class TableViwe extends Element {
@@ -46,7 +46,7 @@ export class TableViwe extends Element {
         for (let i = 0; i < pec.length; i++) {
             const card = pec[i];
             card?.element.removeAllListeners();
-            console.log(i,card);            
+            // console.log(i,card);            
             card?.element.on('touchend', () => {
                 console.log('click',card, this);                
                 EE.Glob.emit(EventGame.ACTION, EventGame.SELECTED_CART, card)

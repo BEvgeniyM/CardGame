@@ -1,7 +1,7 @@
 import { gsap } from "gsap";
 import { DataSetting } from '../../../Utils/DataSetting';
 import { EE } from './EE'
-import { EventGame } from '../../EventGame';
+import { EventGame } from '../../Events';
 
 
 export class Timer {

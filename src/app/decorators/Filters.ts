@@ -1,7 +1,7 @@
 import { Sprite, Texture, filters } from 'pixi.js';
 import * as PIXI from 'pixi.js'
-import { StageController } from '../../../StageController';
-import { ElementConfig, ElementType, Element } from '../Element';
+import { StageController } from '../../StageController';
+import { ElementConfig, ElementType, Element } from '../components/Element';
 
 export class Filters {
 

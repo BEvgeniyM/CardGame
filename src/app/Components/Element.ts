@@ -93,7 +93,7 @@ export interface ElementConfig {
     ay?: number;                       // Anchor only for Sprite and WebText  
     alpha?: number;
     scale?: number;
-    color?: number | string;
+    color?: number;
     w?: number;                        // For GraphicImage     
     h?: number;                        // For GraphicImage 
     ts?: number;                       // Scale of texture for WebText masck

@@ -18,11 +18,6 @@ export class UIController extends Container {
     }
 
     init(): UIController {
-        // this.on(EventGame.UI_GETCART, this.getCard);
-        // this.on(EventGame.UI_HELP, this.helpOpen);
-        // this.on(EventGame.UI_MENU_OPEN, this.menuOpen);
-        // this.on(EventGame.UI_MENU_CLOSE, this.menuClose);
-        // this.on(EventGame.UI_RESET, this.reset);
         EE.Glob.on(EventGame.ACTION, this.action,this);
         return this;
     }
@@ -60,8 +55,16 @@ export class UIController extends Container {
                 this.firastRound();
                 break;
             case EventGame.UI_HELP:
-                viwe.helpClick()
+                viwe.helpClick();
                 break;
+            case EventGame.UI_ABOUT:
+                viwe.aboutClick();
+                break;
+            case EventGame.UI_MENU_CLOSE:
+                viwe.clickOnMenu();
+                break;
+
+
         }
     }
 

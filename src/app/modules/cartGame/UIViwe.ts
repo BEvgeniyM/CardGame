@@ -13,7 +13,13 @@ import { ElementContainer } from '../../components/baseComponents/ElementContain
 export class UIViwe extends Container {
 
     private _menuMessage: Element;
-    private _helpElementConteiner: Element
+    private _helpElementConteiner: Element;
+    private _aboutElementConteiner: Element;
+    private _helpBackGroundContainer: Element;
+
+
+
+    
     private _close: Sprite;
     private _winPanel: Sprite;
     private _heroMy: Sprite;
@@ -41,8 +47,6 @@ export class UIViwe extends Container {
 
     start(): void {
 
-        this._helpClose = new Button(this, DataSetting.HelpClose, ['pointerdown'], [this.helpClick.bind(this)]);
-        this._helpPaper = new Button(this, DataSetting.HelpPaper, ['pointerdown'], [this.helpPaper.bind(this)]);
         this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.clickOnMenu.bind(this)]);
 
 
@@ -51,22 +55,43 @@ export class UIViwe extends Container {
 
         const t = Object.assign({ parent: this }, DataSetting.TextHelp);
 
+
+        this._helpBackGroundContainer = new Element(this,DataSetting.HelpBackGroundContainer);
+        this._helpBackGroundContainer.element.alpha = 0;
+
+        (this._helpBackGroundContainer.element as ElementContainer).childs[1].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
+        });
+
+
         this._menuMessage = new Element(this, DataSetting.MenuElementContaine);
         this._menuMessage.element.alpha = 0;
 
-        (this._menuMessage.element as ElementContainer).childs[2].element.interactive = true;
-        (this._menuMessage.element as ElementContainer).childs[2].element.interactiveChildren = true;
         (this._menuMessage.element as ElementContainer).childs[2].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
         });
+        (this._menuMessage.element as ElementContainer).childs[3].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_ABOUT)
+        });
+
 
         this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
         this._helpElementConteiner.element.alpha = 0;
 
-        this.creatHelp();
+        (this._helpElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
+        });
 
-        window.addEventListener("resize", this.resizeCanvas.bind(this));
-        this.resizeCanvas();
+
+        this._aboutElementConteiner = new Element(this,DataSetting.AboutElementConteiner);
+        this._aboutElementConteiner.element.alpha = 0;
+
+        (this._aboutElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
+        });
+
+
+        this.creatHelp();
     }
 
 
@@ -78,14 +103,6 @@ export class UIViwe extends Container {
         for (let i = 1; i < (this._menuMessage.element as ElementContainer).childs.length; i++) {
             (this._menuMessage.element as ElementContainer).childs[i].animation.moveFromTo().moveFromToZ();
         }
-
-        const btn = new Element(this._helpData, DataSetting.HelpBackGround).element
-
-        this._helpData.addChild(this._helpPaper.element);
-        // this._helpData.addChild(this._helpDataText);
-        this._helpData.addChild(this._helpClose.element);
-        this._helpData.visible = false
-        this.addChild(this._helpData);
     }
 
 
@@ -123,25 +140,36 @@ export class UIViwe extends Container {
     helpPaper() {
     }
 
-    helpseal() {
+    clickOnMenu() {
+        // this._menuMessage.element.visible = !this._menuMessage.element.visible
+        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);      
+        this.helpBack();
     }
 
     helpClick() {
         this._helpElementConteiner.animation.alphaAnimation(this._helpElementConteiner.element.alpha < 1 ? true : false);
     }
 
-    clickOnMenu() {
-        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);      
+    aboutClick() {
+        this._aboutElementConteiner.animation.alphaAnimation(this._aboutElementConteiner.element.alpha < 1 ? true : false);
+        // this._helpBackGroundContainer.element.alpha < 1 && this._helpBackGroundContainer.animation.alphaAnimation(false);
     }
 
+    helpBack() {
+        this._helpBackGroundContainer.animation.alphaAnimation(this._helpBackGroundContainer.element.alpha < 1 ? true : false);
+        // this._aboutElementConteiner.element.alpha < 1 && this._aboutElementConteiner.animation.alphaAnimation(false);
+    }
+    close(){
+        
+    }
+
+    helpClose() {
+        this._helpElementConteiner.animation.alphaAnimation(this._helpElementConteiner.element.alpha < 1 ? true : false);
+        this._aboutElementConteiner.animation.alphaAnimation(this._aboutElementConteiner.element.alpha < 1 ? true : false);
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       resizeCanvas                                                                           */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    resizeCanvas() {
-    }
 
 }

@@ -12,26 +12,11 @@ import { ElementContainer } from '../../components/baseComponents/ElementContain
 
 export class UIViwe extends Container {
 
-    private _menuMessage: Element;
+    private _menuElementContaine: Element;
     private _helpElementConteiner: Element;
     private _aboutElementConteiner: Element;
     private _helpBackGroundContainer: Element;
 
-
-
-    
-    private _close: Sprite;
-    private _winPanel: Sprite;
-    private _heroMy: Sprite;
-    private _heroMob: Sprite;
-
-    private _helpDataText: WebFont;
-    private _helpseal: Sprite;
-
-    private _helpData = new Container()
-
-    private _helpClose: Button;
-    private _helpPaper: Button;
     private _btnTackCard_I: Button;
     private _btnTackCard_Mob: Button;
     private _menu: Button;
@@ -47,7 +32,7 @@ export class UIViwe extends Container {
 
     start(): void {
 
-        this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.clickOnMenu.bind(this)]);
+        this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.ectioOnMenu.bind(this)]);
 
 
         this._btnTackCard_I = new Button(this, DataSetting.HeroMy, ['pointerdown'], [this.clickOnHeroMy.bind(this)]);
@@ -55,23 +40,22 @@ export class UIViwe extends Container {
 
         const t = Object.assign({ parent: this }, DataSetting.TextHelp);
 
+        this._menuElementContaine = new Element(this, DataSetting.MenuElementContaine);
+        this._menuElementContaine.element.alpha = 0;
+
+        (this._menuElementContaine.element as ElementContainer).childs[3].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
+        });
+        (this._menuElementContaine.element as ElementContainer).childs[4].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_ABOUT)
+        });
+
 
         this._helpBackGroundContainer = new Element(this,DataSetting.HelpBackGroundContainer);
         this._helpBackGroundContainer.element.alpha = 0;
 
-        (this._helpBackGroundContainer.element as ElementContainer).childs[1].element.on('pointerdown', () => {
+        (this._helpBackGroundContainer.element as ElementContainer).childs[0].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
-        });
-
-
-        this._menuMessage = new Element(this, DataSetting.MenuElementContaine);
-        this._menuMessage.element.alpha = 0;
-
-        (this._menuMessage.element as ElementContainer).childs[2].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
-        });
-        (this._menuMessage.element as ElementContainer).childs[3].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_ABOUT)
         });
 
 
@@ -97,11 +81,11 @@ export class UIViwe extends Container {
 
 
     creatHelp() {          
-        (this._menuMessage.element as ElementContainer).childs[0].animation.animationMeth();
-        (this._menuMessage.element as ElementContainer).childs[0].animation.moveFromTo();
+        (this._menuElementContaine.element as ElementContainer).childs[1].animation.animationMeth();
+        (this._menuElementContaine.element as ElementContainer).childs[1].animation.moveFromTo();
 
-        for (let i = 1; i < (this._menuMessage.element as ElementContainer).childs.length; i++) {
-            (this._menuMessage.element as ElementContainer).childs[i].animation.moveFromTo().moveFromToZ();
+        for (let i = 1; i < (this._menuElementContaine.element as ElementContainer).childs.length; i++) {
+            (this._menuElementContaine.element as ElementContainer).childs[i].animation.moveFromTo().moveFromToZ();
         }
     }
 
@@ -126,13 +110,20 @@ export class UIViwe extends Container {
             s.animation.rotatingAndСhangingTexture(s.config.t);
         } else s.animation.rotatingAndСhangingTexture(s.config.tb);
     }
+    ectioOnMenu() {
+        EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLICK);
+    }
 
 
+    lockBtn(f: boolean): void {
 
-    lockBtn(f: boolean): void {        
-        // this._btnTackCard_I.element.interactiveChildren = f;
-        // this._btnTackCard_Mob.element.interactiveChildren = f; 
-        // this.interactiveChildren = f;
+    }
+    unLockBtn(f: boolean): void { 
+        console.log('fffff',f);
+        this._menuElementContaine.element.interactiveChildren = f       
+        this._helpElementConteiner.element.interactiveChildren = f
+        this._aboutElementConteiner.element.interactiveChildren = f
+        this._helpBackGroundContainer.element.interactiveChildren = f
     }
 
 
@@ -141,35 +132,24 @@ export class UIViwe extends Container {
     }
 
     clickOnMenu() {
-        // this._menuMessage.element.visible = !this._menuMessage.element.visible
-        this._menuMessage.animation.alphaAnimation(this._menuMessage.element.alpha < 1 ? true : false);      
-        this.helpBack();
+        this._menuElementContaine.animation.alphaAnimation(); 
     }
 
     helpClick() {
-        this._helpElementConteiner.animation.alphaAnimation(this._helpElementConteiner.element.alpha < 1 ? true : false);
+        this._helpElementConteiner.animation.alphaAnimation();
     }
 
     aboutClick() {
-        this._aboutElementConteiner.animation.alphaAnimation(this._aboutElementConteiner.element.alpha < 1 ? true : false);
-        // this._helpBackGroundContainer.element.alpha < 1 && this._helpBackGroundContainer.animation.alphaAnimation(false);
+        this._aboutElementConteiner.animation.alphaAnimation();
     }
 
-    helpBack() {
-        this._helpBackGroundContainer.animation.alphaAnimation(this._helpBackGroundContainer.element.alpha < 1 ? true : false);
-        // this._aboutElementConteiner.element.alpha < 1 && this._aboutElementConteiner.animation.alphaAnimation(false);
+    closeBtn() {
+        this._helpBackGroundContainer.animation.alphaAnimation();
     }
     close(){
-        
+        this._helpElementConteiner.element.alpha !=0 && this._helpElementConteiner.animation.alphaToZeroAnimation();
+        this._aboutElementConteiner.element.alpha !=0 && this._aboutElementConteiner.animation.alphaToZeroAnimation();
+        this._helpBackGroundContainer.element.alpha !=0 && this._helpBackGroundContainer.animation.alphaToZeroAnimation();
     }
-
-    helpClose() {
-        this._helpElementConteiner.animation.alphaAnimation(this._helpElementConteiner.element.alpha < 1 ? true : false);
-        this._aboutElementConteiner.animation.alphaAnimation(this._aboutElementConteiner.element.alpha < 1 ? true : false);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**                       resizeCanvas                                                                           */
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

@@ -10,6 +10,8 @@ import * as PIXI from 'pixi.js'
 
 
 export class UIController extends Container {
+    private isOpenMenu: boolean = false
+
     constructor(private _viwe: UIViwe) {
         super();
         this.name = this.constructor.name;
@@ -51,18 +53,30 @@ export class UIController extends Container {
                 viwe.lockBtn(true);
                 break;
             case EventGame.START_GAME:
-                viwe.lockBtn(false);
                 this.firastRound();
                 break;
             case EventGame.UI_HELP:
+                viwe.close();
                 viwe.helpClick();
+                viwe.closeBtn();
                 break;
             case EventGame.UI_ABOUT:
+                viwe.close();
                 viwe.aboutClick();
+                viwe.closeBtn();
                 break;
             case EventGame.UI_MENU_CLOSE:
-                viwe.clickOnMenu();
+                viwe.close();
+                viwe.clickOnMenu();                
+                this.isOpenMenu = false;
+                viwe.unLockBtn(false);
                 break;
+            case EventGame.UI_MENU_CLICK:
+                this.isOpenMenu = !this.isOpenMenu;
+                viwe.unLockBtn(this.isOpenMenu);
+                viwe.clickOnMenu();
+                viwe.close();
+                break;    
 
 
         }

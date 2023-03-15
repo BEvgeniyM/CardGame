@@ -285,10 +285,21 @@ export class Animation {
     return this
   }
 
-  alphaAnimation(a: boolean = true) {
-    this._element.alpha = !a ? 1 : 0;
+  alphaAnimation() {
     gsap.to(this._element, {
-      alpha: a ? 1 : 0,
+      alpha: this._element.alpha < 1 ? 1 : 0,
+      duration: DataSetting.DefaultDuration * 1,
+    })
+  }
+  alphaToOneAnimation() {
+    gsap.to(this._element, {
+      alpha:1,
+      duration: DataSetting.DefaultDuration * 1,
+    })
+  }
+  alphaToZeroAnimation() {
+    gsap.to(this._element, {
+      alpha:0,
       duration: DataSetting.DefaultDuration * 1,
     })
   }

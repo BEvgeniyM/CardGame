@@ -220,20 +220,20 @@ export class DataSetting {
         t: 'round_close', x: 0.95, y: 0.05, ax: 1, ay: 0, scale: 0.3, duration: DataSetting.DefaultDuration 
     }
 
-    static HelpBackGround = {        
-        // debug:true,
-        type: 'GraphicImage',
-        interType: 'RECTANGLE',
-        color: '0x000000',
-        x: 0.0,
-        y: 0.0,
-        w: 2000,
-        h: 2000,
-        z: 1001,
-        scale:1,
-        alpha: 0.5
+    // static HelpBackGround = {        
+    //     // debug:true,
+    //     type: 'GraphicImage',
+    //     interType: 'RECTANGLE',
+    //     color: '0x000000',
+    //     x: 0.0,
+    //     y: 0.0,
+    //     w: 2000,
+    //     h: 2000,
+    //     z: 1001,
+    //     scale:1,
+    //     alpha: 0.5
         
-    }
+    // }
 
 
     static HelpBackGroundContainer = {
@@ -241,7 +241,7 @@ export class DataSetting {
         x: 0.0, y: 0.0, scale: 1, z: 0,
         // viweport:{scw:0.8, portret:{ scw:1}}, 
         childs:[
-            DataSetting.HelpBackGround,
+            // DataSetting.HelpBackGround,
             DataSetting.HelpClose
         ]
     }
@@ -334,15 +334,15 @@ export class DataSetting {
     static TextAbout = {
         // debug:true,
         type: 'WebFont',
-        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
+        text: '"Company specializes in creating unique gaming projects \n for players all over the world. We pay great attention \n to quality and details to make our games as\n engaging and captivating as possible. If you are looking\n for high-quality content, please contact us  at \n cyber.nexus.innovations@gmail.com\n Thank you for choosing our company!"',
         filter:[
             {blurY:0,blurX:0,type:'BLURFILTER',quality:8}
             ],   
         viweport:{sf:200},    
-        t: 'fire2', ts: 2, x: 0.3, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        t: 'fire2', ts: 2, x: 0.35, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
         portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
-            fontSize: 40,
+            fontSize: 28,
             fill: 'white',
             align: 'center',
             color: '0x00000',
@@ -353,15 +353,15 @@ export class DataSetting {
     }
     static TextAbout_00 = {
         type: 'WebFont',
-        text: 'The objective of the game is to shed all one\'s \n cards when there are no more cards left \n in the deck. At the end of the game, \n the last player with cards in their \n hand the player loses his ship.',
+        text: '"Company specializes in creating unique gaming projects \n for players all over the world. We pay great attention \n to quality and details to make our games as\n engaging and captivating as possible. If you are looking\n for high-quality content, please contact us  at \n cyber.nexus.innovations@gmail.com\n Thank you for choosing our company!"',
         filter:[          
             ],   
         viweport:{sf:200},    
         // viweport:{'debug':true},    
-        ts: 2, x: 0.3, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        ts: 2, x: 0.35, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
         portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
-            fontSize: 40,
+            fontSize: 28,
             fill: ['#000000'],
             align: 'center',
             color: '0x00000',
@@ -394,6 +394,21 @@ export class DataSetting {
     /*********************************************************************************************** */
     /******** ElementContainer Menu *********************************************************8**************** */
     /*********************************************************************************************** */
+    static MenuBackGround = {        
+        // debug:true,
+        type: 'GraphicImage',
+        interType: 'RECTANGLE',
+        color: '0x000000',
+        x: -1,
+        y: -1,
+        w: 4000,
+        h: 4000,
+        z: 1001,
+        scale:1,
+        alpha: 0.5
+        
+    }
+
     static Flag = {
         filter:[
         {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
@@ -580,7 +595,7 @@ export class DataSetting {
         type: 'ElementContainer',
         x: 0.0, y: 0.2, scale: 0.5, z: 1000,
         portret: {scale: 0.7, x: 0.0, y: 0.2},
-        childs:[DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
+        childs:[DataSetting.MenuBackGround,DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
     }
 
   

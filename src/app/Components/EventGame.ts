@@ -41,6 +41,7 @@ export class EventGame  {
     public static readonly UI_RESET ='UI_RESET';
     public static readonly UI_MENU_OPEN ='UI_MENU_OPEN';
     public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
+    public static readonly UI_MENU_CLICK ='UI_MENU_CLICK';
 
     public static ArrayOfListeners: Array<PIXI.DisplayObject> = [];
     

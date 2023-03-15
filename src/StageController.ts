@@ -1,6 +1,6 @@
 import { Container, Application, Loader, Sprite, settings, ENV, GC_MODES } from 'pixi.js'
 import * as PIXI from 'pixi.js'
-import { DataSetting } from '../src/Utils/DataSetting'
+import { DataSetting } from './app/modules/cartGame/DataSetting'
 
 import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';
 import { version } from 'os';

@@ -4,7 +4,7 @@ import { Element } from './components/Element';
 import { EventGame } from './components/EventGame';
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
-import { DataSetting } from '../Utils/DataSetting';
+import { DataSetting } from './modules/cartGame/DataSetting';
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
 import { EE } from './components/baseComponents/EE';
 
@@ -46,6 +46,8 @@ export class Preloader extends Container {
             loader.add("splash_screen_3", "./assets/splash_screen_3.png");
 
 
+            loader.add("gludio", "./assets/gludio.mp3");
+            loader.add("dion", "./assets/dion.mp3");
 
             loader.add("map_repeat", "./assets/map_repeat.png");
             loader.add("fire2", "./assets/fire2.png");

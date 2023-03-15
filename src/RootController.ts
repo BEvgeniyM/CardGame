@@ -8,7 +8,7 @@ import { Preloader } from './app/Preloader';
 import { EventGame } from './app/components/EventGame';
 import { gsap } from "gsap";
 import { type } from 'os';
-import { DataSetting } from './Utils/DataSetting';
+import { DataSetting } from './app/modules/cartGame/DataSetting';
 import { LogicGame } from './app/modules/cartGame/LogicGame';
 import { EE } from './app/components/baseComponents/EE';
 import { StageController } from './StageController';

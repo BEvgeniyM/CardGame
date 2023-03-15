@@ -1,6 +1,6 @@
 import { Container, DisplayObject, Sprite } from 'pixi.js'
 import { EventGame } from '../../components/EventGame';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { DataSetting } from './DataSetting';
 
 import { Button } from '../../components/Button';
 import { EE } from '../../components/baseComponents/EE';
@@ -16,6 +16,7 @@ export class UIViwe extends Container {
     private _helpElementConteiner: Element;
     private _aboutElementConteiner: Element;
     private _helpBackGroundContainer: Element;
+    private _settingElementContaine: Element;
 
     private _btnTackCard_I: Button;
     private _btnTackCard_Mob: Button;
@@ -43,6 +44,9 @@ export class UIViwe extends Container {
         this._menuElementContaine = new Element(this, DataSetting.MenuElementContaine);
         this._menuElementContaine.element.alpha = 0;
 
+        (this._menuElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_SETTING)
+        });
         (this._menuElementContaine.element as ElementContainer).childs[3].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
         });
@@ -74,6 +78,18 @@ export class UIViwe extends Container {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
         });
 
+        this._settingElementContaine = new Element(this,DataSetting.SettingElementContaine);
+        this._settingElementContaine.element.alpha = 0;
+
+        (this._settingElementContaine.element as ElementContainer).childs[1].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_ON)
+        });
+        (this._settingElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_OFF)
+        });
+
+
+        
 
         this.creatHelp();
     }
@@ -124,6 +140,7 @@ export class UIViwe extends Container {
         this._helpElementConteiner.element.interactiveChildren = f
         this._aboutElementConteiner.element.interactiveChildren = f
         this._helpBackGroundContainer.element.interactiveChildren = f
+        this._settingElementContaine.element.interactiveChildren = f
     }
 
 
@@ -143,6 +160,10 @@ export class UIViwe extends Container {
         this._aboutElementConteiner.animation.alphaAnimation();
     }
 
+    settingClick() {
+        this._settingElementContaine.animation.alphaAnimation();
+    }
+
     closeBtn() {
         this._helpBackGroundContainer.animation.alphaAnimation();
     }
@@ -150,6 +171,7 @@ export class UIViwe extends Container {
         this._helpElementConteiner.element.alpha !=0 && this._helpElementConteiner.animation.alphaToZeroAnimation();
         this._aboutElementConteiner.element.alpha !=0 && this._aboutElementConteiner.animation.alphaToZeroAnimation();
         this._helpBackGroundContainer.element.alpha !=0 && this._helpBackGroundContainer.animation.alphaToZeroAnimation();
+        this._settingElementContaine.element.alpha !=0 && this._settingElementContaine.animation.alphaToZeroAnimation();
     }
 
 }

@@ -1,7 +1,7 @@
 import { EventGame } from '../../components/EventGame';
 import { TableViwe } from './TableViwe';
 import { LogicGame } from './LogicGame';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { DataSetting } from './DataSetting';
 import { Card } from './Card';
 import { gsap } from "gsap";
 import { EE } from '../../components/baseComponents/EE';

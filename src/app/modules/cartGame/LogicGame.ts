@@ -2,7 +2,7 @@ import { Card } from "./Card";
 import { Element } from "../../components/Element";
 import { EventGame } from "../../components/EventGame";
 import { ElementContainer } from "../../components/baseComponents/ElementContainer";
-import { DataSetting } from "../../../Utils/DataSetting";
+import { DataSetting } from "./DataSetting";
 
 export class LogicGame {
   private _cards: Card[] = [];

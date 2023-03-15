@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { gsap } from "gsap";
 import { CustomUtils } from '../../../Utils/CustomUtils'
 import { Element, ElementConfig } from '../../components/Element'
-import { DataSetting } from '../../../Utils/DataSetting';
+import { DataSetting } from './DataSetting';
 
 export class Card extends Element {
 

@@ -1,0 +1,11 @@
+{
+  "/assets/mobile/sounds/winSounds.mp3": {
+    "win3": { "start": 10.86, "end": 13.6, "loop": false, "value": 1, "speed": 1, "muted": true },
+    "death": { "start": 12, "end": 16.2 },
+    "shot": { "start": 17, "end": 18 },
+    "squit": { "start": 19, "end": 19.3 }
+  },
+  "/assets/mobile/sounds/backgroundMusic.mp3": {
+    "backgroundMusic": { "start": 0, "end": 35.05, "loop": true, "volume": 0.5, "speed": 1.2, "muted": true }
+  }
+}

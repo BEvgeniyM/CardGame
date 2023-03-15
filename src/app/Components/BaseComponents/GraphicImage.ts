@@ -6,7 +6,9 @@ export class GraphicImage extends Graphics {
 
   constructor(public config: ElementConfig) {
     super();
-    this.color = config.color ?? 0xffffff;
+    this.color = typeof config.color === "number" || typeof config.color === "string"
+  ? +config.color || 0x00000
+  : 0x00000;
     this.setup();
   }
 

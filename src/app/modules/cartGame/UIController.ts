@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js'
 import { EventGame } from '../../components/EventGame';
 import { UIViwe } from './UIViwe';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { SoundController } from '../../../SoundController';
 import { EE } from '../../components/baseComponents/EE';
 
 import gsap from 'gsap';
@@ -54,6 +54,12 @@ export class UIController extends Container {
                 break;
             case EventGame.START_GAME:
                 this.firastRound();
+                SoundController.playSound('gludio')
+                break;
+            case EventGame.UI_SETTING:
+                viwe.close();
+                viwe.settingClick();
+                viwe.closeBtn();
                 break;
             case EventGame.UI_HELP:
                 viwe.close();
@@ -76,6 +82,12 @@ export class UIController extends Container {
                 viwe.unLockBtn(this.isOpenMenu);
                 viwe.clickOnMenu();
                 viwe.close();
+                break;    
+            case EventGame.UI_MENU_SOUN_ON: 
+                SoundController.playSound('gludio');
+                break;    
+            case EventGame.UI_MENU_SOUN_OFF: 
+                SoundController.pauseSound('gludio');
                 break;    
 
 

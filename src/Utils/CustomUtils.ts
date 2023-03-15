@@ -1,6 +1,6 @@
 
 import { Sprite} from 'pixi.js';
-import { DataSetting } from "./DataSetting";
+import { DataSetting } from "../app/modules/cartGame/DataSetting";
 
 
 export class CustomUtils {

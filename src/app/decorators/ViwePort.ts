@@ -2,7 +2,7 @@ import { Sprite, DisplayObject } from 'pixi.js';
 import { gsap } from "gsap";
 import { CustomUtils } from '../../Utils/CustomUtils';
 import { ElementConfig, ElementType, Element } from '../components/Element';
-import { DataSetting } from '../../Utils/DataSetting';
+import { DataSetting } from '../modules/cartGame/DataSetting';
 
 export class ViwePort {
     private _timeLine: gsap.core.Timeline;

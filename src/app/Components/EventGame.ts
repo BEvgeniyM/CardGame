@@ -33,6 +33,7 @@ export class EventGame  {
 
     public static readonly UI_GETCART ='UI_GETCART';
     public static readonly UI_HELP ='UI_HELP';
+    public static readonly UI_SETTING ='UI_SETTING';
     public static readonly UI_ABOUT ='UI_ABOUT';
     
     public static readonly UI_HELP_CLOSE ='UI_HELP_CLOSE';
@@ -42,6 +43,8 @@ export class EventGame  {
     public static readonly UI_MENU_OPEN ='UI_MENU_OPEN';
     public static readonly UI_MENU_CLOSE ='UI_MENU_CLOSE';
     public static readonly UI_MENU_CLICK ='UI_MENU_CLICK';
+    public static readonly UI_MENU_SOUN_ON ='UI_MENU_SOUN_ON';
+    public static readonly UI_MENU_SOUN_OFF ='UI_MENU_SOUN_OFF';
 
     public static ArrayOfListeners: Array<PIXI.DisplayObject> = [];
     

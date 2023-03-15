@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import { DataSetting } from '../../../Utils/DataSetting';
+import { DataSetting } from '../../modules/cartGame/DataSetting';
 import { EE } from './EE'
 import { EventGame } from '../../components/EventGame';
 

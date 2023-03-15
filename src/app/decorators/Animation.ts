@@ -7,7 +7,7 @@ import { SimpleRopeImage } from '../components/baseComponents/SimpleRopeImage';
 import { SpriteImage } from '../components/baseComponents/SpriteImage';
 import { Filters } from '../decorators/Filters';
 import { StageController } from '../../StageController';
-import { DataSetting } from '../../Utils/DataSetting';
+import { DataSetting } from '../modules/cartGame/DataSetting';
 
 export class Animation {
   private _timeLine: gsap.core.Timeline;

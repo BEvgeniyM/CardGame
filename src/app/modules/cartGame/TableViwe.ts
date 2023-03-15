@@ -7,7 +7,7 @@ import { StageController } from '../../../StageController';
 import { Element, ElementConfig } from '../../components/Element';
 import { ElementContainer } from '../../components/baseComponents/ElementContainer';
 import { CustomUtils } from '../../../Utils/CustomUtils'
-import { DataSetting } from '../../../Utils/DataSetting';
+import { DataSetting } from './DataSetting';
 import { Card } from './Card';
 import { EventEmitter } from 'eventemitter3'
 import { EE } from '../../components/baseComponents/EE';

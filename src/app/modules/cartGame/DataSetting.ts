@@ -1,4 +1,4 @@
-import { Card } from '../app/modules/cartGame/Card';
+import { Card } from './Card';
 
 export class DataSetting {
 
@@ -390,6 +390,128 @@ export class DataSetting {
         ]
     }
 
+    /*********************************************************************************************** */
+    /******** Setting         *********************************************************8**************** */
+    /*********************************************************************************************** */
+    static SettingPaper = {
+        type: 'SpriteImage',
+        t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+    }
+   
+    static SettingBtn_1 = {      
+        type: 'SpriteImage',
+        viweport:{sf:300},
+        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.0, y: 1}       
+    }
+    static SettingBtn_Sound_01_Text = {
+        type: 'WebFont',
+        text: 'Sound On',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'fire2', ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.20, y: 0.93},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+    static SettingBtn_Sound_00_Text = {
+        type: 'WebFont',
+         text: 'Sound On',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.20, y: 0.93},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
+   
+    static SettingBtn_Mute_01_Text = {
+        type: 'WebFont',
+        text: 'Sound Off',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'fire2', ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.20, y: 0.93},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+    static SettingBtn_Mute_00_Text = {
+        type: 'WebFont',
+         text: 'Sound Off',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1, x: 0.20, y: 0.93},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
+    static Setting_0_Containe = {
+        type: 'ElementContainer',
+        x: 0.0, y: 0.0, scale: 1, z: 1,
+        viweport:{sf:0},   
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1,DataSetting.SettingBtn_Sound_00_Text,DataSetting.SettingBtn_Sound_01_Text]
+    }
+    static Setting_1_Containe = {
+        type: 'ElementContainer',
+        x: 0.40, y: 0.0, scale: 1, z: 1,
+        viweport:{sf:0},   
+        portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1,DataSetting.SettingBtn_Mute_00_Text,DataSetting.SettingBtn_Mute_01_Text]
+    }
+    static SettingElementContaine = {   
+        type: 'ElementContainer',
+        x: 0.2, y: 0.1, scale: 0.7, z: 0,
+        portret: { x: 0.05, y: 0.4},
+        viweport:{scw:0.7, portret:{ scw:1}}, 
+        childs:[DataSetting.SettingPaper,DataSetting.Setting_0_Containe,DataSetting.Setting_1_Containe]
+    }
+    
+
 
     /*********************************************************************************************** */
     /******** ElementContainer Menu *********************************************************8**************** */
@@ -415,14 +537,14 @@ export class DataSetting {
         ],
         type: 'SimpleRopeImage',
         xStap:20,        
-        sizeInPXfrom: 300, ///
+        // sizeInPXfrom: 300, ///
         t: 'flag_3', tb: 'flag_3', x: -0.1, y: 1, ax: 0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
         viweport:{sf:300}
     }
 
     static Btn_0 = {      
         type: 'SpriteImage',
-        sizeInPXfrom: 200,
+        // sizeInPXfrom: 200,
         t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
         portret: {scale: 1, x: 0.0, y: 1},
         viweport:{sf:200}
@@ -430,7 +552,7 @@ export class DataSetting {
 
     static Btn_1 = {      
         type: 'SpriteImage',
-        sizeInPXfrom: 300,
+        // sizeInPXfrom: 300,
         t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
         portret: {scale: 1, x: 0.0, y: 1},
         viweport:{sf:300}
@@ -438,14 +560,14 @@ export class DataSetting {
 
     static Btn_2 = {     
         type: 'SpriteImage',
-        sizeInPXfrom: 400,
+        // sizeInPXfrom: 400,
         t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
         portret: {scale: 1, x: 0.0, y: 1},
         viweport:{sf:400}
     }
 
     static Btn_0_Text = {
-        debug:true,
+        // debug:true,
         type: 'WebFont',
         text: 'Setting',
         filter:[
@@ -597,6 +719,8 @@ export class DataSetting {
         portret: {scale: 0.7, x: 0.0, y: 0.2},
         childs:[DataSetting.MenuBackGround,DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
     }
+
+    
 
   
 }   

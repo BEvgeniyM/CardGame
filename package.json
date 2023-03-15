@@ -26,6 +26,7 @@
     "license": "MIT",
     "dependencies": {
         "@pixi/tilemap": "^3.2.2",
+        "@pixi/sound": "^4.3.1",
         "core-js": "^3.26.0",
         "eventemitter3": "^5.0.0",
         "gsap": "^3.11.4",

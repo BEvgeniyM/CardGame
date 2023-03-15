@@ -59,7 +59,7 @@ export class ViwePort {
     
         if (cnf.viweport?.fr !== undefined) {
             c.x = window.innerWidth - cnf.viweport?.fr - this._element.width;
-          }
+        }
           
         if (cnf.viweport?.fb !== undefined) {
             c.y = window.innerHeight - cnf.viweport?.fb - this._element.height;
@@ -148,6 +148,8 @@ export class ViwePort {
         if (this._element.config && this._element.config.viweport && this._element.config.viweport.cover === true) {
             this._element.scale.set(1);
 
+  
+
             if (this._element.width == this._element.height) {
                 if (window.innerHeight > window.innerWidth) {
                     this._element.scale.set(window.innerHeight / this._element.height);
@@ -157,7 +159,11 @@ export class ViwePort {
                     this._element.scale.set(window.innerWidth / this._element.height);
                 } else this._element.scale.set(window.innerHeight / this._element.height);
             }
-            this._element.position.set(window.innerWidth / 2, window.innerHeight / 2)
+            this._element.position.set(window.innerWidth / 2, window.innerHeight / 2);
+
+            // const globalPos = this._element.getGlobalPosition(); 
+            // const localPos = this._element.toLocal(globalPos);  //We transform the global coordinates of the sprite into local coordinates relative to the current container
+            // this._element.position.set(localPos.x, localPos.y);
         }
     }
 
@@ -173,9 +179,6 @@ export class ViwePort {
         this.caverViwePort();
         // this.setAnchorImmediately();
        
-        if('debug' in this._config){
-            console.log("after.... x:",this._element.x," y:",this._element.y);
-        }       
 
     }
 

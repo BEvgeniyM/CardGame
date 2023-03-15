@@ -53,6 +53,8 @@ export class Preloader extends Container {
             loader.add("fire2", "./assets/fire2.png");
             loader.add("fire", "./assets/fire.png");
             loader.add("BtnS", "./assets/BtnS.png");
+            loader.add("BtnSS", "./assets/BtnSS.png");
+            loader.add("BtnSSLong", "./assets/BtnSSLong.png");
             loader.add("flag_3", "./assets/flag_3.png");
             loader.add("flag", "./assets/flag.png");
             loader.add("papir", "./assets/papir.png");
@@ -78,7 +80,7 @@ export class Preloader extends Container {
             loader.add("shift_3", "./assets/shift_3.png");
 
 
-            loader.add("close", "./assets/close.png");
+            // loader.add("close", "./assets/close.png");
             loader.add("round_close", "./assets/round_close.png");
             loader.add("menu", "./assets/menu.png");
          
@@ -113,6 +115,7 @@ export class Preloader extends Container {
             loader.add("Freehand-Regular", "./assets/Freehand-Regular.ttf");
             loader.add("Snippet-Regular", "./assets/font/Snippet-Regular.ttf");
             loader.add("Snippet", "./assets/font/Snippet.ttf");
+            loader.add("close", "./assets/close.png");
             loader.add(DataSetting.SplashScreen.t, "./assets/" + DataSetting.SplashScreen.t + '.png');
             loader.add(DataSetting.Progress.t, "./assets/" + DataSetting.Progress.t + '.png');
 
@@ -132,12 +135,6 @@ export class Preloader extends Container {
 
     creatPreloader(): void {
         this._sleshScren = new Element(this, DataSetting.SplashScreenContainer);
-
-        // new Element(this, DataSetting.SplashScreenBackGround);
-        // this._sleshScren = new Element(this, DataSetting.SplashScreen);
-
-        // CustomUtils.ResizeBack(this._sleshScren as Sprite);
-        // this.resizeCanvas();
     }
 
     highPreLoader(): void {
@@ -201,21 +198,6 @@ export class Preloader extends Container {
 
 
     resizeCanvas(): void {
-        // CustomUtils.SetAngle(this._pregress);
-        // CustomUtils.SetPositionProz(this._pregress, DataSetting.Progress);
-        // // this._pregress.scale.set(DataSetting.Progress.scale);
-
-        // // for (let i = 0; i < this._pregress.children.length; i++) {
-        // //     const sprite = this._pregress.children[i] as Sprite;
-        // //     CustomUtils.SetScaleOfProz(sprite,DataSetting.Progress);            
-        // // }
-        // CustomUtils.ResizeBack(this._sleshScren as Sprite);
-        // this._pregress.scale.set(this._sleshScren.scale.x)
-        // if (!CustomUtils.IsPortret()) {
-        //     this._pregress.position.set(window.innerWidth * 0.5, window.innerHeight * 0.9);
-        // } else {
-        //     this._pregress.position.set(window.innerWidth * 0.1, window.innerHeight * 0.5);
-        // }
-        // CustomUtils.ResizePreloader(this);
+      
     }
 }

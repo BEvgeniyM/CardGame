@@ -16,6 +16,7 @@ export class Animation {
   private _ELEMENT: Element;
   private _config: ElementConfig;
   private _filters: Filters;
+  static  LockAnimation: boolean = false;
 
   constructor(private ELEMENT: Element) {
     this._ELEMENT = ELEMENT;
@@ -289,6 +290,11 @@ export class Animation {
     gsap.to(this._element, {
       alpha: this._element.alpha < 1 ? 1 : 0,
       duration: DataSetting.DefaultDuration * 1,
+      callbackScope:this._element,
+      onCompleteParams:[this._element.alpha],
+      onComplete:(alpha)=>{
+        // this._element.visible = alpha ==0? true:false;
+      }
     })
   }
   alphaToOneAnimation() {

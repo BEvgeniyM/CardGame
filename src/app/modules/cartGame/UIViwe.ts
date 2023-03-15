@@ -15,7 +15,7 @@ export class UIViwe extends Container {
     private _menuElementContaine: Element;
     private _helpElementConteiner: Element;
     private _aboutElementConteiner: Element;
-    private _helpBackGroundContainer: Element;
+    // private _helpBackGroundContainer: Element;
     private _settingElementContaine: Element;
 
     private _btnTackCard_I: Button;
@@ -55,12 +55,12 @@ export class UIViwe extends Container {
         });
 
 
-        this._helpBackGroundContainer = new Element(this,DataSetting.HelpBackGroundContainer);
-        this._helpBackGroundContainer.element.alpha = 0;
+        // this._helpBackGroundContainer = new Element(this,DataSetting.HelpBackGroundContainer);
+        // this._helpBackGroundContainer.element.alpha = 0;
 
-        (this._helpBackGroundContainer.element as ElementContainer).childs[0].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
-        });
+        // (this._helpBackGroundContainer.element as ElementContainer).childs[0].element.on('pointerdown', () => {
+        //     EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
+        // });
 
 
         this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
@@ -70,22 +70,36 @@ export class UIViwe extends Container {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
         });
 
-
         this._aboutElementConteiner = new Element(this,DataSetting.AboutElementConteiner);
         this._aboutElementConteiner.element.alpha = 0;
 
         (this._aboutElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE);
+            (this._aboutElementConteiner.element as ElementContainer).childs[2].animation.animaLittleMove();
         });
 
         this._settingElementContaine = new Element(this,DataSetting.SettingElementContaine);
         this._settingElementContaine.element.alpha = 0;
 
         (this._settingElementContaine.element as ElementContainer).childs[1].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_ON)
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_ON);
+            (this._settingElementContaine.element as ElementContainer).childs[1].animation.animaLittleMove();
         });
         (this._settingElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
-            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_OFF)
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_SWITCH);
+            (this._settingElementContaine.element as ElementContainer).childs[2].animation.animaLittleMove();
+        });
+        (this._settingElementContaine.element as ElementContainer).childs[3].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_OFF);
+            (this._settingElementContaine.element as ElementContainer).childs[3].animation.animaLittleMove();
+        });
+        (this._settingElementContaine.element as ElementContainer).childs[4].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_ANIMATION_ON);
+            (this._settingElementContaine.element as ElementContainer).childs[4].animation.animaLittleMove();
+        });
+        (this._settingElementContaine.element as ElementContainer).childs[5].element.on('pointerdown', () => {
+            EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_ANIMATION_OFF);
+            (this._settingElementContaine.element as ElementContainer).childs[5].animation.animaLittleMove();
         });
 
 
@@ -128,6 +142,7 @@ export class UIViwe extends Container {
     }
     ectioOnMenu() {
         EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLICK);
+        (this._menu as Element).animation.animaLittleMove();
     }
 
 
@@ -137,9 +152,9 @@ export class UIViwe extends Container {
     unLockBtn(f: boolean): void { 
         console.log('fffff',f);
         this._menuElementContaine.element.interactiveChildren = f       
-        this._helpElementConteiner.element.interactiveChildren = f
-        this._aboutElementConteiner.element.interactiveChildren = f
-        this._helpBackGroundContainer.element.interactiveChildren = f
+        this._helpElementConteiner.element.interactiveChildren= false
+        this._aboutElementConteiner.element.interactiveChildren = false
+        // this._helpBackGroundContainer.element.interactiveChildren = false
         this._settingElementContaine.element.interactiveChildren = f
     }
 
@@ -165,13 +180,16 @@ export class UIViwe extends Container {
     }
 
     closeBtn() {
-        this._helpBackGroundContainer.animation.alphaAnimation();
+        // this._helpBackGroundContainer.animation.alphaAnimation();
     }
     close(){
         this._helpElementConteiner.element.alpha !=0 && this._helpElementConteiner.animation.alphaToZeroAnimation();
         this._aboutElementConteiner.element.alpha !=0 && this._aboutElementConteiner.animation.alphaToZeroAnimation();
-        this._helpBackGroundContainer.element.alpha !=0 && this._helpBackGroundContainer.animation.alphaToZeroAnimation();
+        // this._helpBackGroundContainer.element.alpha !=0 && this._helpBackGroundContainer.animation.alphaToZeroAnimation();
         this._settingElementContaine.element.alpha !=0 && this._settingElementContaine.animation.alphaToZeroAnimation();
     }
+
+    
+
 
 }

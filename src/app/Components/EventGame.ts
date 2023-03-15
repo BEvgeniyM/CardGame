@@ -45,6 +45,9 @@ export class EventGame  {
     public static readonly UI_MENU_CLICK ='UI_MENU_CLICK';
     public static readonly UI_MENU_SOUN_ON ='UI_MENU_SOUN_ON';
     public static readonly UI_MENU_SOUN_OFF ='UI_MENU_SOUN_OFF';
+    public static readonly UI_MENU_SOUN_SWITCH ='UI_MENU_SOUN_SWITCH';
+    public static readonly UI_MENU_ANIMATION_ON ='UI_MENU_ANIMATION_ON';
+    public static readonly UI_MENU_ANIMATION_OFF ='UI_MENU_ANIMATION_OFF';
 
     public static ArrayOfListeners: Array<PIXI.DisplayObject> = [];
     

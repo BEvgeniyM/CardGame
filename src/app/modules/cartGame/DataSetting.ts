@@ -25,6 +25,10 @@ export class DataSetting {
 
 
 
+    static  SettingParticles = {
+        type: 'Particles',
+        t: 'close', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+    }
 
     static BackGround = {
         type: 'SpriteImage',
@@ -99,7 +103,11 @@ export class DataSetting {
         /** not worc in Conteiner  ax: 0, ay: 1, */
         x: 0.0, y: 0.0, ax: 0, ay: 1, scale: 1, z: 10000,
         portret: {scale: 1, x: 0.0, y: 0.0},
-        childs:[DataSetting.SplashScreenBackGround,DataSetting.SplashScreen],       
+        childs:[
+            DataSetting.SplashScreenBackGround,
+            DataSetting.SplashScreen,                      
+            DataSetting.SettingParticles
+        ]
     }
 
     /*********************************************************************************************** */
@@ -177,7 +185,8 @@ export class DataSetting {
             DataSetting.PlayrElementContaine,
             DataSetting.EdgeElementContaine,
             DataSetting.TableContaine,
-            DataSetting.TopContaine
+            DataSetting.TopContaine,            
+            // DataSetting.SettingParticles,
         ]
     }
 
@@ -220,20 +229,6 @@ export class DataSetting {
         t: 'round_close', x: 0.95, y: 0.05, ax: 1, ay: 0, scale: 0.3, duration: DataSetting.DefaultDuration 
     }
 
-    // static HelpBackGround = {        
-    //     // debug:true,
-    //     type: 'GraphicImage',
-    //     interType: 'RECTANGLE',
-    //     color: '0x000000',
-    //     x: 0.0,
-    //     y: 0.0,
-    //     w: 2000,
-    //     h: 2000,
-    //     z: 1001,
-    //     scale:1,
-    //     alpha: 0.5
-        
-    // }
 
 
     static HelpBackGroundContainer = {
@@ -247,15 +242,15 @@ export class DataSetting {
     }
 
     static HelpPaper = {
-        // debug:true,
+        debug:true,
         type: 'SpriteImage',
         t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+        // tb: 'papir_2',
         // viweport:{scw:0.9, portret:{ scw:1}},  
         // portret: {
-        //     t: 'papir_2',
-        //     x: 0.5,
-        //     y: 0.5,
-        //     scale: 0.4
+        //     x: 0.0,
+        //     y: 0.0,
+        //     scale: 0.8
         // }
 
     }
@@ -271,13 +266,13 @@ export class DataSetting {
             ],   
         viweport:{sf:200},    
         t: 'fire2', ts: 2, x: 0.3, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.1, y: 0.18},
+        // portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
             fontSize: 40,
             fill: 'white',
             align: 'center',
             color: '0x00000',
-            fontFamily: 'Freehand-Regular',
+            fontFamily: 'PoorStory-Regular',
             // wordWrap: true,
             // wordWrapWidth: 440,
         }
@@ -290,13 +285,13 @@ export class DataSetting {
         viweport:{sf:200},    
         // viweport:{'debug':true},    
         ts: 2, x: 0.3, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.1, y: 0.18},
+        // portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
             fontSize: 40,
             fill: ['#000000'],
             align: 'center',
             color: '0x00000',
-            fontFamily: 'Freehand-Regular',
+            fontFamily: 'PoorStory-Regular',
             stroke: '#000000',
             strokeThickness: 1,           
             // wordWrap: true,
@@ -312,7 +307,7 @@ export class DataSetting {
     static HelpElementConteiner = {
         type: 'ElementContainer',
         x: 0.2, y: 0.1, scale: 0.7, z: 0,
-        portret: { x: 0.05, y: 0.4},
+        portret: { x: 0.0, y: 0.4},
         viweport:{scw:0.7, portret:{ scw:1}}, 
         childs:[
             DataSetting.HelpPaper, 
@@ -325,10 +320,10 @@ export class DataSetting {
     /*********************************************************************************************** */
 
 
-    static AboutPaper = {
-        type: 'SpriteImage',
-        t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
-    }
+    // static AboutPaper = {
+    //     type: 'SpriteImage',
+    //     t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+    // }
     
 
     static TextAbout = {
@@ -340,13 +335,13 @@ export class DataSetting {
             ],   
         viweport:{sf:200},    
         t: 'fire2', ts: 2, x: 0.35, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.1, y: 0.18},
+        // portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
-            fontSize: 28,
+            fontSize: 29,
             fill: 'white',
             align: 'center',
             color: '0x00000',
-            fontFamily: 'Freehand-Regular',
+            fontFamily: 'PoorStory-Regular',
             // wordWrap: true,
             // wordWrapWidth: 440,
         }
@@ -359,32 +354,32 @@ export class DataSetting {
         viweport:{sf:200},    
         // viweport:{'debug':true},    
         ts: 2, x: 0.35, y: 0.35, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.1, y: 0.18},
+        // portret: {scale: 1, x: 0.1, y: 0.18},
         style: {
-            fontSize: 28,
+            fontSize: 29,
             fill: ['#000000'],
             align: 'center',
             color: '0x00000',
-            fontFamily: 'Freehand-Regular',
+            fontFamily: 'PoorStory-Regular',
             stroke: '#000000',
-            strokeThickness: 1,           
+            strokeThickness: 0.5,           
             // wordWrap: true,
             // wordWrapWidth: 440,
-             dropShadow: true,
+            dropShadow: true,
             dropShadowColor: '#000000',
             dropShadowBlur: 1,
             dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 5,
+            dropShadowDistance: 1,
         }
     }
 
     static AboutElementConteiner = {
         type: 'ElementContainer',
         x: 0.2, y: 0.1, scale: 0.7, z: 0,
-        portret: { x: 0.05, y: 0.4},
+        portret: { x: 0.0, y: 0.4},
         viweport:{scw:0.7, portret:{ scw:1}}, 
         childs:[
-            DataSetting.AboutPaper, 
+            DataSetting.HelpPaper, 
             DataSetting.TextAbout_00,
             DataSetting.TextAbout,
         ]
@@ -393,16 +388,23 @@ export class DataSetting {
     /*********************************************************************************************** */
     /******** Setting         *********************************************************8**************** */
     /*********************************************************************************************** */
-    static SettingPaper = {
-        type: 'SpriteImage',
-        t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
-    }
+    // static SettingPaper = {
+    //     type: 'SpriteImage',
+    //     t: 'papir', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+    // }
+   
    
     static SettingBtn_1 = {      
         type: 'SpriteImage',
-        viweport:{sf:300},
-        t: 'BtnS', tb: 'BtnS', x: 0.0, y: 1, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.0, y: 1}       
+        // viweport:{sf:300},
+        t: 'BtnSS', tb: 'BtnSS', x: 0.0, y: 0, ax: 0.0, ay:0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.0, y: 0}       
+    }
+    static SettingBtn_1_Long = {      
+        type: 'SpriteImage',
+        // viweport:{sf:300},
+        t: 'BtnSSLong', tb: 'BtnSSLong', x: 0.0, y: 0, ax: 0.0, ay:0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.0, y: 0}       
     }
     static SettingBtn_Sound_01_Text = {
         type: 'WebFont',
@@ -411,8 +413,8 @@ export class DataSetting {
             // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
             ],   
         viweport:{sf:300},    
-        t: 'fire2', ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.20, y: 0.93},
+        t: 'fire2', ts: 2, x: 0.15, y: 0.07, ax: 0.0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.15, y: 0.07},
         style: {
             fontSize: 40,
             fill: 'white',
@@ -428,8 +430,50 @@ export class DataSetting {
             // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
             ],   
         viweport:{sf:300},    
-        ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.20, y: 0.93},
+        ts: 2, x: 0.15, y: 0.07, ax: 0.0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.15, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
+    static SettingBtn_change_sound_01_Text = {
+        type: 'WebFont',
+        text: ' Switch',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'fire2', ts: 2, x: 0.15, y: 0.07, ax: 0.0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.15, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+    static SettingBtn_change_sound_00_Text = {
+        type: 'WebFont',
+         text: ' Switch',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        ts: 2, x: 0.15, y: 0.07, ax: 0.0, ay: 0.0, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.15, y: 0.07},
         style: {
             fontSize: 40,
             fill: ['#000000'],
@@ -454,8 +498,8 @@ export class DataSetting {
             // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
             ],   
         viweport:{sf:300},    
-        t: 'fire2', ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.20, y: 0.93},
+        t: 'fire2', ts: 2,  x: 0.15, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.15, y: 0.07},
         style: {
             fontSize: 40,
             fill: 'white',
@@ -471,8 +515,92 @@ export class DataSetting {
             // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
             ],   
         viweport:{sf:300},    
-        ts: 2, x: 0.20, y: 0.93, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1, x: 0.20, y: 0.93},
+        ts: 2,  x: 0.15, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1,  x: 0.15, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
+    static SettingAnimationOn_01_Text = {
+        type: 'WebFont',
+        text: 'Animation On',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'fire2', ts: 2,  x: 0.25, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.25, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+    static SettingAnimationOn_00_Text = {
+        type: 'WebFont',
+         text: 'Animation On',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        ts: 2,  x: 0.25, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1,  x: 0.25, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
+    static SettingAnimation_01_Text = {
+        type: 'WebFont',
+        text: 'Animation Off',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        t: 'fire2', ts: 2,  x: 0.25, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1, x: 0.25, y: 0.07},
+        style: {
+            fontSize: 40,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'Freehand-Regular'
+        }
+    }
+    static SettingAnimation_00_Text = {
+        type: 'WebFont',
+         text: 'Animation Off',
+        filter:[
+            // {blurY:1,blurX:1,type:'BLURFILTER',quality:8}
+            ],   
+        viweport:{sf:300},    
+        ts: 2,  x: 0.25, y: 0.07, ax: 0.0, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        // portret: {scale: 1,  x: 0.25, y: 0.07},
         style: {
             fontSize: 40,
             fill: ['#000000'],
@@ -491,24 +619,61 @@ export class DataSetting {
 
     static Setting_0_Containe = {
         type: 'ElementContainer',
-        x: 0.0, y: 0.0, scale: 1, z: 1,
-        viweport:{sf:0},   
-        portret: {scale: 1, x: 0.0, y: 0.0},
+        x: 0.25, y: 0.7, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.SettingBtn_1,DataSetting.SettingBtn_Sound_00_Text,DataSetting.SettingBtn_Sound_01_Text]
-    }
+    }  
     static Setting_1_Containe = {
         type: 'ElementContainer',
-        x: 0.40, y: 0.0, scale: 1, z: 1,
-        viweport:{sf:0},   
-        portret: {scale: 1, x: 0.0, y: 0.0},
+        x: 2.5, y: 0.7, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1,DataSetting.SettingBtn_change_sound_00_Text,DataSetting.SettingBtn_change_sound_01_Text]
+    }
+    static Setting_2_Containe = {
+        type: 'ElementContainer',
+        x: 4.85, y: 0.7, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.SettingBtn_1,DataSetting.SettingBtn_Mute_00_Text,DataSetting.SettingBtn_Mute_01_Text]
+    }
+    static Setting_3_Containe = {
+        type: 'ElementContainer',
+        x: 0.25, y: 1.5, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1_Long,DataSetting.SettingAnimationOn_00_Text,DataSetting.SettingAnimationOn_01_Text]
+    }
+    static Setting_4_Containe = {
+        type: 'ElementContainer',
+        x: 3.75, y: 1.5, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1_Long,DataSetting.SettingAnimation_00_Text,DataSetting.SettingAnimation_01_Text]
+    }
+    static Setting_5_Containe = {
+        type: 'ElementContainer',
+        x: 0.25, y: 2.25, scale: 1, z: 1,
+        viweport:{sf:100},   
+        // portret: {scale: 1, x: 0.0, y: 0.0},
+        childs:[DataSetting.SettingBtn_1_Long,DataSetting.SettingAnimation_00_Text,DataSetting.SettingAnimation_01_Text]
     }
     static SettingElementContaine = {   
         type: 'ElementContainer',
         x: 0.2, y: 0.1, scale: 0.7, z: 0,
-        portret: { x: 0.05, y: 0.4},
+        portret: { x: 0.02, y: 0.4},
         viweport:{scw:0.7, portret:{ scw:1}}, 
-        childs:[DataSetting.SettingPaper,DataSetting.Setting_0_Containe,DataSetting.Setting_1_Containe]
+        childs:[
+            DataSetting.HelpPaper,
+            DataSetting.Setting_0_Containe,
+            DataSetting.Setting_1_Containe,
+            DataSetting.Setting_2_Containe,
+            DataSetting.Setting_3_Containe,
+            DataSetting.Setting_4_Containe,
+            DataSetting.SettingParticles,
+
+        ]
     }
     
 
@@ -717,7 +882,15 @@ export class DataSetting {
         type: 'ElementContainer',
         x: 0.0, y: 0.2, scale: 0.5, z: 1000,
         portret: {scale: 0.7, x: 0.0, y: 0.2},
-        childs:[DataSetting.MenuBackGround,DataSetting.Flag,DataSetting.Btn_0_Containe,DataSetting.Btn_1_Containe,DataSetting.Btn_2_Containe]
+        childs:[
+            DataSetting.MenuBackGround,
+            DataSetting.Flag,
+            DataSetting.Btn_0_Containe,
+            DataSetting.Btn_1_Containe,
+            DataSetting.Btn_2_Containe,
+            DataSetting.SettingParticles,
+
+        ]
     }
 
     

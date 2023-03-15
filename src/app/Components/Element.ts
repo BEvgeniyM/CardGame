@@ -1,6 +1,7 @@
 import { Container, IPoint } from 'pixi.js';
 
 import { WebFont} from './baseComponents/WebFont';
+import { Particles} from './baseComponents/Particles';
 import { SpriteImage } from './baseComponents/SpriteImage';
 import { GraphicImage } from './baseComponents/GraphicImage';
 import { SimpleRopeImage } from './baseComponents/SimpleRopeImage';
@@ -15,6 +16,7 @@ import { throws } from 'assert';
 
 export class Element {
     public static readonly WebFont = 'WebFont';
+    public static readonly Particles = 'Particles';
     public static readonly SpriteImage = 'SpriteImage';
     public static readonly GraphicImage = 'GraphicImage';
     public static readonly SimpleRopeImage = 'SimpleRopeImage';
@@ -45,6 +47,9 @@ export class Element {
                 break;
             case Element.SimpleRopeImage:
                 this.element = new SimpleRopeImage(config);
+                break;
+            case Element.Particles:
+                this.element = new Particles(config);
                 break;
             case Element.ElementContainer:
                 this.element = new ElementContainer(config);  
@@ -121,7 +126,7 @@ export type viwePort= {
 }
 
 
-export type ElementType =  ElementContainer | SpriteImage | GraphicImage | SimpleRopeImage | WebFont;
+export type ElementType =  ElementContainer | SpriteImage | GraphicImage | SimpleRopeImage | WebFont | Particles;
 
 
 

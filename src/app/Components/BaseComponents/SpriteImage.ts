@@ -1,5 +1,6 @@
 import { Sprite, Texture, SCALE_MODES, Graphics,Rectangle } from 'pixi.js';
 import { ElementConfig } from '../Element';
+import { CustomUtils } from '../../../Utils/CustomUtils';
 
 export class SpriteImage extends Sprite {
   public textureID: string;
@@ -25,6 +26,16 @@ export class SpriteImage extends Sprite {
     // this.texture.scaleMode = SCALE_MODES.NEAREST;
   }
 
+  
+  // switchTexture(): void {
+  //   if(this.config.tb && CustomUtils.IsPortret()){
+  //      this.setTexture(this.config.tb);
+  //   }else if(this.config.t){
+  //     this.setTexture(this.config.t);
+  //   }
+  // }
+
+
   static GetTexture(str: string | undefined): Texture {
     if (!str) return Texture.EMPTY
     return Texture.from(str);
@@ -36,6 +47,7 @@ export class SpriteImage extends Sprite {
     graphics.drawRect(0, 0, this.width, this.height);
     this.addChild(graphics);
   }
+
 
 }
 

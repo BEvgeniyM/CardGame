@@ -1,16 +1,14 @@
 import { Container } from 'pixi.js'
 import { EventGame } from '../../components/EventGame';
 import { UIViwe } from './UIViwe';
+import { Animation } from '../../decorators/Animation';
 import { SoundController } from '../../../SoundController';
 import { EE } from '../../components/baseComponents/EE';
-
-import gsap from 'gsap';
-
-import * as PIXI from 'pixi.js'
-
+import { gsap } from "gsap";
 
 export class UIController extends Container {
     private isOpenMenu: boolean = false
+    private nextSound: string ='dion';
 
     constructor(private _viwe: UIViwe) {
         super();
@@ -84,38 +82,30 @@ export class UIController extends Container {
                 viwe.close();
                 break;    
             case EventGame.UI_MENU_SOUN_ON: 
-                SoundController.playSound('gludio');
+                SoundController.unmuteAllSound();
                 break;    
             case EventGame.UI_MENU_SOUN_OFF: 
-                SoundController.pauseSound('gludio');
+                SoundController.muteAllSound();
+                break;               
+            case EventGame.UI_MENU_SOUN_SWITCH: 
+                SoundController.stopAllSound();
+                if(this.nextSound == 'gludio'){    
+                    this.nextSound = 'dion';       
+                    SoundController.playSound('gludio');
+                } else{
+                    this.nextSound = 'gludio';
+                    SoundController.playSound('dion');
+                }             
+                break;   
+            case EventGame.UI_MENU_ANIMATION_ON:
+                Animation.LockAnimation = true;
                 break;    
-
-
+            case EventGame.UI_MENU_ANIMATION_OFF:
+                Animation.LockAnimation = false;
+                break;     
         }
     }
 
-
-    // preperNewRound() {
-    //     this._viwe.lockBtn(true);
-    //     if (DataSetting.WhoseMoveID == 2) {
-    //         this._viwe.ectionOnHeroMy(false);
-    //         gsap.to(this, {
-    //             delay: DataSetting.DefaultDeley,
-    //             onComplete: () => {
-    //                 this._viwe.ectionOnHeroMob(true);
-    //             }
-    //         })
-
-    //     } else {
-    //         this._viwe.ectionOnHeroMob(false);
-    //         gsap.to(this, {
-    //             delay: DataSetting.DefaultDeley,
-    //             onComplete: () => {
-    //                 this._viwe.ectionOnHeroMy(true);
-    //             }
-    //         })
-    //     }
-    // }
 
     firastRound() {
         this._viwe.ectionOnHeroMy(true);

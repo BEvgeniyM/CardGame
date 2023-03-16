@@ -27,8 +27,10 @@ export class DataSetting {
 
     static  SettingParticles = {
         type: 'Particles',
-        t: 'close', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration, 
+        t: 'close', particles:'emiter', x: 0, y: 0, ax: 0, ay: 0, scale: 0.46, duration: DataSetting.DefaultDuration
     }
+
+    
 
     static BackGround = {
         type: 'SpriteImage',
@@ -51,7 +53,11 @@ export class DataSetting {
     /*********************************************************************************************** */
     /******** SplashScreen  Part ******************************************************************* */
     /*********************************************************************************************** */
-
+    static  SettingParticles2 = {
+        type: 'Particles',
+        t: 'fire2', particles:'emiter2', x: 0.485, y: 0.87,
+        portret: {scale: 1,  x: 0.15, y: 0.5},
+    }
 
     static SplashScreenBackGround = {
         type: 'GraphicImage',
@@ -98,21 +104,67 @@ export class DataSetting {
         }
     }
 
+    static Progress_01_Text = {
+        type: 'WebFont',
+        text: '01',
+        filter:[
+            {type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:1,ax:0.5,ay:0.5}
+            ],   
+        viweport:{angle:true},    
+        t: 'fire2', ts: 2,  x: 0.470, y: 0.85, ax: 0.5, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1,  x: 0.15, y: 0.470},
+        style: {
+            fontSize: 25,
+            fill: 'white',
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'PoorStory-Regular'
+        }
+    }
+    static Progress_00_Text = {
+        type: 'WebFont',
+         text: '01',
+        filter:[
+            {type:'DISPLACEMENTFILTER',DisplacementFilterTexture:'splash_screen_1',scale:1,ax:0.5,ay:0.5}
+            ],   
+        viweport:{angle:true},    
+        ts: 2,  x: 0.470, y: 0.85, ax: 0.5, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
+        portret: {scale: 1,  x: 0.15, y: 0.470},
+        style: {
+            fontSize: 25,
+            fill: ['#000000'],
+            align: 'center',
+            color: '0x00000',
+            fontFamily: 'PoorStory-Regular',
+            stroke: '#000000',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 1,
+        }
+    }
+
     static SplashScreenContainer = {
         type: 'ElementContainer',      
-        /** not worc in Conteiner  ax: 0, ay: 1, */
+        /** not work in Conteiner  ax: 0, ay: 1, */
         x: 0.0, y: 0.0, ax: 0, ay: 1, scale: 1, z: 10000,
         portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[
             DataSetting.SplashScreenBackGround,
             DataSetting.SplashScreen,                      
-            DataSetting.SettingParticles
+            DataSetting.SettingParticles,
+            DataSetting.Progress_00_Text,
+            DataSetting.Progress_01_Text,
+            DataSetting.SettingParticles2,
         ]
     }
 
     /*********************************************************************************************** */
     /******** Conteiner for Card **************************************************8**************** */
     /*********************************************************************************************** */
+    
     static CardS = {
         type: 'SpriteImage',
         t:'skin_2', x: 0.0, y: 0.0, ax:0.5,ay:0.5, scale: 0.4, z: 1,

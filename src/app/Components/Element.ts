@@ -99,6 +99,7 @@ export interface ElementConfig {
     alpha?: number;
     scale?: number;
     color?: number | string;
+    particles?:string;                 //Settin  for  Particles
     w?: number;                        // For GraphicImage     
     h?: number;                        // For GraphicImage 
     ts?: number;                       // Scale of texture for WebText masck

@@ -26,6 +26,14 @@ export class CustomUtils {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                       ReSize VALUE                                                                        */
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static FormatNumber(num: number): string {
+        const roundedNum = Math.round(num * 100) / 100;
+        if (num === 0) {
+          return '0.0';
+        }
+        return roundedNum.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).padStart(4, ' ');
+      }
+      
 
     static ResizeSprit(s:Sprite): number{
         const sch= window.innerHeight/4;

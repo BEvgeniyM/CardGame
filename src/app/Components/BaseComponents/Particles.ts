@@ -18,7 +18,7 @@ export class Particles extends Container {
         if (config) {         
             const texture = SpriteImage.GetTexture(config.t);
 
-            const emitter = new Emitter(this, texture, this.setting());
+            const emitter = new Emitter(this, texture, this.setting(config.particles));
             this.emitter = emitter
             emitter.autoUpdate = true;
             emitter.emit = true;       
@@ -33,8 +33,9 @@ export class Particles extends Container {
     }
     
 
-    setting(): any {
-        const emiter = {
+    setting(p:string): any {
+        if(p=='emiter')
+        return {
             "alpha": {
                 "start": 1,
                 "end": 0
@@ -89,7 +90,61 @@ export class Particles extends Container {
             }
         }
 
-        return emiter
+        if(p=='emiter2')
+        return {
+            "alpha": {
+                "start": 1,
+                "end": 0
+            },
+            "scale": {
+                "start": 0.04,
+                "end": 0.01,
+                "minimumScaleMultiplier": 1
+            },
+            "color": {
+                "start": "#e4f9ff",
+                "end": "#3fcbff"
+            },
+            "speed": {
+                "start": 500,
+                "end": 50,
+                "minimumSpeedMultiplier": 20.06
+            },
+            "acceleration": {
+                "x": 3,
+                "y": 0
+            },
+            "maxSpeed": 50,
+            "startRotation": {
+                "min": 50,
+                "max": 120
+            },
+            "noRotation": false,
+            "rotationSpeed": {
+                "min": 100,
+                "max": 10
+            },
+            "lifetime": {
+                "min": 0.2,
+                "max": 0.81
+            },
+            "blendMode": "lighten",
+            "frequency": 0.001,
+            "emitterLifetime": -1,
+            "maxParticles": 1500,
+            "pos": {
+                "x": 6,
+                "y": 1
+            },
+            "addAtBack": false,
+            "spawnType": "ring",
+            "spawnCircle": {
+                "x": 6,
+                "y": 1,
+                "r": 20,
+                "minR": 40
+            }
+        }
     }   
 
 }

@@ -7,6 +7,7 @@ import { CustomUtils } from '../Utils/CustomUtils'
 import { DataSetting } from './modules/cartGame/DataSetting';
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
 import { EE } from './components/baseComponents/EE';
+import { ElementContainer } from './components/baseComponents/ElementContainer';
 
 //** Plugin Should be add befor start Loaders !!!*/
 PIXI.Loader.registerPlugin(WebfontLoaderPlugin);
@@ -50,7 +51,6 @@ export class Preloader extends Container {
             loader.add("dion", "./assets/dion.mp3");
 
             loader.add("map_repeat", "./assets/map_repeat.png");
-            loader.add("fire2", "./assets/fire2.png");
             loader.add("fire", "./assets/fire.png");
             loader.add("BtnS", "./assets/BtnS.png");
             loader.add("BtnSS", "./assets/BtnSS.png");
@@ -116,6 +116,8 @@ export class Preloader extends Container {
             loader.add("Snippet-Regular", "./assets/font/Snippet-Regular.ttf");
             loader.add("Snippet", "./assets/font/Snippet.ttf");
             loader.add("close", "./assets/close.png");
+            loader.add("fire2", "./assets/fire2.png");
+
             loader.add(DataSetting.SplashScreen.t, "./assets/" + DataSetting.SplashScreen.t + '.png');
             loader.add(DataSetting.Progress.t, "./assets/" + DataSetting.Progress.t + '.png');
 
@@ -170,24 +172,29 @@ export class Preloader extends Container {
         let r = Object.assign( {x : DataSetting.Progress.length * e.progress / 10}  ,DataSetting.Progress);
 
 
-        let sprite = new Element(this, DataSetting.Progress).element as Sprite;
-        // sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
-        sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
-        // this._pregress.pivot.set(this._pregress.width * 1, 0);
-    // this._sleshScren.element.addChildElement(sprite)
-        // CustomUtils.SetScaleOfProz(sprite, DataSetting.Progress);
-        gsap.timeline()
-            // .to(sprite.scale, {
-            //     x: 0.1,
-            //     y: 0.1,
-            //     delay: 0.0,
-            //     duration: 1,
-            // })
-            .to(sprite, {
-                alpha: 1,
-                delay: 0.0,
-                duration: 1,
-            })
+        //@ts-ignore
+        this._sleshScren.element.children[3].children[0].text = CustomUtils.FormatNumber(e.progress);
+        //@ts-ignore
+        this._sleshScren.element.children[5].children[1].text = CustomUtils.FormatNumber(e.progress);
+
+        // let sprite = new Element(this, DataSetting.Progress).element as Sprite;
+        // // sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
+        // sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
+        // // this._pregress.pivot.set(this._pregress.width * 1, 0);
+        // // this._sleshScren.element.addChildElement(sprite)
+        // // CustomUtils.SetScaleOfProz(sprite, DataSetting.Progress);
+        // gsap.timeline()
+        //     // .to(sprite.scale, {
+        //     //     x: 0.1,
+        //     //     y: 0.1,
+        //     //     delay: 0.0,
+        //     //     duration: 1,
+        //     // })
+        //     .to(sprite, {
+        //         alpha: 1,
+        //         delay: 0.0,
+        //         duration: 1,
+        //     })
     }
 
     onCompleteLoader() {

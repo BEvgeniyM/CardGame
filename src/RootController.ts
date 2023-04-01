@@ -1,15 +1,16 @@
 import { Container, Application, Loader } from 'pixi.js'
-import * as PIXI from 'pixi.js'
 import { MessageMeneger } from './MessageMeneger';
-import { BaseController } from './app/BaseController';
-import { BaseViwe } from './app/BaseViwe';
-import { UIViwe } from './app/UIViwe';
-import { UIController } from './app/UIController';
+import { TableViwe } from './app/modules/cartGame/TableViwe';
+import { TableController } from './app/modules/cartGame/TableController';
+import { UIViwe } from './app/modules/cartGame/UIViwe';
+import { UIController } from './app/modules/cartGame/UIController';
 import { Preloader } from './app/Preloader';
-import { Event } from './app/Event';
+import { EventGame } from './app/components/EventGame';
 import { gsap } from "gsap";
 import { type } from 'os';
-import { DataSetting } from './Utils/DataSetting';
+import { DataSetting } from './app/modules/cartGame/DataSetting';
+import { LogicGame } from './app/modules/cartGame/LogicGame';
+import { EE } from './app/components/baseComponents/EE';
 import { StageController } from './StageController';
 
 export class RootController extends Container {
@@ -17,21 +18,17 @@ export class RootController extends Container {
 
     /** SETING */
     private _startDelay: number = 0.5 //s
-
-
-
     /** SETING */
 
 
     private _preloader: Preloader;
-    private _controller: BaseController;
-    private _viwe: BaseViwe;
+    private _table: TableViwe;
+    private _tableController: TableController;
     private _UIviwe: UIViwe;
     private _UIcontroller: UIController;
     private _cardsTexture: Array<[string, string]> = [];
     private _data: any;
     private _chengeWhoseMoveID: boolean = false;
-
 
     constructor(private _app: Application) {
         super();
@@ -39,22 +36,14 @@ export class RootController extends Container {
         this.sortableChildren = true;
         this.sortChildren();
         _app.stage.addChild(this);
-
-        this.on(Event.PRELOADER_COMPLETE, this.gameStart);
-        this.on(Event.LOAD_GAME_START, this.loadGameStart);
-        this.on(Event.ACTION, this.anyEction);
+      
+        EE.Glob.on(EventGame.ACTION, this.action, this);       
     }
 
 
     init(): void {
         this._preloader = new Preloader(this).init();
-        this.addChild(this._preloader);
-
-       
-
-        this._viwe = new BaseViwe();
-        this._controller = new BaseController(this._viwe).init();
-        this.addChild(this._controller);
+        this.addChild(this._preloader);       
 
         this._UIviwe = new UIViwe();
         this._UIcontroller = new UIController(this._UIviwe).init();
@@ -78,7 +67,6 @@ export class RootController extends Container {
             for (let i = 0; i < cards.length; i++) {
                 loader.add(cards[i].code, cards[i].image);
                 this._cardsTexture.push([cards[i].code, cards[i].value]);
-                // this._cardsTexture.push('eeer');
             }
 
             loader.onComplete.once(() => {
@@ -100,7 +88,7 @@ export class RootController extends Container {
 
     onCompleteloadGameAssets(): void {
         gsap.to(this, { 
-            delay: this._startDelay,
+            delay: this._startDelay ,
             callbackScope: this,
             onComplete: () => {
                 this._preloader.highPreLoader();
@@ -113,43 +101,56 @@ export class RootController extends Container {
     //*********************************************************/
 
 
-    gameStart() {
+    gameStart() {    
+
         gsap.to(this, {
             delay: this._startDelay,
             callbackScope: this,
             onComplete: () => {
-                // this._table = new TableViwe(this,DataSetting.TableElementContaine).start(10, this._cardsTexture);
-                // this._tableController = new TableController(this._table)
+                this._table = new TableViwe(this,DataSetting.TableElementContaine).start(10, this._cardsTexture);
+                this._tableController = new TableController(this._table)
                 this._UIviwe.start();
-                this._viwe.start(10, this._cardsTexture);
-                this.firastRound();
+                EE.Glob.emit(EventGame.ACTION,EventGame.START_GAME,this);
+                LogicGame.WhoFiteID = DataSetting.PlayrWinnerID;               
             }
         })
+
+        // setTimeout(() => {
+        //     window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
+        // }, 1000);
     }
 
 
-    anyEction(actoin: string) {
+    action(actoin: string) {
         // debugger
         switch (actoin) {
-            case Event.I_CLOSE_ROUND:
-                this._controller && this._controller.emit(Event.ACTION, Event.I_CLOSE_ROUND);
+            case EventGame.I_CLOSE_ROUND:           
                 break;
-            case Event.MOB_CLOSE_ROUND:
-                this._UIcontroller.emit(Event.ACTION, Event.MOB_CLOSE_ROUND);
+            case EventGame.MOB_CLOSE_ROUND:
+                this._UIcontroller.emit(EventGame.ACTION, EventGame.MOB_CLOSE_ROUND);
                 break
-            case Event.I_CLOSE_ROUND:
+            case EventGame.I_CLOSE_ROUND:
                 break;
-            case Event.MOB_CLOSE_ROUND:
+            case EventGame.MOB_CLOSE_ROUND:
                 break;
-            case Event.ROUND_CLOSE:
-                this._UIcontroller.emit(Event.ACTION, Event.ROUND_CLOSE);
+            case EventGame.ROUND_CLOSE:
+                this._UIcontroller.emit(EventGame.ACTION, EventGame.ROUND_CLOSE);
                 break;
-            case Event.PICKUP_CARDS_END:
+            case EventGame.PICKUP_CARDS_END:
                 break;
-            case Event.CHECK_CARD_AND:
-                this.preperNewRound();
+            case EventGame.CHECK_CARD_AND:
                 break;
-            case Event.I_MOVE_CARD_ON_TABLE:
+            case EventGame.I_MOVE_CARD_ON_TABLE:
+                break;
+
+
+            case EventGame.PRELOADER_COMPLETE:
+                this.gameStart();
+                break;
+            case EventGame.LOAD_GAME_START:
+                this.loadGameStart();
+                break;
+            case EventGame.I_MOVE_CARD_ON_TABLE:
                 break;
             default:
                 break;
@@ -158,37 +159,8 @@ export class RootController extends Container {
     }
 
 
-
-
-    preperNewRound() {
-        if (this._chengeWhoseMoveID) {
-            this._UIcontroller.preperNewRound();
-        }
-
-        this._controller.preperNewRound();
-        this._chengeWhoseMoveID = false;
-    }
-
-
-    chengeWhoseMoveID(f: number): boolean {
-        if (f != DataSetting.WhoseMoveID) {
-            this._chengeWhoseMoveID = true;
-            DataSetting.WhoseMoveID = f;
-            return true
-        }
-        return false
-    }
-
-
     firastRound() {
         this._UIcontroller.firastRound();
-        this._controller.firastRound();
-        StageController.app.resize();
     }
 
-}
-
-type CartType = {
-    texture: string,
-    id: string
 }

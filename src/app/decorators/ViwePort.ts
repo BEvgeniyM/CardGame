@@ -1,8 +1,8 @@
 import { Sprite, DisplayObject } from 'pixi.js';
-import { gsap } from "gsap";
-import { CustomUtils } from '../../../Utils/CustomUtils';
-import { ElementConfig, ElementType, Element } from '../Element';
-import { DataSetting } from '../../../Utils/DataSetting';
+import { SpriteImage } from "../components/baseComponents/SpriteImage";
+import { CustomUtils } from '../../Utils/CustomUtils';
+import { ElementConfig, ElementType, Element } from '../components/Element';
+import { DataSetting } from '../modules/cartGame/DataSetting';
 
 export class ViwePort {
     private _timeLine: gsap.core.Timeline;
@@ -16,21 +16,21 @@ export class ViwePort {
 
         window.addEventListener("resize", this.resize.bind(this));
 
-        setTimeout(() => {
-            this.resize.bind(this) 
-        }, 300);
-        
+        // setTimeout(() => {
+        //     this.resize.bind(this) 
+        // }, 300);
+
         this.resize();
     }
 
-    setPositionGoTo(): void {        
-        gsap.to(this._element, this.setPositionImmediately());
-    }
+    // setPositionGoTo(): void {        
+    //     gsap.to(this._element, this.setPositionImmediately());
+    // }
 
     setPositionImmediately(): any {
         let c: any;
         const cnf = this._config;
-    
+
         if (cnf.viweport && cnf.viweport.sf) {
             if (CustomUtils.IsPortret() && cnf.portret) {
                 c = {
@@ -56,28 +56,28 @@ export class ViwePort {
                 }
             }
         }
-    
+
         if (cnf.viweport?.fr !== undefined) {
             c.x = window.innerWidth - cnf.viweport?.fr - this._element.width;
-          }
-          
+        }
+
         if (cnf.viweport?.fb !== undefined) {
             c.y = window.innerHeight - cnf.viweport?.fb - this._element.height;
         }
-          
+
         this._element.position.set(c.x, c.y);
         return c
     }
-    
+
 
     setScaleImmediately(): void {
         const cnf = this._config;
         this._element.scale.set(1);
-    
+
         let c: { x: number, y: number } = { x: 1, y: 1 };
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
-    
+
         if (CustomUtils.IsPortret() && cnf.portret && cnf.portret.scale) {
             c = {
                 x: cnf.portret.scale,
@@ -89,7 +89,7 @@ export class ViwePort {
                 y: cnf.scale
             }
         }
-        if (CustomUtils.IsPortret() && cnf.viweport?.portret){
+        if (CustomUtils.IsPortret() && cnf.viweport?.portret) {
             if (cnf.viweport.portret?.sch) {
                 const scaleFromHeight = cnf.viweport.portret.sch * window.innerHeight / this._element.height;
                 c.y = scaleFromHeight;
@@ -110,12 +110,12 @@ export class ViwePort {
                 c.y = scaleFromWidth;
             }
         }
-       
-    
+
+
         this._element.scale.set(c.x, c.y);
     }
-    
-    
+
+
 
     setAnchorImmediately(): void {
         let c: any;
@@ -147,8 +147,8 @@ export class ViwePort {
     caverViwePort(): void {
         if (this._element.config && this._element.config.viweport && this._element.config.viweport.cover === true) {
             this._element.scale.set(1);
-            // this._element.anchor.set(0.5);
-            // CustomUtils.SetAngle(this._element);
+
+
 
             if (this._element.width == this._element.height) {
                 if (window.innerHeight > window.innerWidth) {
@@ -159,17 +159,38 @@ export class ViwePort {
                     this._element.scale.set(window.innerWidth / this._element.height);
                 } else this._element.scale.set(window.innerHeight / this._element.height);
             }
-            this._element.position.set(window.innerWidth / 2, window.innerHeight / 2)
+            this._element.position.set(window.innerWidth / 2, window.innerHeight / 2);
+
+            // const globalPos = this._element.getGlobalPosition(); 
+            // const localPos = this._element.toLocal(globalPos);  //We transform the global coordinates of the sprite into local coordinates relative to the current container
+            // this._element.position.set(localPos.x, localPos.y);
         }
     }
 
+    switchTexture(): void {
+        if (this._element instanceof SpriteImage) {
+            if (this._config.tb && CustomUtils.IsPortret()) {
+                this._element.setTexture(this._config.tb);
+            } else if (this._config.t) {
+                this._element.setTexture(this._config.t);
+            }
+        }
+
+    }
+
     resize(): void {
+        if ('debug' in this._config) {
+            debugger
+            console.log("befor.... x:", this._element.x, " y:", this._element.y);
+        }
+
         this.setScaleImmediately();
         this.setPositionImmediately();
-        // this.setPositionGoTo();
         this.setAngle();
         this.caverViwePort();
+        // this.switchTexture();
         // this.setAnchorImmediately();
+
 
     }
 

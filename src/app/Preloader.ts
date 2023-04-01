@@ -1,11 +1,13 @@
 import { Container, DisplayObject, Loader, Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
-import { Element } from '../app/Components/Element';
-import { Event } from './Event';
+import { Element } from './components/Element';
+import { EventGame } from './components/EventGame';
 import { gsap } from "gsap";
 import { CustomUtils } from '../Utils/CustomUtils'
-import { DataSetting } from '../Utils/DataSetting';
+import { DataSetting } from './modules/cartGame/DataSetting';
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
+import { EE } from './components/baseComponents/EE';
+import { ElementContainer } from './components/baseComponents/ElementContainer';
 
 //** Plugin Should be add befor start Loaders !!!*/
 PIXI.Loader.registerPlugin(WebfontLoaderPlugin);
@@ -14,7 +16,7 @@ export class Preloader extends Container {
 
     /** SETING */
     private _skale: number = 1 //s
-    private _cartCount: number = 100;
+    private _cardCount: number = 100;
     private _sleshScren: Element;
     private _pregress: Element;
 
@@ -29,7 +31,6 @@ export class Preloader extends Container {
     init(): Preloader {
         this.sortableChildren = true;
         this.loadGameAssets();
-        window.addEventListener("resize", this.resizeCanvas.bind(this));
         return this
     }
 
@@ -45,10 +46,14 @@ export class Preloader extends Container {
             loader.add("splash_screen_3", "./assets/splash_screen_3.png");
 
 
+            loader.add("gludio", "./assets/gludio.mp3");
+            loader.add("dion", "./assets/dion.mp3");
 
             loader.add("map_repeat", "./assets/map_repeat.png");
             loader.add("fire", "./assets/fire.png");
             loader.add("BtnS", "./assets/BtnS.png");
+            loader.add("BtnSS", "./assets/BtnSS.png");
+            loader.add("BtnSSLong", "./assets/BtnSSLong.png");
             loader.add("flag_3", "./assets/flag_3.png");
             loader.add("flag", "./assets/flag.png");
             loader.add("papir", "./assets/papir.png");
@@ -74,7 +79,7 @@ export class Preloader extends Container {
             loader.add("shift_3", "./assets/shift_3.png");
 
 
-            loader.add("close", "./assets/close.png");
+            // loader.add("close", "./assets/close.png");
             loader.add("round_close", "./assets/round_close.png");
             loader.add("menu", "./assets/menu.png");
          
@@ -86,7 +91,7 @@ export class Preloader extends Container {
             });
 
             loader.onComplete.once(() => {
-                this._perent.emit(Event.LOAD_GAME_START)
+                EE.Glob.emit(EventGame.ACTION,EventGame.LOAD_GAME_START)
                 return this
             });
 
@@ -109,6 +114,9 @@ export class Preloader extends Container {
             loader.add("Freehand-Regular", "./assets/Freehand-Regular.ttf");
             loader.add("Snippet-Regular", "./assets/font/Snippet-Regular.ttf");
             loader.add("Snippet", "./assets/font/Snippet.ttf");
+            loader.add("close", "./assets/close.png");
+            loader.add("fire2", "./assets/fire2.png");
+
             loader.add(DataSetting.SplashScreen.t, "./assets/" + DataSetting.SplashScreen.t + '.png');
             loader.add(DataSetting.Progress.t, "./assets/" + DataSetting.Progress.t + '.png');
 
@@ -128,16 +136,10 @@ export class Preloader extends Container {
 
     creatPreloader(): void {
         this._sleshScren = new Element(this, DataSetting.SplashScreenContainer);
-
-        // new Element(this, DataSetting.SplashScreenBackGround);
-        // this._sleshScren = new Element(this, DataSetting.SplashScreen);
-
-        // CustomUtils.ResizeBack(this._sleshScren as Sprite);
-        // this.resizeCanvas();
     }
 
     highPreLoader(): void {
-        this._perent.emit(Event.PRELOADER_COMPLETE);
+        EE.Glob.emit(EventGame.ACTION,EventGame.PRELOADER_COMPLETE);
 
         gsap.to(this.scale, {
             x: 1,
@@ -153,7 +155,7 @@ export class Preloader extends Container {
         })
         gsap.to(this, {
             alpha: 0,
-            delay: 4,
+            delay: 1,
             duration: 1
         })
 
@@ -168,25 +170,8 @@ export class Preloader extends Container {
     onProgress(e: any) {
         let r = Object.assign( {x : DataSetting.Progress.length * e.progress / 10}  ,DataSetting.Progress);
 
-
-        let sprite = new Element(this, DataSetting.Progress).element as Sprite;
-        // sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
-        sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
-        // this._pregress.pivot.set(this._pregress.width * 1, 0);
-    // this._sleshScren.element.addChildElement(sprite)
-        // CustomUtils.SetScaleOfProz(sprite, DataSetting.Progress);
-        gsap.timeline()
-            // .to(sprite.scale, {
-            //     x: 0.1,
-            //     y: 0.1,
-            //     delay: 0.0,
-            //     duration: 1,
-            // })
-            .to(sprite, {
-                alpha: 1,
-                delay: 0.0,
-                duration: 1,
-            })
+        (this._sleshScren.element.children[3] as any).children[0].text = CustomUtils.FormatNumber(e.progress);
+        (this._sleshScren.element.children[5] as any).children[1].text = CustomUtils.FormatNumber(e.progress);
     }
 
     onCompleteLoader() {
@@ -196,22 +181,4 @@ export class Preloader extends Container {
     }
 
 
-    resizeCanvas(): void {
-        // CustomUtils.SetAngle(this._pregress);
-        // CustomUtils.SetPositionProz(this._pregress, DataSetting.Progress);
-        // // this._pregress.scale.set(DataSetting.Progress.scale);
-
-        // // for (let i = 0; i < this._pregress.children.length; i++) {
-        // //     const sprite = this._pregress.children[i] as Sprite;
-        // //     CustomUtils.SetScaleOfProz(sprite,DataSetting.Progress);            
-        // // }
-        // CustomUtils.ResizeBack(this._sleshScren as Sprite);
-        // this._pregress.scale.set(this._sleshScren.scale.x)
-        // if (!CustomUtils.IsPortret()) {
-        //     this._pregress.position.set(window.innerWidth * 0.5, window.innerHeight * 0.9);
-        // } else {
-        //     this._pregress.position.set(window.innerWidth * 0.1, window.innerHeight * 0.5);
-        // }
-        // CustomUtils.ResizePreloader(this);
-    }
 }

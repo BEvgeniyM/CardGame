@@ -55,7 +55,7 @@ export class DataSetting {
     /*********************************************************************************************** */
     static  SettingParticles2 = {
         type: 'Particles',
-        t: 'fire2', particles:'emiter2', x: 0.485, y: 0.87,
+        t: 'fire2', particles:'emiter', x: 0.485, y: 0.87,
         portret: {scale: 1,  x: 0.15, y: 0.5},
     }
 

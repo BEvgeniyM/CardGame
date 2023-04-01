@@ -33,10 +33,10 @@ export class UIViwe extends Container {
 
     start(): void {
 
-        this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.ectioOnMenu.bind(this)]);
+        this._menu = new Button(this, DataSetting.Menu, [EventGame.POINTE], [this.ectioOnMenu.bind(this)]);
 
-        this._btnTackCard_I = new Button(this, DataSetting.HeroMy, ['pointerdown'], [this.clickOnHeroMy.bind(this)]);
-        this._btnTackCard_Mob = new Button(this, DataSetting.HeroMob, ['pointerdown'], [this.clickOnHeroMob.bind(this)]);
+        this._btnTackCard_I = new Button(this, DataSetting.HeroMy, [EventGame.POINTE], [this.clickOnHeroMy.bind(this)]);
+        this._btnTackCard_Mob = new Button(this, DataSetting.HeroMob, [EventGame.POINTE], [this.clickOnHeroMob.bind(this)]);
 
         const t = Object.assign({ parent: this }, DataSetting.TextHelp);
 
@@ -45,13 +45,13 @@ export class UIViwe extends Container {
         this._menuElementContaine.element.visible = false;
 
 
-        (this._menuElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+        (this._menuElementContaine.element as ElementContainer).childs[2].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_SETTING)
         });
-        (this._menuElementContaine.element as ElementContainer).childs[3].element.on('pointerdown', () => {
+        (this._menuElementContaine.element as ElementContainer).childs[3].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_HELP)
         });
-        (this._menuElementContaine.element as ElementContainer).childs[4].element.on('pointerdown', () => {
+        (this._menuElementContaine.element as ElementContainer).childs[4].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_ABOUT)
         });
 
@@ -59,7 +59,7 @@ export class UIViwe extends Container {
         // this._helpBackGroundContainer = new Element(this,DataSetting.HelpBackGroundContainer);
         // this._helpBackGroundContainer.element.alpha = 0;
 
-        // (this._helpBackGroundContainer.element as ElementContainer).childs[0].element.on('pointerdown', () => {
+        // (this._helpBackGroundContainer.element as ElementContainer).childs[0].element.on(EventGame.POINTE, () => {
         //     EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
         // });
 
@@ -69,7 +69,7 @@ export class UIViwe extends Container {
         this._helpElementConteiner.element.visible = false;
 
 
-        (this._helpElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+        (this._helpElementConteiner.element as ElementContainer).childs[2].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
         });
 
@@ -78,7 +78,7 @@ export class UIViwe extends Container {
         this._aboutElementConteiner.element.visible = false;
 
 
-        (this._aboutElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+        (this._aboutElementConteiner.element as ElementContainer).childs[2].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE);
             (this._aboutElementConteiner.element as ElementContainer).childs[2].animation.animaLittleMove();
         });
@@ -88,23 +88,23 @@ export class UIViwe extends Container {
         this._settingElementContaine.element.visible = false;
 
 
-        (this._settingElementContaine.element as ElementContainer).childs[1].element.on('pointerdown', () => {
+        (this._settingElementContaine.element as ElementContainer).childs[1].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_ON);
             (this._settingElementContaine.element as ElementContainer).childs[1].animation.animaLittleMove();
         });
-        (this._settingElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
+        (this._settingElementContaine.element as ElementContainer).childs[2].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_SWITCH);
             (this._settingElementContaine.element as ElementContainer).childs[2].animation.animaLittleMove();
         });
-        (this._settingElementContaine.element as ElementContainer).childs[3].element.on('pointerdown', () => {
+        (this._settingElementContaine.element as ElementContainer).childs[3].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_OFF);
             (this._settingElementContaine.element as ElementContainer).childs[3].animation.animaLittleMove();
         });
-        (this._settingElementContaine.element as ElementContainer).childs[4].element.on('pointerdown', () => {
+        (this._settingElementContaine.element as ElementContainer).childs[4].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_ANIMATION_ON);
             (this._settingElementContaine.element as ElementContainer).childs[4].animation.animaLittleMove();
         });
-        (this._settingElementContaine.element as ElementContainer).childs[5].element.on('pointerdown', () => {
+        (this._settingElementContaine.element as ElementContainer).childs[5].element.on(EventGame.POINTE, () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_ANIMATION_OFF);
             (this._settingElementContaine.element as ElementContainer).childs[5].animation.animaLittleMove();
         });

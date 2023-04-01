@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js'
+import { getEventType } from '../../Utils/Fullscreen';
 
 export class EventGame  {
-    public static readonly  POINTE = 'mousedown touchstart';
+    public static readonly  POINTE = getEventType();
     // public static readonly  POINTE = 'pointerdown';
 
 

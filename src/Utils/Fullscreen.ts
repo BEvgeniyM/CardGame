@@ -23,15 +23,15 @@ interface DocumentElementWithFullscreen extends HTMLElement {
 
 export function requestFullScreen(element: DocumentElementWithFullscreen) {
     // window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
-    // if (element.requestFullscreen) {
-    //     element.requestFullscreen();
-    // } else if (element.msRequestFullscreen) {
-    //     element.msRequestFullscreen();
-    // } else if (element.webkitRequestFullscreen) {
-    //     element.webkitRequestFullscreen();
-    // } else if (element.mozRequestFullScreen) {
-    //     element.mozRequestFullScreen();
-    // }
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    }
 }
 
 export function deviceDetect():boolean{
@@ -40,6 +40,13 @@ export function deviceDetect():boolean{
     } else {
         return false
     }
+}
+
+export function getEventType(): string {
+    if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) {
+      return 'touchstart';
+    }
+    return 'mousedown';
 }
 
 export function exitFullScreen(doc: DocumentWithFullscreen) {

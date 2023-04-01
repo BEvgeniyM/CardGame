@@ -715,6 +715,29 @@ export class DataSetting {
         // portret: {scale: 1, x: 0.0, y: 0.0},
         childs:[DataSetting.SettingBtn_1_Long,DataSetting.SettingAnimation_00_Text,DataSetting.SettingAnimation_01_Text]
     }
+    static SettingBtn_2 = {
+        type: 'SpriteImage',
+        t: 'BtnSS',
+        tb: 'BtnSS',
+        x: 0.5,
+        y: 0,
+        ax: 0.5,
+        ay: 0,
+        scale: 1,
+        duration: DataSetting.DefaultDuration,
+        }
+        
+        static SettingBtn_3 = {
+        type: 'SpriteImage',
+        t: 'BtnSS',
+        tb: 'BtnSS',
+        x: 0.5,
+        y: 0.1,
+        ax: 0.5,
+        ay: 0,
+        scale: 1,
+        duration: DataSetting.DefaultDuration,
+        }
     static SettingElementContaine = {   
         type: 'ElementContainer',
         x: 0.2, y: 0.1, scale: 0.7, z: 0,

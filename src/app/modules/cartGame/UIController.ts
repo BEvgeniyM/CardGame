@@ -27,30 +27,29 @@ export class UIController extends Container {
         // debugger
         const viwe = this._viwe;
         switch (action) {
-            case EventGame.I_CLOSE_ROUND:              
-                viwe.lockBtn(false);
+            case EventGame.I_CLOSE_ROUND:   
+                viwe.lockBtnGameIU(false);           
                 viwe.ectionOnHeroMy(false);
                 viwe.ectionOnHeroMob(true);
                 break;
             case EventGame.MOB_CLOSE_ROUND:  
-                viwe.lockBtn(false);
+                viwe.lockBtnGameIU(false);
                 viwe.ectionOnHeroMy(true);
                 viwe.ectionOnHeroMob(false);
                 break;
             case EventGame.ROUND_END:
-                viwe.lockBtn(true);
+                viwe.lockBtnGameIU(true);
                 break;
             case EventGame.ROUND_CLOSE:
-                viwe.lockBtn(true);
                 break;
             case EventGame.MOB_PICKUP_CARD:
-                debugger
-                viwe.lockBtn(true);
+                viwe.lockBtnGameIU(false);
                 break;
             case EventGame.I_PICKUP_CARD:
-                viwe.lockBtn(true);
+                viwe.lockBtnGameIU(false);
                 break;
             case EventGame.START_GAME:
+                viwe.lockBtnGameIU(false);
                 this.firastRound();
                 SoundController.playSound('gludio')
                 break;

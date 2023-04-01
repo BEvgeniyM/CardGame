@@ -1,6 +1,10 @@
 import * as PIXI from 'pixi.js'
 
 export class EventGame  {
+    public static readonly  POINTE = 'mousedown touchstart';
+    // public static readonly  POINTE = 'pointerdown';
+
+
     public static readonly START_GAME = 'START_GAME';
     public static readonly GAME_OVER = 'GAME_OVER';
     public static readonly YOU_WIN = 'YOU_WIN';

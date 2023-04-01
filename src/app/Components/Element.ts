@@ -67,7 +67,7 @@ export class Element {
                 this.childs = r.childs; 
             }
             this.element.interactive = true
-            // this.element.interactiveChildren = true;
+            this.element.interactiveChildren = true;
 
             this.filters = new Filters(this);
             this.animation = new Animation(this);  

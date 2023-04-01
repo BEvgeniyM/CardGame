@@ -112,13 +112,15 @@ export class DataSetting {
             ],   
         viweport:{angle:true},    
         t: 'fire2', ts: 2,  x: 0.470, y: 0.85, ax: 0.5, ay: 0.5, scale: 1, duration: DataSetting.DefaultDuration,
-        portret: {scale: 1,  x: 0.15, y: 0.470},
+        portret: {scale: 1,  x: 0.175, y: 0.470},
         style: {
             fontSize: 25,
             fill: 'white',
             align: 'center',
             color: '0x00000',
-            fontFamily: 'PoorStory-Regular'
+            fontFamily: 'PoorStory-Regular',
+            wordWrapWidth:10,
+            wordWrap: true
         }
     }
     static Progress_00_Text = {
@@ -143,6 +145,8 @@ export class DataSetting {
             dropShadowBlur: 4,
             dropShadowAngle: Math.PI / 6,
             dropShadowDistance: 1,
+            wordWrapWidth:10,
+            wordWrap: true
         }
     }
 
@@ -381,7 +385,7 @@ export class DataSetting {
     static TextAbout = {
         // debug:true,
         type: 'WebFont',
-        text: '"Company specializes in creating unique gaming projects \n for players all over the world. We pay great attention \n to quality and details to make our games as\n engaging and captivating as possible. If you are looking\n for high-quality content, please contact us  at \n cyber.nexus.innovations@gmail.com\n Thank you for choosing our company!"',
+        text: 'something about ..............',
         filter:[
             {blurY:0,blurX:0,type:'BLURFILTER',quality:8}
             ],   
@@ -400,7 +404,7 @@ export class DataSetting {
     }
     static TextAbout_00 = {
         type: 'WebFont',
-        text: '"Company specializes in creating unique gaming projects \n for players all over the world. We pay great attention \n to quality and details to make our games as\n engaging and captivating as possible. If you are looking\n for high-quality content, please contact us  at \n cyber.nexus.innovations@gmail.com\n Thank you for choosing our company!"',
+        text: 'something about ..............',
         filter:[          
             ],   
         viweport:{sf:200},    

@@ -88,7 +88,7 @@ export class RootController extends Container {
 
     onCompleteloadGameAssets(): void {
         gsap.to(this, { 
-            delay: this._startDelay,
+            delay: this._startDelay ,
             callbackScope: this,
             onComplete: () => {
                 this._preloader.highPreLoader();
@@ -115,9 +115,9 @@ export class RootController extends Container {
             }
         })
 
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
-        }, 1000);
+        // setTimeout(() => {
+        //     window.dispatchEvent(new Event('resize')); // FIX BUG with ConteinerElenet Viweport ...... @@ 
+        // }, 1000);
     }
 
 

@@ -35,7 +35,6 @@ export class UIViwe extends Container {
 
         this._menu = new Button(this, DataSetting.Menu, ['pointerdown'], [this.ectioOnMenu.bind(this)]);
 
-
         this._btnTackCard_I = new Button(this, DataSetting.HeroMy, ['pointerdown'], [this.clickOnHeroMy.bind(this)]);
         this._btnTackCard_Mob = new Button(this, DataSetting.HeroMob, ['pointerdown'], [this.clickOnHeroMob.bind(this)]);
 
@@ -43,6 +42,8 @@ export class UIViwe extends Container {
 
         this._menuElementContaine = new Element(this, DataSetting.MenuElementContaine);
         this._menuElementContaine.element.alpha = 0;
+        this._menuElementContaine.element.visible = false;
+
 
         (this._menuElementContaine.element as ElementContainer).childs[2].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_SETTING)
@@ -65,6 +66,8 @@ export class UIViwe extends Container {
 
         this._helpElementConteiner = new Element(this,DataSetting.HelpElementConteiner);
         this._helpElementConteiner.element.alpha = 0;
+        this._helpElementConteiner.element.visible = false;
+
 
         (this._helpElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE)
@@ -72,6 +75,8 @@ export class UIViwe extends Container {
 
         this._aboutElementConteiner = new Element(this,DataSetting.AboutElementConteiner);
         this._aboutElementConteiner.element.alpha = 0;
+        this._aboutElementConteiner.element.visible = false;
+
 
         (this._aboutElementConteiner.element as ElementContainer).childs[2].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_CLOSE);
@@ -80,6 +85,8 @@ export class UIViwe extends Container {
 
         this._settingElementContaine = new Element(this,DataSetting.SettingElementContaine);
         this._settingElementContaine.element.alpha = 0;
+        this._settingElementContaine.element.visible = false;
+
 
         (this._settingElementContaine.element as ElementContainer).childs[1].element.on('pointerdown', () => {
             EE.Glob.emit(EventGame.ACTION, EventGame.UI_MENU_SOUN_ON);
@@ -146,13 +153,14 @@ export class UIViwe extends Container {
     }
 
 
-    lockBtn(f: boolean): void {
-
+    lockBtnGameIU(f: boolean): void {
+        this._btnTackCard_I.element.interactive = f;
+        this._btnTackCard_Mob.element.interactive = f;
     }
     unLockBtn(f: boolean): void { 
         console.log('fffff',f);
         this._menuElementContaine.element.interactiveChildren = f       
-        this._helpElementConteiner.element.interactiveChildren= false
+        this._helpElementConteiner.element.interactiveChildren = false
         this._aboutElementConteiner.element.interactiveChildren = false
         // this._helpBackGroundContainer.element.interactiveChildren = false
         this._settingElementContaine.element.interactiveChildren = f

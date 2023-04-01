@@ -31,7 +31,6 @@ export class Preloader extends Container {
     init(): Preloader {
         this.sortableChildren = true;
         this.loadGameAssets();
-        window.addEventListener("resize", this.resizeCanvas.bind(this));
         return this
     }
 
@@ -156,7 +155,7 @@ export class Preloader extends Container {
         })
         gsap.to(this, {
             alpha: 0,
-            delay: 4,
+            delay: 1,
             duration: 1
         })
 
@@ -171,30 +170,8 @@ export class Preloader extends Container {
     onProgress(e: any) {
         let r = Object.assign( {x : DataSetting.Progress.length * e.progress / 10}  ,DataSetting.Progress);
 
-
-        //@ts-ignore
-        this._sleshScren.element.children[3].children[0].text = CustomUtils.FormatNumber(e.progress);
-        //@ts-ignore
-        this._sleshScren.element.children[5].children[1].text = CustomUtils.FormatNumber(e.progress);
-
-        // let sprite = new Element(this, DataSetting.Progress).element as Sprite;
-        // // sprite.position.set(sprite.width * DataSetting.Progress.length * e.progress / 100, 0);
-        // sprite.angle = CustomUtils.GetRandomArbitrary(75, 120);
-        // // this._pregress.pivot.set(this._pregress.width * 1, 0);
-        // // this._sleshScren.element.addChildElement(sprite)
-        // // CustomUtils.SetScaleOfProz(sprite, DataSetting.Progress);
-        // gsap.timeline()
-        //     // .to(sprite.scale, {
-        //     //     x: 0.1,
-        //     //     y: 0.1,
-        //     //     delay: 0.0,
-        //     //     duration: 1,
-        //     // })
-        //     .to(sprite, {
-        //         alpha: 1,
-        //         delay: 0.0,
-        //         duration: 1,
-        //     })
+        (this._sleshScren.element.children[3] as any).children[0].text = CustomUtils.FormatNumber(e.progress);
+        (this._sleshScren.element.children[5] as any).children[1].text = CustomUtils.FormatNumber(e.progress);
     }
 
     onCompleteLoader() {
@@ -204,7 +181,4 @@ export class Preloader extends Container {
     }
 
 
-    resizeCanvas(): void {
-      
-    }
 }

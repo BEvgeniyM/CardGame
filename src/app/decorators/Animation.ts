@@ -286,17 +286,20 @@ export class Animation {
     return this
   }
 
-  alphaAnimation() {
+  alphaAnimation(): Animation {
+    this._element.visible = true;
     gsap.to(this._element, {
       alpha: this._element.alpha < 1 ? 1 : 0,
       duration: DataSetting.DefaultDuration * 1,
-      callbackScope:this._element,
-      onCompleteParams:[this._element.alpha],
-      onComplete:(alpha)=>{
-        // this._element.visible = alpha ==0? true:false;
+      callbackScope: this._element,
+      onCompleteParams: [this._element.alpha],
+      onComplete: (alpha) => {
+        this._element.visible = alpha === 0 ? true : false;
       }
-    })
+    });
+    return this;
   }
+  
   alphaToOneAnimation() {
     gsap.to(this._element, {
       alpha:1,

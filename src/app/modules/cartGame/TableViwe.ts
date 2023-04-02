@@ -47,7 +47,7 @@ export class TableViwe extends Element {
             const card = pec[i];
             card?.element.removeAllListeners();
             // console.log(i,card);            
-            card?.element.on('touchend', () => {
+            card?.element.on(EventGame.POINTE, () => {
                 console.log('click',card, this);                
                 EE.Glob.emit(EventGame.ACTION, EventGame.SELECTED_CART, card)
             }, this);

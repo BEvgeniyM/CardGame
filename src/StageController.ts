@@ -1,7 +1,7 @@
 import { Container, Application, Loader, Sprite, settings, ENV, GC_MODES } from 'pixi.js'
 import * as PIXI from 'pixi.js'
 import { DataSetting } from './app/modules/cartGame/DataSetting'
-
+import { EventGame } from './app/components/EventGame';
 import { isFullScreen, requestFullScreen, deviceDetect } from './Utils/Fullscreen';
 import { version } from 'os';
 
@@ -29,7 +29,7 @@ export class StageController {
 
         window.addEventListener("resize", this.resizeCanvas);
 
-        document.addEventListener("touchend", () => {
+        document.addEventListener(EventGame.POINTE, () => {
             !isFullScreen() && deviceDetect() && requestFullScreen(document.documentElement);
         });
 

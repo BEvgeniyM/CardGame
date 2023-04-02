@@ -44,7 +44,7 @@ export function deviceDetect():boolean{
 
 export function getEventType(): string {
     if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) {
-      return 'touchstart';
+      return 'touchend';
     }
     return 'mousedown';
 }
